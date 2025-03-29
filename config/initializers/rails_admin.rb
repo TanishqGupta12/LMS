@@ -30,20 +30,34 @@ RailsAdmin.config do |config|
   end
   config.model 'Event' do
 
+
+    list do 
+      field :description do
+        visible false
+      end 
+      include_all_fields
+      exclude_fields :description
+    end
+
     edit do 
+      exclude_fields :description
+      field :description do
+        visible false
+      end 
+      field :location do
+        help "Enter the 127.0.0.1"
+      end 
       field :time_zone, :enum do
         enum ActiveSupport::TimeZone.all.map { |tz| ["(UTC #{tz.formatted_offset}) #{tz.name}", tz.name] }
       end
+
+      include_all_fields
       
       field :slug do
         # html_attributes do
         #   { class: 'form-control tinymce', style: 'height: 400px;' }
         # end
       end
-      field :location do
-
-      end 
-      include_all_fields
       field :page_content do
         label "Privacy Page Content"
         html_attributes do
@@ -57,6 +71,11 @@ RailsAdmin.config do |config|
           end
       end
       field :about_text do
+        html_attributes do
+          {:class => 'form-control tinymce'}
+        end
+      end
+      field :gallery_text do
         html_attributes do
           {:class => 'form-control tinymce'}
         end

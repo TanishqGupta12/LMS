@@ -1,5 +1,15 @@
     <% if @event.try(:hide_gallery) == true %>
-    
+        <div class="container-fluid py-5">
+        <div class="container py-5">
+            <div class="row align-items-center">
+                <div class="col-lg-13">
+                    <div class="d-flex justify-content-sm-between">
+                        <%= (@event.try(:gallery_text)).to_s.gsub(/\s*border="1"/, "").html_safe %>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
     <% else %>
         <%= render partial: "caraousel" %>
     <% end %> 
@@ -28,4 +38,10 @@
     <% if @event.try(:hide_category) == true %>
     <% else %>
         <%= render partial: "category", locals: { categories_data: @categories_data } %>
+    <% end %> 
+
+    <% if @event.try(:description).present?%>
+        <div class="container">
+            <%=  @event.try(:description).html_safe%>
+        </div>
     <% end %> 

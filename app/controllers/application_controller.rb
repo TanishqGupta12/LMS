@@ -17,7 +17,12 @@ class ApplicationController < ActionController::Base
 
   def load_events
     # @event = Event.all.first
+    
     @event = Event.find_by(location: get_host)
+    
+    if !@event.present?
+      render json: { message: "Found not" }, status: :not_found and return
+    end
     session[:event_id] =  @event.try(:id)
   end
 
