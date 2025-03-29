@@ -31,15 +31,22 @@ RailsAdmin.config do |config|
   config.model 'Event' do
 
     edit do 
+      include_all_fields
       field :location do
 
       end
+
       field :terms_and_conditions do
           html_attributes do
             {:class => 'form-control tinymce'}
           end
       end
-      include_all_fields
+      field :about_text do
+        html_attributes do
+          {:class => 'form-control tinymce'}
+        end
+      end
+
       field :gallery ,:active_storage do
         # pretty_value do
         #   bindings[:object].gallery.map do |img|

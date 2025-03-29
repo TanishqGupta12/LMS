@@ -15,11 +15,24 @@ class HomeController < ApplicationController
     
   end
   def about
-    
+    @event = Event.find_by(id: params[:event_id])
   end
 
   def contact
+    @event = Event.find_by(id: params[:event_id])
+  end
+
+  def contact_create
+    @contact = Contact.new(contact_params)
     
+    if @contact.save
+      flash[:notice] = "Contact request submitted successfully!"
+      redirect_to root_path
+    else
+      flash[:alert] = @contact.errors.full_messages.join(", ")
+      redirect_to contact_path(params[:event_id])
+    end
+
   end
 
   def course
@@ -29,4 +42,11 @@ class HomeController < ApplicationController
   def teacher
     
   end
+
+  private
+
+  def contact_params
+    params.permit(:name, :email, :subject, :message, :event_id)
+  end
+
 end

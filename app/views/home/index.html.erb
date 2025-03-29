@@ -6,7 +6,7 @@
 
     <% if @event.try(:hide_blog) == true %>
     <% else %>
-    <%= @event.try(:hide_blog) %>
+
         <%= render partial: "about", locals: { event: @event } %>
     <% end %> 
 

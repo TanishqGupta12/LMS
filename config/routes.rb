@@ -15,6 +15,7 @@ Rails.application.routes.draw do
   match "/:event_id/sign_up", to: "home#sign_up", as: "sign_up", via: [:get, :post]
   match "/:event_id/about", to: "home#about", as: "about", via: [:get, :post]
   match "/:event_id/contact", to: "home#contact", as: "contact", via: [:get, :post]
+  match "/:event_id/contact_create", to: "home#contact_create", as: "contact_create", via: [:get, :post]
   match "/:event_id/course", to: "home#course", as: "course", via: [:get, :post]
   match "/:event_id/teacher", to: "home#teacher", as: "teacher", via: [:get, :post]
 
