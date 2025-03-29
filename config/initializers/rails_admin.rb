@@ -31,6 +31,9 @@ RailsAdmin.config do |config|
   config.model 'Event' do
 
     edit do 
+      field :location do
+
+      end
       field :terms_and_conditions do
           html_attributes do
             {:class => 'form-control tinymce'}

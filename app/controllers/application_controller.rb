@@ -10,8 +10,13 @@ class ApplicationController < ActionController::Base
     end
   end
 
+  def get_host
+    request.remote_ip # Alternative: request.host
+  end
+
   def load_events
-    @event = Event.all.first
+    # @event = Event.all.first
+    @event = Event.find_by(location: get_host)
   end
 
 
