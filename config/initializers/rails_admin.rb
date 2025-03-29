@@ -25,6 +25,14 @@ RailsAdmin.config do |config|
   # config.show_gravatar = true
   # 
   #
+  config.model 'Banner' do
+    edit do 
+      field :gallery do
+      help "width 1366 and hieght 798"
+      end 
+    end
+    include_all_fields
+  end
   config.model 'FormSection' do
     visible false
   end
@@ -81,14 +89,6 @@ RailsAdmin.config do |config|
         end
       end
 
-      field :gallery ,:active_storage do
-        # pretty_value do
-        #   bindings[:object].gallery.map do |img|
-        #     "<img src='#{Rails.application.routes.url_helpers.url_for(img)}' style='max-width: 100px; max-height: 100px;'>".html_safe
-        #   end.join(' ').html_safe
-        # end
-
-      end
     end
   end
 

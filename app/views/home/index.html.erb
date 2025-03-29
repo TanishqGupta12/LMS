@@ -11,7 +11,7 @@
         </div>
     </div>
     <% else %>
-        <%= render partial: "caraousel" %>
+        <%= render partial: "caraousel" , locals: { carousels: @caraousel_data } %>
     <% end %> 
 
     <% if @event.try(:hide_about_page) == true %>

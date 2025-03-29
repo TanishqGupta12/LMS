@@ -4,56 +4,20 @@ class Ability
   include CanCan::Ability
 
   def initialize(user)
-
-    cannot :import, :all
-    can :import, [User]
+    return unless user # Ensure `user` is present
 
     can :dashboard, :all
     can :access, :rails_admin
     can :history, :all
-    can :access, :rails_admin 
     can :read, :dashboard
+    can :import, User
 
-
-    if user && user.superadmin?
-
+    if user.superadmin?
       can :manage, :all
-      can :import, :all
-
-      can :manage, Role
-
+      can :import, :all # Overrides previous restriction
     elsif user.admin?
       can :manage, :all
-      
-      can :import, :all
-      cannot :manage, Role
-    # elsif user.teacher?
-
+      cannot :manage, Role # Restrict role management for admins
     end
-
-    # Define abilities for the user here. For example:
-    #
-    #   return unless user.present?
-    #   can :read, :all
-    #   return unless user.admin?
-    #   can :manage, :all
-    #
-    # The first argument to `can` is the action you are giving the user
-    # permission to do.
-    # If you pass :manage it will apply to every action. Other common actions
-    # here are :read, :create, :update and :destroy.
-    #
-    # The second argument is the resource the user can perform the action on.
-    # If you pass :all it will apply to every resource. Otherwise pass a Ruby
-    # class of the resource.
-    #
-    # The third argument is an optional hash of conditions to further filter the
-    # objects.
-    # For example, here the user can only update published articles.
-    #
-    #   can :update, Article, published: true
-    #
-    # See the wiki for details:
-    # https://github.com/CanCanCommunity/cancancan/blob/develop/docs/define_check_abilities.md
   end
 end

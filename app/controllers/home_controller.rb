@@ -1,7 +1,8 @@
 class HomeController < ApplicationController
 
   def index
-    @event = Event.find_by(location: get_host)
+    @event = Event.includes(:banners).find_by(location: get_host)
+    @caraousel_data = @event.try(:banners)
     @categories_data = Category.includes(:sub_captions).where(event_id: @event.try(:id))
     @teacher_data =  User.teachers_for_event(@event.id)
     @course_data =  Course.courses_for_event(@event.id)

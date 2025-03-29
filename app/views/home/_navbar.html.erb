@@ -174,8 +174,12 @@
                                     </ul>
                                 </div>
                             </div>
+                            <% if user_signed_in? %>
+                                <%= link_to "Profile", destroy_user_session_path(), method: :delete, class: "nav-item nav-link" %>
+                            <% end %> 
                         </div>
                         <% if user_signed_in? %>
+
                         <%= link_to "Sign out", destroy_user_session_path(), method: :delete, class: "btn btn-primary py-2 px-4 ml-auto d-none d-lg-block" %>
                         <% else %>
                         <%= link_to "Sign in", new_user_session_path(event_id: event.try(:id) ), class: "btn btn-primary py-2 px-4 ml-auto d-none d-lg-block" %>
