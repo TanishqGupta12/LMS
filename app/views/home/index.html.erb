@@ -4,7 +4,7 @@
         <%= render partial: "caraousel" %>
     <% end %> 
 
-    <% if @event.try(:hide_blog) == true %>
+    <% if @event.try(:hide_about_page) == true %>
     <% else %>
 
         <%= render partial: "about", locals: { event: @event } %>

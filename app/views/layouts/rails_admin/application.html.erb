@@ -35,18 +35,25 @@
     //     toolbar: "undo redo | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link"
     // });
 
-    tinymce.init({
-      selector: '.tinymce', // Match elements with this class
-      images_upload_url: '/tinymce_assets',
-      plugins: 'lists link image table code help wordcount',
-      toolbar: "undo redo | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link",
-      menubar: true,
-      height: 800,
-      relative_urls : false,
-      remove_script_host : false,
-    });
+      tinymce.init({
+        selector: '.tinymce', // Match elements with this class
+        images_upload_url: '/tinymce_assets',
+        menubar: true,
+        plugins: [
+          'advlist autolink lists link image charmap print preview anchor',
+          'searchreplace visualblocks code fullscreen',
+          'insertdatetime media table paste code help wordcount'
+        ],
+        toolbar: 'undo redo | formatselect | bold italic backcolor | alignleft aligncenter alignright alignjustify | ' +
+                'bullist numlist outdent indent | removeformat | code | help',
+        height: 600,
+        relative_urls: false,
+        remove_script_host: false,
+        valid_elements: '*[*]',  // Allows all HTML elements and attributes
+        extended_valid_elements: 'a[class|href|target],i[class]', // Ensure <a> and <i> are not removed
+        content_style: 'body { font-family:Arial,sans-serif; font-size:14px }'
+      });
 
-    
     </script>
   </body>
 </html>

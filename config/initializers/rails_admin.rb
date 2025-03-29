@@ -31,9 +31,24 @@ RailsAdmin.config do |config|
   config.model 'Event' do
 
     edit do 
-      include_all_fields
+      field :time_zone, :enum do
+        enum ActiveSupport::TimeZone.all.map { |tz| ["(UTC #{tz.formatted_offset}) #{tz.name}", tz.name] }
+      end
+      
+      field :slug do
+        # html_attributes do
+        #   { class: 'form-control tinymce', style: 'height: 400px;' }
+        # end
+      end
       field :location do
 
+      end 
+      include_all_fields
+      field :page_content do
+        label "Privacy Page Content"
+        html_attributes do
+          {:class => 'form-control tinymce'}
+        end
       end
 
       field :terms_and_conditions do

@@ -27,7 +27,7 @@ class HomeController < ApplicationController
     
     if @contact.save
       flash[:notice] = "Contact request submitted successfully!"
-      redirect_to root_path
+      redirect_to contact_path(params[:event_id])
     else
       flash[:alert] = @contact.errors.full_messages.join(", ")
       redirect_to contact_path(params[:event_id])
@@ -36,11 +36,19 @@ class HomeController < ApplicationController
   end
 
   def course
-    
+    @event = Event.find_by(id: params[:event_id])
   end
 
   def teacher
-    
+    @event = Event.find_by(id: params[:event_id])
+  end
+
+  def terms_and_conditions
+    @event = Event.find_by(id: params[:event_id])
+  end
+
+  def privacy
+    @event = Event.find_by(id: params[:event_id])
   end
 
   private

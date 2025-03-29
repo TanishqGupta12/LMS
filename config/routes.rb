@@ -18,7 +18,9 @@ Rails.application.routes.draw do
   match "/:event_id/contact_create", to: "home#contact_create", as: "contact_create", via: [:get, :post]
   match "/:event_id/course", to: "home#course", as: "course", via: [:get, :post]
   match "/:event_id/teacher", to: "home#teacher", as: "teacher", via: [:get, :post]
-
+  match "/:event_id/terms_and_conditions", to: "home#terms_and_conditions", as: "terms_and_conditions", via: [:get, :post]
+  match "/:event_id/privacy", to: "home#privacy", as: "privacy", via: [:get, :post]
+  
   # Defines the root path route ("/")
   # root "posts#index"
 end

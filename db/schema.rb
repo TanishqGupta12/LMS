@@ -123,7 +123,7 @@ ActiveRecord::Schema[7.1].define(version: 2025_03_29_152247) do
   create_table "events", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "name"
     t.text "description"
-    t.string "slug"
+    t.text "slug"
     t.text "address"
     t.string "email"
     t.string "phone"
@@ -136,7 +136,6 @@ ActiveRecord::Schema[7.1].define(version: 2025_03_29_152247) do
     t.string "secret_key"
     t.text "footer_text"
     t.string "gallery_text"
-    t.boolean "hide_blog"
     t.text "page_content"
     t.boolean "hide_about_page"
     t.boolean "hide_category"
