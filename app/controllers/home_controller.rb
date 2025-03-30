@@ -7,8 +7,12 @@ class HomeController < ApplicationController
     @teacher_data =  User.teachers_for_event(@event.id)
     @course_data =  Course.courses_for_event(@event.id)
   end
-  # event_login GET    /homes/:event_id/login
+
   def login
+    
+  end
+
+  def category
     
   end
 
@@ -19,22 +23,6 @@ class HomeController < ApplicationController
     @event = Event.find_by(id: params[:event_id])
   end
 
-  def contact
-    @event = Event.find_by(id: params[:event_id])
-  end
-
-  def contact_create
-    @contact = Contact.new(contact_params)
-    
-    if @contact.save
-      flash[:notice] = "Contact request submitted successfully!"
-      redirect_to contact_path(params[:event_id])
-    else
-      flash[:alert] = @contact.errors.full_messages.join(", ")
-      redirect_to contact_path(params[:event_id])
-    end
-
-  end
 
   def course
     @event = Event.find_by(id: params[:event_id])
@@ -52,10 +40,6 @@ class HomeController < ApplicationController
     @event = Event.find_by(id: params[:event_id])
   end
 
-  private
 
-  def contact_params
-    params.permit(:name, :email, :subject, :message, :event_id)
-  end
 
 end

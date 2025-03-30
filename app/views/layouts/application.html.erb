@@ -30,16 +30,9 @@
   </head>
     <style>
       <%= @event.try(:custom_css).try(:html_safe) %>
-      .messaage_alert{
-          padding: 1rem;
-          color: white;
-          font-size: larger;
-          font-family: "Sofia", sans-serif;
-          font-weight: 400;
-        }
     </style>
   <body>
-    <%= render partial: "navbar", locals: { event: @event } %>
+    <%= render partial: "layouts/navbar", locals: { event: @event } %>
       <% if notice.present?%>
         <p class="alert alert-success messaage_alert"><%= notice %></p>
       <% end%>
@@ -48,7 +41,7 @@
       <% end%>
 
     <%= yield %>
-    <%= render partial: "footer", locals: { event: @event } %>
+    <%= render partial: "layouts/footer", locals: { event: @event } %>
 
     <%= javascript_include_tag "application" %>  <!-- Automatically included by Importmaps -->
     <%= javascript_include_tag "custom" %> 
