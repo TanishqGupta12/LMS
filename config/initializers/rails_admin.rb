@@ -95,13 +95,11 @@ RailsAdmin.config do |config|
     visible true
     include_all_fields
     edit do
+      field :event do
+        associated_collection_cache_all false
+      end
       field :teacher do
-        associated_collection_cache_all false  # Prevents caching issues
-        searchable :email                      # Enables searching by name
-        queryable true
-        pretty_value do
-          value ? value.email : 'N/A'
-        end
+        associated_collection_cache_all false
       end
     end
   end

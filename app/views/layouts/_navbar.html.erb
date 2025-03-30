@@ -147,22 +147,22 @@
                     <div class="collapse navbar-collapse justify-content-between" id="navbarCollapse">
                         <div class="navbar-nav py-0">
                             <a href="/" class="nav-item nav-link">Home</a>
-                            <a href="<%= event_course_index_path(event.try(:id))%>" class="nav-item nav-link">Courses</a>
+
                             <a href="<%= event_teacher_index_path(event.try(:id))%>" class="nav-item nav-link">Teachers</a>
                             <div class="nav-item nav-link">
-                                <%= link_to "Category", category_path(event.try(:id)), aria: { label: "View Teachers" }, class: "link-hover" %>
+                                <%= link_to "Courses", category_path(event.try(:id)), aria: { label: "View Teachers" }, class: "link-hover" %>
                                 <div class="dropdown">
                                     <ul>
                                         <% event.try(:categories).present? &&  event.try(:categories).each do |category| %>
                                         <li class="row">
                                             <div class="nav-item">
-                                            <%= link_to category.title, category_path(event.try(:id) ,category:category.title), aria: { label: "Category Link" } %>
+                                            <%= link_to category.title, event_course_index_path(event.try(:id) ,category:category.title), aria: { label: "Category Link" } %>
 
                                             <div class="dropdown2">
                                                 <ul>
-                                                    <% category.try(:sub_captions).present? &&  category.try(:sub_captions).each do |caption| %>
+                                                    <% category.try(:courses).present? &&  category.try(:courses).each do |course| %>
                                                     <li>
-                                                        <%= link_to caption.title, category_path(event.try(:id) ,category:category.title ,sub_catrgoy:caption.title), data: { category_captions_id: caption.id } %>
+                                                        <%= link_to course.title, event_course_index_path(event.try(:id) ,category:category.title ,course:course.title), data: { category_course_id: course.id } %>
                                                     </li>
                                                     <% end %>
                                                 </ul>
