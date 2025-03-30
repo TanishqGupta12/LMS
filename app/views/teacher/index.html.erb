@@ -12,7 +12,11 @@
                 <div class="col-md-6 col-lg-3 text-center team mb-4">
                     <div class="team-item rounded overflow-hidden mb-2">
                         <div class="team-img position-relative">
-                            <img class="img-fluid" src="<%= url_for(teacher.try(:image))%>" alt="<%= teacher.try(:email)%>">
+                            <% if (teacher.try(:image)).persisted?%>
+                                <img class="img-fluid" src="<%= url_for(teacher.try(:image))%>" alt="<%= teacher.try(:email)%>">
+                            <% else %>
+                                <img class="img-fluid" src="user.png" alt="Teacher Image">
+                            <% end %>
                             <div class="team-social">
                                 <a class="btn btn-outline-light btn-square mx-1" href="#"><i class="fab fa-twitter"></i></a>
                                 <a class="btn btn-outline-light btn-square mx-1" href="#"><i class="fab fa-facebook-f"></i></a>
