@@ -23,6 +23,7 @@
     <% if @event.try(:hide_courses) == true%>
     <% else %>
       <%= render partial: "courses", locals: { courses_data: @courses } %>
+      <%= @courses.size%>
     <% end %> 
 
     <% if @event.try(:hide_teacher_page) == true %>

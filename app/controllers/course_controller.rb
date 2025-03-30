@@ -4,6 +4,6 @@ class CourseController < ApplicationController
   # Correct Query Usage
   # @course = Course.includes(:category)
 
-  @course = Category
+  @categorys = Category.includes(:courses).where(event_id:params[:event_id])
  end
 end
