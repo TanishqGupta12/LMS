@@ -91,6 +91,20 @@ RailsAdmin.config do |config|
 
     end
   end
+  config.model 'Course' do
+    visible true
+    include_all_fields
+    edit do
+      field :teacher do
+        associated_collection_cache_all false  # Prevents caching issues
+        searchable :email                      # Enables searching by name
+        queryable true
+        pretty_value do
+          value ? value.email : 'N/A'
+        end
+      end
+    end
+  end
 
   config.actions do
     dashboard                     # mandatory
