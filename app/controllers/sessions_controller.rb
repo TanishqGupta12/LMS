@@ -9,7 +9,7 @@ class SessionsController < Devise::SessionsController
     
     if !user.present?
       flash[:alert] = "Email not Found"
-      redirect_to login_url(event_id: session[:current_event_id]) and return
+      redirect_to login_url(event_id: session[:event_id]) and return
     end
     super
   end

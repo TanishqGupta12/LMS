@@ -56,17 +56,6 @@ ActiveRecord::Schema[7.1].define(version: 2025_03_30_111037) do
     t.index ["event_id"], name: "index_categories_on_event_id"
   end
 
-  create_table "ckeditor_assets", id: false, charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
-    t.bigint "id", null: false
-    t.string "data_file_name", null: false
-    t.string "data_content_type"
-    t.integer "data_file_size"
-    t.string "data_fingerprint"
-    t.string "type", limit: 30
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
   create_table "contacts", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "name"
     t.string "email"
@@ -309,14 +298,6 @@ ActiveRecord::Schema[7.1].define(version: 2025_03_30_111037) do
     t.index ["name"], name: "index_roles_on_name"
   end
 
-  create_table "sub_captions", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
-    t.string "title"
-    t.bigint "category_id", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["category_id"], name: "index_sub_captions_on_category_id"
-  end
-
   create_table "tickets", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "title"
     t.bigint "event_id", null: false
@@ -454,7 +435,6 @@ ActiveRecord::Schema[7.1].define(version: 2025_03_30_111037) do
   add_foreign_key "quiz_results", "users"
   add_foreign_key "quiz_topics", "categories", column: "catgory_id"
   add_foreign_key "quiz_topics", "courses"
-  add_foreign_key "sub_captions", "categories"
   add_foreign_key "tickets", "courses"
   add_foreign_key "tickets", "events"
   add_foreign_key "user_courses", "courses"

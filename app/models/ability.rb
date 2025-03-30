@@ -19,6 +19,7 @@ class Ability
       can :manage, :all
       cannot :manage, Role # Restrict role management for admins
     elsif user.teacher?
+      can :read, SubCaption
       can :read, Category
       can :manage, Course ,:teacher_id => user.id
     end
