@@ -18,6 +18,9 @@ class Ability
     elsif user.admin?
       can :manage, :all
       cannot :manage, Role # Restrict role management for admins
+    elsif user.teacher?
+      can :read, Category
+      can :manage, Course ,:teacher_id => user.id
     end
   end
 end

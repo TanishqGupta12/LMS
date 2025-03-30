@@ -16,6 +16,14 @@ class User < ApplicationRecord
   after_save -> { image.purge }, if: :remove_image
 
   has_many :courses, foreign_key: :teacher_id, dependent: :nullify
+
+  has_many :event_users, dependent: :destroy
+  has_many :events, through: :event_users
+
+  def name
+    (self.first_name || '') + ' ' + (self.last_name || '')
+  end
+
   def check_authentication_token
     self.authentication_token = generate_unique_token if authentication_token.blank?
   end

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2025_03_30_082210) do
+ActiveRecord::Schema[7.1].define(version: 2025_03_30_111037) do
   create_table "active_storage_attachments", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
@@ -49,11 +49,22 @@ ActiveRecord::Schema[7.1].define(version: 2025_03_30_082210) do
   end
 
   create_table "categories", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
-    t.text "content"
+    t.text "title"
     t.bigint "event_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["event_id"], name: "index_categories_on_event_id"
+  end
+
+  create_table "ckeditor_assets", id: false, charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+    t.bigint "id", null: false
+    t.string "data_file_name", null: false
+    t.string "data_content_type"
+    t.integer "data_file_size"
+    t.string "data_fingerprint"
+    t.string "type", limit: 30
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "contacts", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
@@ -83,6 +94,7 @@ ActiveRecord::Schema[7.1].define(version: 2025_03_30_082210) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.bigint "teacher_id"
+    t.string "title"
     t.index ["category_id"], name: "index_courses_on_category_id"
     t.index ["event_id"], name: "index_courses_on_event_id"
     t.index ["teacher_id"], name: "index_courses_on_teacher_id"
@@ -118,6 +130,15 @@ ActiveRecord::Schema[7.1].define(version: 2025_03_30_082210) do
     t.datetime "updated_at", null: false
     t.index ["event_id"], name: "index_email_contents_on_event_id"
     t.index ["role_id"], name: "index_email_contents_on_role_id"
+  end
+
+  create_table "event_users", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+    t.bigint "event_id", null: false
+    t.bigint "user_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["event_id"], name: "index_event_users_on_event_id"
+    t.index ["user_id"], name: "index_event_users_on_user_id"
   end
 
   create_table "events", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
@@ -415,6 +436,8 @@ ActiveRecord::Schema[7.1].define(version: 2025_03_30_082210) do
   add_foreign_key "courses", "users", column: "teacher_id"
   add_foreign_key "discounts", "events"
   add_foreign_key "email_contents", "events"
+  add_foreign_key "event_users", "events"
+  add_foreign_key "event_users", "users"
   add_foreign_key "form_field_choices", "form_section_fields"
   add_foreign_key "form_section_fields", "form_sections"
   add_foreign_key "form_section_fields", "forms"
