@@ -156,13 +156,13 @@
                                         <% event.try(:categories).present? &&  event.try(:categories).each do |category| %>
                                         <li class="row">
                                             <div class="nav-item">
-                                            <%= link_to category.content, category_path(event.try(:id) ,category:category.content), aria: { label: "Category Link" } %>
+                                            <%= link_to category.title, category_path(event.try(:id) ,category:category.title), aria: { label: "Category Link" } %>
 
                                             <div class="dropdown2">
                                                 <ul>
                                                     <% category.try(:sub_captions).present? &&  category.try(:sub_captions).each do |caption| %>
                                                     <li>
-                                                        <%= link_to caption.title, category_path(event.try(:id) ,category:category.content ,sub_catrgoy:caption.title), data: { category_captions_id: caption.id } %>
+                                                        <%= link_to caption.title, category_path(event.try(:id) ,category:category.title ,sub_catrgoy:caption.title), data: { category_captions_id: caption.id } %>
                                                     </li>
                                                     <% end %>
                                                 </ul>
