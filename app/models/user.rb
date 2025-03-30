@@ -10,6 +10,11 @@ class User < ApplicationRecord
 
   before_create :check_authentication_token
 
+  has_one_attached :image
+
+  attribute :remove_image, :boolean
+  after_save -> { image.purge }, if: :remove_image
+
   def check_authentication_token
     self.authentication_token = generate_unique_token if authentication_token.blank?
   end
