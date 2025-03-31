@@ -20,28 +20,28 @@ class HomeController < ApplicationController
     
   end
   def about
-    @event = Event.find_by(id: params[:event_id])
+    @event =  load_events #Event.find_by(id: params[:event_id])
   end
 
 
   def course
-    @event = Event.find_by(id: params[:event_id])
+    @event =  load_events #Event.find_by(id: params[:event_id])
   end
 
   def teacher
-    @event = Event.find_by(id: params[:event_id])
+    @event =  load_events #Event.find_by(id: params[:event_id])
   end
 
   def terms_and_conditions
-    @event = Event.find_by(id: params[:event_id])
+    @event =  load_events #Event.find_by(id: params[:event_id])
   end
 
   def privacy
-    @event = Event.find_by(id: params[:event_id])
+    @event =  load_events #Event.find_by(id: params[:event_id])
   end
 
   def blog
-    @event = Event.find_by(id: params[:event_id])
+    @event =  load_events #Event.find_by(id: params[:event_id])
   end
 
 end

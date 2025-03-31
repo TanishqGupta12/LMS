@@ -1,18 +1,28 @@
 class UserController < ApplicationController
-
+  before_action :authenticate_user!
   def index
     
   end
-  # 
+
+  # sign_up
+  def new
+  
+  end
+
   def create
     
   end
 
-  def login
-    
+  def show
+  end
+  
+  def edit
   end
 
-  def sign_up
-    
+  def update
   end
+
+  def destroy
+  end
+
 end
