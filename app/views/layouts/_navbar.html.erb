@@ -149,11 +149,11 @@
                     </button>
                     <div class="collapse navbar-collapse justify-content-between" id="navbarCollapse">
                         <div class="navbar-nav py-0">
-                            <a href="/" class="nav-item nav-link">Home</a>
-                            <a href="<%= blog_path(event.try(:id))%>" class="nav-item nav-link">Blog</a>
-                            <a href="<%= event_teacher_index_path(event.try(:id))%>" class="nav-item nav-link">Teachers</a>
-                            <div class="nav-item nav-link">
-                                <%= link_to "Courses", event_course_index_path(event.try(:id)), aria: { label: "View Teachers" }, class: "link-hover" %>
+                            <a href="/" class="nav-item nav-link text-decoration-none">Home</a>
+                            <a href="<%= blog_path(event.try(:id))%>" class="nav-item nav-link text-decoration-none">Blog</a>
+                            <a href="<%= event_teacher_index_path(event.try(:id))%>" class="nav-item nav-link text-decoration-none">Teachers</a>
+                            <div class="nav-item nav-link ">
+                                <%= link_to "Courses", event_course_index_path(event.try(:id)), aria: { label: "View Teachers" }, class: "link-hover text-decoration-none" %>
                                 <div class="dropdown">
                                     <ul>
                                         <% event.try(:categories).present? &&  event.try(:categories).each do |category| %>
@@ -178,7 +178,7 @@
                                 </div>
                             </div>
                             <% if user_signed_in? %>
-                                <%= link_to "Profile", user_path(current_user.try(:id)), method: :delete, class: "nav-item nav-link" %>
+                                <%= link_to "Profile", user_path(current_user.try(:id)), method: :delete, class: "nav-item nav-link text-decoration-none" %>
                             <% end %> 
                         </div>
                         <div class="col-lg d-none d-lg-block">
@@ -188,9 +188,9 @@
                         </div>
                         <% if user_signed_in? %>
 
-                        <%= link_to "Sign out", destroy_user_session_path(), method: :delete, class: "btn btn-primary py-2 px-4 d-none d-lg-block" %>
+                        <%= link_to "Sign out", destroy_user_session_path(), method: :delete, class: "btn btn-primary py-2 px-4 d-none d-lg-block text-decoration-none" %>
                         <% else %>
-                        <%= link_to "Sign in", new_user_session_path(event_id: event.try(:id) ), class: "btn btn-primary py-2 px-4  d-none d-lg-block" %>
+                        <%= link_to "Sign in", new_user_session_path(event_id: event.try(:id) ), class: "btn btn-primary py-2 px-4  d-none d-lg-block text-decoration-none" %>
                         <% end %> 
                     </div>
                 </nav>
