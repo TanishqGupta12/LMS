@@ -9,7 +9,7 @@
 
         <div class="col-lg-4 col-md-6 mb-4">
           <div class="rounded overflow-hidden mb-2">
-            <img class="img-fluid" src="<%= course.try(:thumbail) %>" alt="Course: <%= course.title %>" />
+            <img class="img-fluid" src="<%= url_for(course.try(:thumbail)) %>" alt="Course: <%= course.title %>" />
             <div class="bg-secondary p-4">
               <div class="d-flex justify-content-between mb-3">
                 <small class="m-0">
