@@ -40,6 +40,8 @@ class HomeController < ApplicationController
     @event = Event.find_by(id: params[:event_id])
   end
 
-
+  def blog
+    @event = Event.find_by(id: params[:event_id])
+  end
 
 end
