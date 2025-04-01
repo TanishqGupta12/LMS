@@ -127,10 +127,11 @@
 
 .btn-primary {
     --bs-btn-color: #fff;
-    --bs-btn-bg: #066ac9;
+    --bs-btn-bg: #FF6600;
+    /* --bs-btn-bg: #066ac9; */
     --bs-btn-border-color: #066ac9;
     --bs-btn-hover-color: #fff;
-    --bs-btn-hover-bg: #055aab;
+    --bs-btn-hover-bg: #964109e8;
     --bs-btn-hover-border-color: #0555a1;
     --bs-btn-focus-shadow-rgb: 43, 128, 209;
     --bs-btn-active-color: #fff;
@@ -1343,7 +1344,7 @@ h6, .h6, h5, .h5, h4, .h4, h3, .h3, h2, .h2, h1, .h1 {
 
 
 .btn-primary-soft {
-    color: #066ac9;
+    color: #FF6600;
     background-color: rgba(6, 106, 201, 0.1);
 }
 
@@ -1368,8 +1369,8 @@ h6, .h6, h5, .h5, h4, .h4, h3, .h3, h2, .h2, h1, .h1 {
 
 .btn-primary-soft:active, .btn-primary-soft:hover {
     color: #fff !important;
-    background-color: #066ac9 !important;
-    border-color: #066ac9 !important;
+    background-color: #FF6600 !important;
+    border-color:#FF6600 !important;
 }
 
 a:hover {
