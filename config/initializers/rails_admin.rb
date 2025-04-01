@@ -28,10 +28,11 @@ RailsAdmin.config do |config|
   config.model 'Banner' do
     edit do 
       field :gallery do
-      help "width 1366 and hieght 798"
+        help "width 1366 and hieght 798"
       end 
+      include_all_fields
     end
-    include_all_fields
+
   end
   config.model 'FormSection' do
     visible false
