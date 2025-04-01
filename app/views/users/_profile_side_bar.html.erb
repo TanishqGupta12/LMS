@@ -42,12 +42,15 @@
             <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
-            Are you sure you want to delete your account? This action cannot be undone.
+            Are you sure you want to delete your account? 
+            <p> Email: <%= current_user.try(:email)%> </p>
         </div>
         <div class="modal-footer">
-            <%= link_to "Delete Profile", user_path(params[:id]), 
-            method: :destroy, 
-            class: "btn btn-danger text-decoration-none text-white"%>
+            <%= button_to "Delete Profile", user_path(params[:id]), 
+            method: :delete, 
+            class: "btn btn-danger text-decoration-none text-white", 
+            data: { remote: true, turbo: false} 
+            %>
             <button type="button" class="btn btn-secondary " data-dismiss="modal" >Cancel</button>
         </div>
         </div>
