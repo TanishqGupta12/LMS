@@ -14,16 +14,16 @@
                 <div class="bg-dark border rounded-3 p-3 w-100">
                     <!-- Dashboard menu -->
                     <div class="list-group list-group-dark list-group-borderless collapse-list">
-                        <a class="list-group-item active text-decoration-none" href="<%= user_path %>"><i class="bi bi-ui-checks-grid fa-fw me-2"></i>Dashboard</a>
+                        <a class="list-group-item active text-decoration-none" href="<%= user_path(params[:id]) %>"><i class="bi bi-ui-checks-grid fa-fw me-2"></i>Dashboard</a>
                         <a class="list-group-item d-none text-decoration-none" href="student-subscription.html"><i class="bi bi-card-checklist fa-fw me-2"></i>My Subscriptions</a>
                         <a class="list-group-item d-none text-decoration-none" href="student-course-list.html"><i class="bi bi-basket fa-fw me-2"></i>My Courses</a>
                         <a class="list-group-item text-decoration-none" href="student-course-resume.html"><i class="far fa-fw fa-file-alt me-2"></i>Course Resume</a>
                         <a class="list-group-item d-none text-decoration-none" href="student-quiz.html"><i class="bi bi-question-diamond fa-fw me-2"></i>Quiz</a>
-                        <a class="list-group-item text-decoration-none" href="student-payment-info.html"><i class="bi bi-credit-card-2-front fa-fw me-2"></i>Payment Info</a>
+                        <a class="list-group-item text-decoration-none" href="<%= payment_info_user_path(params[:id]) %>"><i class="bi bi-credit-card-2-front fa-fw me-2"></i>Payment Info</a>
                         <a class="list-group-item text-decoration-none" href="student-bookmark.html"><i class="bi bi-cart-check fa-fw me-2"></i>Wishlist</a>
                         <a class="list-group-item text-decoration-none" href="<%= edit_user_path %>"><i class="bi bi-pencil-square fa-fw me-2"></i>Edit Profile</a>
                         <a class="list-group-item d-none text-decoration-none" href="instructor-setting.html"><i class="bi bi-gear fa-fw me-2"></i>Settings</a>
-                        <a class="list-group-item text-decoration-none" href="instructor-delete-account.html"><i class="bi bi-trash fa-fw me-2"></i>Delete Profile</a>
+                        <a class="list-group-item text-decoration-none" href="#" data-toggle="modal" data-target="#deleteAccountModal" ><i class="bi bi-trash fa-fw me-2"></i>Delete Profile</a>
                         <a class="list-group-item text-danger bg-danger-soft-hover text-decoration-none" href="<%= destroy_user_session_path()%>"><i class="fas fa-sign-out-alt fa-fw me-2"></i>Sign Out</a>
                     </div>
                 </div>
@@ -33,3 +33,28 @@
     </div>
     <!-- Left sidebar END -->
 
+
+    <div class="modal fade" id="deleteAccountModal" tabindex="-1" aria-labelledby="deleteAccountLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title" id="deleteAccountLabel">Confirm Deletion</h5>
+            <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+            Are you sure you want to delete your account? This action cannot be undone.
+        </div>
+        <div class="modal-footer">
+            <%= link_to "Delete Profile", user_path(params[:id]), 
+            method: :destroy, 
+            class: "btn btn-danger text-decoration-none text-white"%>
+            <button type="button" class="btn btn-secondary " data-dismiss="modal" >Cancel</button>
+        </div>
+        </div>
+    </div>
+    </div>
+    <script>
+        $('#deleteAccountLabel').on('show.bs.modal', function (event) {
+
+         })
+    </script>

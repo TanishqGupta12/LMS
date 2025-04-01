@@ -1,4 +1,4 @@
-class UserController < ApplicationController
+class UsersController < ApplicationController
   before_action :authenticate_user!
   def index
     
@@ -23,6 +23,9 @@ class UserController < ApplicationController
   end
 
   def destroy
+    debugger
   end
 
+  def user_payment_info
+  end
 end

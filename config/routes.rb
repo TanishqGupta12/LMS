@@ -21,8 +21,12 @@ Rails.application.routes.draw do
   match "/:event_id/privacy", to: "home#privacy", as: "privacy", via: [:get, :post]
   match "/:event_id/category", to: "home#category", as: "category", via: [:get, :post]
 
-  resources :user
-
+  resources :users do
+    member do
+      match "user_payment_info", to: "users#user_payment_info", as: "payment_info", via: [:get, :post]
+    end
+  end
+  
   scope "/:event_id", as: "event" do
     resources :contact
     resources :teacher
