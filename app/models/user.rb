@@ -17,8 +17,7 @@ class User < ApplicationRecord
 
   has_many :courses, foreign_key: :teacher_id, dependent: :nullify
 
-  has_many :event_users, dependent: :destroy
-  has_many :events, through: :event_users
+
 
   def name
     (self.first_name || '') + ' ' + (self.last_name || '')
