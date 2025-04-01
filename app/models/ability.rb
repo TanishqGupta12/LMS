@@ -21,6 +21,7 @@ class Ability
       cannot :manage, Role # Restrict role management for admins
     elsif user.teacher?
       can :read, Category
+      can :read, User
       # Allow teacher to manage courses where teacher_id and event_id match
       can :manage, Course, teacher_id: user.id, event_id: user.current_event_id.to_i
     end

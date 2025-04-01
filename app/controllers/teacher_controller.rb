@@ -1,6 +1,6 @@
 class TeacherController < ApplicationController
   
   def index
-    @teachers = User.joins(:role).includes(:role).where(roles: { name: 'Teacher', active: true })
+    @teachers = User.teachers_for_event(params[:event_id])
   end
  end
