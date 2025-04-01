@@ -73,3 +73,5 @@ gem 'cancancan'
 gem 'devise'
 
 gem 'tinymce-rails'
+gem 'kaminari'
+gem 'stripe'
