@@ -3,7 +3,7 @@ class ApplicationController < ActionController::Base
   layout :layout_by_resource
   before_action :load_events # Ensures @event is always set
   before_action :reload_rails_panel
-  after_action :reload_rails_panel
+  # after_action :reload_rails_panel
 
   def layout_by_resource
     if devise_controller?

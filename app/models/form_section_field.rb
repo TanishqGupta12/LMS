@@ -6,4 +6,7 @@ class FormSectionField < ApplicationRecord
     .order(:sequence) 
   }
 
+  def title
+    self.caption
+  end
 end
