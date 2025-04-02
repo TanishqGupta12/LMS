@@ -24,6 +24,7 @@ Rails.application.routes.draw do
   resources :users do
     member do
       match "user_payment_info", to: "users#user_payment_info", as: "payment_info", via: [:get, :post]
+      match "update_email", to: "users#update_email", as: "update_email", via: [:put]
     end
   end
   

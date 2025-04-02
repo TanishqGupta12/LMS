@@ -44,4 +44,22 @@ class UsersController < ApplicationController
 
   def user_payment_info
   end
+
+  def update_email
+
+    if params[:id].nil?
+      flash[:alert] = "Failed to update user email"
+      redirect_to request.referer || root_path
+    end
+    user = User.find(params[:id])
+    if user.update(email: params[:email])
+      flash[:notice] = "Email updated successfully. Please sign in again."
+      sign_out(user)
+      redirect_to after_sign_out_path_for(user)
+    else
+      flash[:alert] = "Failed to update email"
+      redirect_to request.referer || root_path
+    end
+
+  end
 end

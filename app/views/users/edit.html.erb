@@ -151,15 +151,16 @@
 							</div>
 							<!-- Card body -->
 							<div class="card-body">
-								<p>Your current email address is <span class="text-primary">example@gmail.com</span></p>
+								<p>Your current email address is <span class="text-primary"><%= current_user.try(:email) %></span></p>
 								<!-- Email -->
-								<form>
-									<label class="form-label">Enter your new email id</label>
-									<input class="form-control" type="email" placeholder="Enter new email">
-									<div class="d-flex justify-content-end mt-4">
-										<button type="button" class="btn btn-primary mb-0">Update email</button>
-									</div>
-								</form>
+								<%= form_with url: update_email_user_path(current_user.id, event_id: current_user.current_event_id), method: :put do |f| %>
+								<label class="form-label">Enter your new email ID</label>
+								<%= f.email_field :email, class: "form-control", placeholder: "Enter new email", required: true %>
+
+								<div class="d-flex justify-content-end mt-4">
+									<%= f.submit "Update Email", class: "btn btn-primary mb-0" %>
+								</div>
+								<% end %>
 							</div>
 						</div>
 					</div>
@@ -196,6 +197,7 @@
 								<!-- Button -->
 								<div class="d-flex justify-content-end mt-4">
 									<input class="form-control" name="user_token" type="hidden" value= "<%= current_user.try(:id)%>">
+									<input class="form-control" name="event_id" type="hidden" value= "<%= current_user.try(:current_event_id)%>">
 									<%= f.submit "Change my password" , class: "btn btn-primary mb-0"%>
 								</div>
 							<% end %>

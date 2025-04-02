@@ -19,11 +19,17 @@ class PasswordsController < Devise::PasswordsController
 
   # PUT /resource/password
   def update
+    if params[:new_password].nil? || params[:Confirm_new_password].nil?
+      flash[:notice] = "Failed User Update password"
+      redirect_to request.referer || root_path
+    end
+
     if params[:new_password] == params[:Confirm_new_password]
       user = User.find(params[:user_token])
       user.update(password: params[:new_password])
       flash[:notice] = "User Update password"
-      redirect_to request.referer || root_path
+      sign_out(user)
+      redirect_to after_sign_out_path_for(user)
     else
       flash[:alert] = "Failed User Update password"
       redirect_to request.referer || root_path
