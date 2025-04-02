@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 class PasswordsController < Devise::PasswordsController
+  layout :false
   # GET /resource/password/new
   # def new
   #   super
@@ -17,9 +18,17 @@ class PasswordsController < Devise::PasswordsController
   # end
 
   # PUT /resource/password
-  # def update
-  #   super
-  # end
+  def update
+    if params[:new_password] == params[:Confirm_new_password]
+      user = User.find(params[:user_token])
+      user.update(password: params[:new_password])
+      flash[:notice] = "User Update password"
+      redirect_to request.referer || root_path
+    else
+      flash[:alert] = "Failed User Update password"
+      redirect_to request.referer || root_path
+    end
+  end
 
   # protected
 

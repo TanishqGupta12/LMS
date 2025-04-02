@@ -174,31 +174,31 @@
 							</div>
 							<!-- Card body START -->
 							<div class="card-body">
-								<!-- Current password -->
-								<div class="mb-3">
-									<label class="form-label">Current password</label>
-									<input class="form-control" type="password" placeholder="Enter current password">
-								</div>
+							<% resource = User.find(current_user.try(:id)) %>
+							<% resource_name = :user %>
+							<%= form_for(resource, as: resource_name, url: user_password_path(resource_name), html: { method: :put }) do |f| %>
 								<!-- New password -->
 								<div class="mb-3">
 									<label class="form-label"> Enter new password</label>
 									<div class="input-group">
-										<input class="form-control" type="password" placeholder="Enter new password">
-										<span class="input-group-text p-0 bg-transparent">
+										<input class="form-control" name="new_password" type="password" placeholder="Enter new password">
+										<%# <span class="input-group-text p-0 bg-transparent">
 											<i class="far fa-eye cursor-pointer p-2 w-40px"></i>
-										</span>
+										</span> %>
 									</div>
 									<div class="rounded mt-1" id="psw-strength"></div>
 								</div>
 								<!-- Confirm password -->
 								<div>
 									<label class="form-label">Confirm new password</label>
-									<input class="form-control" type="password" placeholder="Enter new password">
+									<input class="form-control" name="Confirm_new_password" type="password" placeholder="Enter new password">
 								</div>
 								<!-- Button -->
 								<div class="d-flex justify-content-end mt-4">
-									<button type="button" class="btn btn-primary mb-0">Change password</button>
+									<input class="form-control" name="user_token" type="hidden" value= "<%= current_user.try(:id)%>">
+									<%= f.submit "Change my password" , class: "btn btn-primary mb-0"%>
 								</div>
+							<% end %>
 							</div>
 							<!-- Card body END -->
 						</div>

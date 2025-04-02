@@ -77,3 +77,4 @@ gem 'kaminari'
 gem 'stripe'
 
 gem "image_processing"
+gem "mini_magick", "~> 5.2"

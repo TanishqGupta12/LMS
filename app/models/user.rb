@@ -55,4 +55,11 @@ class User < ApplicationRecord
     false
   end
 
+  def normal?
+    if role.try(:name) == 'Normal'
+      return true 
+    end
+    false
+  end
+
 end
