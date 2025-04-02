@@ -67,12 +67,12 @@ class ApplicationController < ActionController::Base
           end
   
           # Use the local variable instead of session[:event_id]
-          FormSectionField.list_of_fields(event_id).each do |form_field|
-            if form_field.data_field.present?
+          FormSectionField.list_of_fields(event_id).each do |lf|
+            if lf.data_field.present?
               debugger
-              field form_field.data_field.to_sym do 
-                label form_field.caption.try(:html_safe).to_s
-                help form_field.field_hint.try(:html_safe).to_s
+              field lf.data_field.to_sym do 
+                label lf.caption.try(:html_safe).to_s
+                help lf.field_hint.try(:html_safe).to_s
               end
             end
           end
