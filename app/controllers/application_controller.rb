@@ -71,6 +71,19 @@ class ApplicationController < ActionController::Base
             if lf.data_field.present?
               field lf.data_field.to_sym do 
                 label lf.caption.try(:html_safe).to_s
+                if lf.field_type == 'date'
+                  html_attributes do
+                    { type: "datetime-local" }
+                  end   
+                elsif lf.field_type == 'time'
+                  { type: "time" }
+                elsif lf.field_type == 'select' || lf.field_type == 'checkbox' || lf.field_type == 'radio'
+                  { type: lf.field_type }
+                else
+                  html_attributes do
+                    { type: "text" }
+                  end   
+                end     
                 help lf.field_hint.try(:html_safe).to_s
               end
             end

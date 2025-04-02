@@ -47,7 +47,7 @@ RailsAdmin.config do |config|
             "text", "password", "checkbox", "radio", "file", "date",
             "email", "number", "tel", "url", "search", "range",
             "color", "datetime-local", "month", "week", "time",
-            "button", "submit", "reset", "image", "hidden"
+            "button", "submit", "reset", "image", "hidden" ,"select"
           ]
         end
       end 
