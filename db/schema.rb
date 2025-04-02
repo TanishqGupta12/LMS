@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2025_03_30_082210) do
+ActiveRecord::Schema[7.2].define(version: 2025_04_02_100212) do
   create_table "active_storage_attachments", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
@@ -167,7 +167,6 @@ ActiveRecord::Schema[7.2].define(version: 2025_03_30_082210) do
     t.string "field_type"
     t.string "data_field"
     t.string "value"
-    t.boolean "onlyReady", default: false
     t.integer "sequence"
     t.boolean "is_required", default: false
     t.boolean "is_active", default: true
@@ -198,13 +197,14 @@ ActiveRecord::Schema[7.2].define(version: 2025_03_30_082210) do
     t.string "caption"
     t.text "description"
     t.bigint "event_id"
-    t.string "slug"
     t.boolean "is_active", default: true
     t.string "registration_successful_message", default: "Registered Successfully. A confirmation mail is sent to you. Thank you!"
     t.string "registration_updated_successful_message", default: "Profile Updated Successfully"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "role_id"
     t.index ["event_id"], name: "index_forms_on_event_id"
+    t.index ["role_id"], name: "index_forms_on_role_id"
   end
 
   create_table "quiz_attempt_results", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
@@ -413,6 +413,7 @@ ActiveRecord::Schema[7.2].define(version: 2025_03_30_082210) do
   add_foreign_key "form_section_fields", "forms"
   add_foreign_key "form_sections", "forms"
   add_foreign_key "forms", "events"
+  add_foreign_key "forms", "roles", on_delete: :nullify
   add_foreign_key "quiz_attempt_results", "quiz_topics"
   add_foreign_key "quiz_attempt_results", "users"
   add_foreign_key "quiz_attempts", "quiz_attempt_results"

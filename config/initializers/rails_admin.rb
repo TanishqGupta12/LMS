@@ -37,6 +37,28 @@ RailsAdmin.config do |config|
   config.model 'FormSection' do
     visible false
   end
+  config.model 'FormSectionField' do
+
+    edit do 
+
+      field :field_type , :enum do
+        enum do
+          [
+            "text", "password", "checkbox", "radio", "file", "date",
+            "email", "number", "tel", "url", "search", "range",
+            "color", "datetime-local", "month", "week", "time",
+            "button", "submit", "reset", "image", "hidden"
+          ]
+        end
+      end 
+      field :data_field , :enum do
+        enum do
+          User.column_names
+        end
+      end 
+      include_all_fields
+    end
+  end
   config.model 'Event' do
 
 

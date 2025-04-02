@@ -4,6 +4,7 @@ class ApplicationController < ActionController::Base
   before_action :load_events # Ensures @event is always set
   before_action :reload_rails_panel
   after_action :reload_rails_panel
+
   def layout_by_resource
     if devise_controller?
       "devise/sessions"
@@ -37,16 +38,47 @@ class ApplicationController < ActionController::Base
   end
 
   def reload_rails_panel
-
+    event_id = session[:event_id] # Store session value in a variable before config
+  
     RailsAdmin::Config.reset_model(User)
     RailsAdmin.config do |config| 
       config.model 'User' do
-        edit do
+        list do 
+          field :image
+          field :first_name
+          field :last_name
+          field :email
+          field :password
           field :current_event_id, :enum do
             enum do
               Event.pluck(:id)
             end
           end
+          field :role
+        end
+        edit do
+          field :image
+          field :email
+          field :password
+          field :current_event_id, :enum do
+            enum do
+              Event.pluck(:id)
+            end
+          end
+  
+          # Use the local variable instead of session[:event_id]
+          FormSectionField.list_of_fields(event_id).each do |form_field|
+            if form_field.data_field.present?
+              debugger
+              field form_field.data_field.to_sym do 
+                label form_field.caption.try(:html_safe).to_s
+                help form_field.field_hint.try(:html_safe).to_s
+              end
+            end
+          end
+  
+          field :role
+          field :courses
         end
       end
     end
