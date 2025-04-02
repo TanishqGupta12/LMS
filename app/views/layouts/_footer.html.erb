@@ -6,9 +6,9 @@
                 <div class="row">
                     <div class="col-md-6 mb-5">
                         <h5 class="text-primary text-uppercase mb-4" style="letter-spacing: 5px;">Get In Touch</h5>
-                        <p><i class="fa fa-map-marker-alt mr-2"></i><%= event.try(:address) %></p>
-                        <p><i class="fa fa-phone-alt mr-2"></i><%= event.try(:email) %></p>
-                        <p><i class="fa fa-envelope mr-2"></i><%= event.try(:phone) %></p>
+                        <p><i class="fas fa-map-marker-alt mr-2"></i><%= event.try(:address) %></p>
+                        <p><i class="fas fa-phone-alt mr-2"></i><%= event.try(:email) %></p>
+                        <p><i class="fas fa-envelope mr-2"></i><%= event.try(:phone) %></p>
                         <div class="d-flex justify-content-start mt-4">
                             <%= event.try(:slug).try(:html_safe) %>
                         </div>
