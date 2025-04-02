@@ -1,5 +1,8 @@
 class Course < ApplicationRecord
 
+  acts_as_votable
+  acts_as_favoritable
+  
   belongs_to :event, optional: true
   belongs_to :category , optional: true
   belongs_to :teacher, class_name: 'User'

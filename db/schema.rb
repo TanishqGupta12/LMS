@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2025_04_02_100212) do
+ActiveRecord::Schema[7.2].define(version: 2025_04_02_164944) do
   create_table "active_storage_attachments", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
@@ -147,6 +147,22 @@ ActiveRecord::Schema[7.2].define(version: 2025_04_02_100212) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "location"
+  end
+
+  create_table "favorites", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+    t.string "favoritable_type", null: false
+    t.bigint "favoritable_id", null: false
+    t.string "favoritor_type", null: false
+    t.bigint "favoritor_id", null: false
+    t.string "scope", default: "favorite", null: false
+    t.boolean "blocked", default: false, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["favoritable_id", "favoritable_type"], name: "fk_favoritables"
+    t.index ["favoritable_type", "favoritable_id", "favoritor_type", "favoritor_id", "scope"], name: "uniq_favorites_and_favoritables", unique: true, length: { favoritable_type: 191, favoritor_type: 191, scope: 100 }
+    t.index ["favoritable_type", "favoritable_id"], name: "index_favorites_on_favoritable"
+    t.index ["favoritor_id", "favoritor_type"], name: "fk_favorites"
+    t.index ["favoritor_type", "favoritor_id"], name: "index_favorites_on_favoritor"
   end
 
   create_table "form_field_choices", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
@@ -397,6 +413,22 @@ ActiveRecord::Schema[7.2].define(version: 2025_04_02_100212) do
     t.index ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
     t.index ["role_id"], name: "index_users_on_role_id"
+  end
+
+  create_table "votes", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+    t.string "votable_type"
+    t.bigint "votable_id"
+    t.string "voter_type"
+    t.bigint "voter_id"
+    t.boolean "vote_flag"
+    t.string "vote_scope"
+    t.integer "vote_weight"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["votable_id", "votable_type", "vote_scope"], name: "index_votes_on_votable_id_and_votable_type_and_vote_scope"
+    t.index ["votable_type", "votable_id"], name: "index_votes_on_votable"
+    t.index ["voter_id", "voter_type", "vote_scope"], name: "index_votes_on_voter_id_and_voter_type_and_vote_scope"
+    t.index ["voter_type", "voter_id"], name: "index_votes_on_voter"
   end
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"

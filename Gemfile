@@ -78,3 +78,6 @@ gem 'stripe'
 
 gem "image_processing"
 gem "mini_magick", "~> 5.2"
+
+gem 'acts_as_votable'
+gem 'acts_as_favoritor'
