@@ -22,7 +22,7 @@ class User < ApplicationRecord
   after_save -> { image.purge }, if: :remove_image
 
   has_many :courses, foreign_key: :teacher_id, dependent: :nullify
-
+  has_many :tickets
 
 
   def name

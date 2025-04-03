@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2025_04_03_062452) do
+ActiveRecord::Schema[7.2].define(version: 2025_04_03_063441) do
   create_table "active_storage_attachments", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
@@ -309,7 +309,7 @@ ActiveRecord::Schema[7.2].define(version: 2025_04_03_062452) do
 
   create_table "tickets", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "title"
-    t.float "price"
+    t.bigint "event_id", null: false
     t.boolean "is_active"
     t.string "currency"
     t.boolean "is_donation"
@@ -317,6 +317,10 @@ ActiveRecord::Schema[7.2].define(version: 2025_04_03_062452) do
     t.datetime "valid_still"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "price_cents", default: 0, null: false
+    t.bigint "user_id"
+    t.index ["event_id"], name: "index_tickets_on_event_id"
+    t.index ["user_id"], name: "index_tickets_on_user_id"
   end
 
   create_table "user_courses", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
@@ -454,6 +458,8 @@ ActiveRecord::Schema[7.2].define(version: 2025_04_03_062452) do
   add_foreign_key "quiz_results", "users"
   add_foreign_key "quiz_topics", "categories", column: "catgory_id"
   add_foreign_key "quiz_topics", "courses"
+  add_foreign_key "tickets", "events"
+  add_foreign_key "tickets", "users", on_delete: :cascade
   add_foreign_key "user_courses", "courses"
   add_foreign_key "user_courses", "users"
   add_foreign_key "user_notes", "courses"

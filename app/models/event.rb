@@ -5,5 +5,6 @@ class Event < ApplicationRecord
   has_many :banners
   has_many :courses
   has_many :forms
+  has_many :tickets
 
 end
