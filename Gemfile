@@ -85,4 +85,4 @@ gem 'acts_as_favoritor'
 gem 'money-rails', '~> 1.12'
 
 # LoadError: cannot load such file -- sassc (LoadError)
-gem 'sassc-rails'
+# gem 'sassc-rails'
