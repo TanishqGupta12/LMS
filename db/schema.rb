@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2025_04_02_164944) do
+ActiveRecord::Schema[7.2].define(version: 2025_04_03_062452) do
   create_table "active_storage_attachments", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
@@ -84,9 +84,11 @@ ActiveRecord::Schema[7.2].define(version: 2025_04_02_164944) do
     t.datetime "updated_at", null: false
     t.bigint "teacher_id"
     t.string "title"
+    t.bigint "ticket_id"
     t.index ["category_id"], name: "index_courses_on_category_id"
     t.index ["event_id"], name: "index_courses_on_event_id"
     t.index ["teacher_id"], name: "index_courses_on_teacher_id"
+    t.index ["ticket_id"], name: "index_courses_on_ticket_id"
   end
 
   create_table "discounts", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
@@ -307,20 +309,14 @@ ActiveRecord::Schema[7.2].define(version: 2025_04_02_164944) do
 
   create_table "tickets", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "title"
-    t.bigint "event_id", null: false
     t.float "price"
     t.boolean "is_active"
     t.string "currency"
-    t.float "min_user_limit"
-    t.boolean "is_group"
     t.boolean "is_donation"
     t.datetime "valid_from"
     t.datetime "valid_still"
-    t.bigint "course_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["course_id"], name: "index_tickets_on_course_id"
-    t.index ["event_id"], name: "index_tickets_on_event_id"
   end
 
   create_table "user_courses", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
@@ -437,6 +433,7 @@ ActiveRecord::Schema[7.2].define(version: 2025_04_02_164944) do
   add_foreign_key "categories", "events", on_delete: :cascade
   add_foreign_key "contacts", "events"
   add_foreign_key "courses", "events", on_delete: :cascade
+  add_foreign_key "courses", "tickets", on_delete: :cascade
   add_foreign_key "courses", "users", column: "teacher_id"
   add_foreign_key "discounts", "events"
   add_foreign_key "email_contents", "events"
@@ -457,8 +454,6 @@ ActiveRecord::Schema[7.2].define(version: 2025_04_02_164944) do
   add_foreign_key "quiz_results", "users"
   add_foreign_key "quiz_topics", "categories", column: "catgory_id"
   add_foreign_key "quiz_topics", "courses"
-  add_foreign_key "tickets", "courses"
-  add_foreign_key "tickets", "events"
   add_foreign_key "user_courses", "courses"
   add_foreign_key "user_courses", "users"
   add_foreign_key "user_notes", "courses"

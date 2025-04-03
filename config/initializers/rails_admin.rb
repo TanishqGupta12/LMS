@@ -25,6 +25,24 @@ RailsAdmin.config do |config|
   # config.show_gravatar = true
   # 
   #
+  config.model 'Ticket' do
+    edit do 
+      field :title
+      field :currency, :enum do
+        enum do
+          Money::Currency.table.map { |code, currency| ["#{code} - #{currency[:name]}", code.to_s] }.to_h
+        end
+      end
+  
+      # field :event do
+      #   associated_collection_cache_all false
+      # end
+  
+      include_all_fields
+      exclude_fields :is_group, :min_user_limit
+    end
+  end
+
   config.model 'Banner' do
     edit do 
       field :gallery do

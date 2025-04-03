@@ -1,4 +1,7 @@
 class Ticket < ApplicationRecord
+  monetize :price_cents , numericality: { greater_than: 0 }
+
   belongs_to :event
-  belongs_to :course
+  has_many :courses
+
 end

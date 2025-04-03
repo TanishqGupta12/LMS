@@ -81,3 +81,5 @@ gem "mini_magick", "~> 5.2"
 
 gem 'acts_as_votable'
 gem 'acts_as_favoritor'
+
+gem 'money-rails', '~> 1.12'
