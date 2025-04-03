@@ -25,7 +25,9 @@
                   <h6 class="m-0">
                     <i class="fa fa-star text-primary mr-2"></i> <small>()</small>
                   </h6>
-                  <h5 class="m-0">$<</h5>
+                    <h5 class="m-0">
+                      <%= course.try(:ticket).present? ? "#{course.try(:ticket).price.to_hash[:cents] } #{course.try(:ticket).price.to_hash[:currency_iso] }" : "Free" %>
+                    </h5>
                 </div>
               </div>
             </div>

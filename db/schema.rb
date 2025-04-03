@@ -317,8 +317,9 @@ ActiveRecord::Schema[7.2].define(version: 2025_04_03_063441) do
     t.datetime "valid_still"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.integer "price_cents", default: 0, null: false
     t.bigint "user_id"
+    t.integer "price_cents", default: 0, null: false
+    t.bigint "amount"
     t.index ["event_id"], name: "index_tickets_on_event_id"
     t.index ["user_id"], name: "index_tickets_on_user_id"
   end

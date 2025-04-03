@@ -26,6 +26,8 @@ class ApplicationController < ActionController::Base
       render json: { message: "Found not" }, status: :not_found and return
     end
     session[:event_id] =  @event.try(:id)
+
+    return @event
   end
 
   def after_sign_out_path_for(resource)

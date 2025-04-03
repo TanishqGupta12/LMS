@@ -12,13 +12,13 @@
 						<!-- Avatar -->
 						<div class="col-auto">
 							<div class="avatar avatar-xxl position-relative mt-n3">
-								<img class="avatar-img rounded-circle border border-white border-3 shadow" src="/assets/09.jpg" alt="">
+								<img class="avatar-img rounded-circle border border-white border-3 shadow" src="<%= url_for(user.try(:image)).present? ? url_for(user.try(:image)) : "http://127.0.0.1:3000/user.png" %>" alt="<%= user.try(:name)  %>">
 							</div>
 						</div>
 						<!-- Profile info -->
 						<div class="col d-sm-flex justify-content-between align-items-center">
 							<div>
-								<h1 class="my-1 fs-4">Lori Stevens</h1>
+								<h1 class="my-1 fs-4"><%= user.try(:name) %></h1>
 								<ul class="list-inline mb-0">
 									<li class="list-inline-item me-3 mb-1 mb-sm-0">
 										<span class="h6">255</span>

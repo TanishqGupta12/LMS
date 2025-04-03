@@ -5,7 +5,7 @@ class HomeController < ApplicationController
     @caraousel_data = @event.try(:banners)
     @categories_data = Category.includes(:courses).where(event_id: @event.try(:id))
     @teacher_data =  User.teachers_for_event(@event.id)
-    @courses =  Course.where(event_id: @event.id)
+    @courses = Course.includes(:ticket).where(event_id: @event.id)
   end
 
   def login

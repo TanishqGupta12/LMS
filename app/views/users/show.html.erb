@@ -3,7 +3,7 @@
 Page Banner START -->
   <%= stylesheet_link_tag 'custom_style'%>
 
-<%= render partial: "user_header" %>
+<%= render partial: "user_header" , locals: { user: @user } %>
 <!-- =======================
 Page Banner END -->
 
