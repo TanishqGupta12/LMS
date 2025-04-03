@@ -6,6 +6,7 @@ class BlogController < ApplicationController
   end
   
   def show
-    
+    @blogs = Blog.where(event_id:  params[:event_id] ).order(:created_at)
+    @blog = Blog.find(params[:id] )
   end
 end

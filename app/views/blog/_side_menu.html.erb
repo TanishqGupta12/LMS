@@ -1,0 +1,42 @@
+                <div class="col-lg-4 mt-5 mt-lg-0">
+    
+    
+                    <!-- Category List -->
+                    <div class="mb-5">
+                        <h3 class="text-uppercase mb-4" style="letter-spacing: 5px;">Categories</h3>
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item d-flex justify-content-between align-items-center px-0">
+                                <a href="" class="text-decoration-none h6 m-0">Web Design</a>
+                                <span class="badge badge-primary badge-pill">150</span>
+                            </li>
+
+                        </ul>
+                    </div>
+    
+                    <!-- Recent Post -->
+                    <div class="mb-5">
+                        <h3 class="text-uppercase mb-4" style="letter-spacing: 5px;">Recent Post</h3>
+                        <% blogs.each do |blog| %>
+                            <a class="d-flex align-items-center text-decoration-none mb-3" href="<%= event_blog_path(blog.event, blog)%>">
+                                <img class="img-fluid rounded" src="<%= url_for(blog.image.variant(resize_to_limit: [80, 80]))%>" alt="<%= blog.try(:title)%>">
+                                <div class="pl-3">
+                                    <h6 class="m-1"><%= blog.try(:title)%></h6>
+                                    <small><%= blog.try(:created_at).strftime("%Y-%m-%d") %></small>
+                                </div>
+                            </a>
+                        <%end %>
+                    </div>
+    
+                    <!-- Tag Cloud -->
+                    <div class="mb-5">
+                        <h3 class="text-uppercase mb-4" style="letter-spacing: 5px;">Tag Cloud</h3>
+                        <div class="d-flex flex-wrap m-n1">
+                            <a href="" class="btn btn-outline-primary m-1">Design</a>
+                            <a href="" class="btn btn-outline-primary m-1">Development</a>
+                            <a href="" class="btn btn-outline-primary m-1">Marketing</a>
+                            <a href="" class="btn btn-outline-primary m-1">SEO</a>
+                            <a href="" class="btn btn-outline-primary m-1">Writing</a>
+                            <a href="" class="btn btn-outline-primary m-1">Consulting</a>
+                        </div>
+                    </div>
+                </div>
