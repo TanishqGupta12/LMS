@@ -25,6 +25,21 @@ RailsAdmin.config do |config|
   # config.show_gravatar = true
   # 
   #
+  config.model 'Blog' do
+    field :image
+    field :title
+    field :content do
+      html_attributes do
+        {:class => 'form-control tinymce'}
+      end
+    end
+    field :event do
+      associated_collection_cache_all false
+    end
+    field :user do
+      associated_collection_cache_all false
+    end
+  end
   config.model 'Ticket' do
     edit do 
       field :title

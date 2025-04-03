@@ -40,8 +40,9 @@ class HomeController < ApplicationController
     @event =  load_events #Event.find_by(id: params[:event_id])
   end
 
-  def blog
-    @event =  load_events #Event.find_by(id: params[:event_id])
-  end
+  # def blog
+  #   @event =  load_events #Event.find_by(id: params[:event_id])
+  #   @blogs = Blog.where(event_id:  @event.try(:id) ).order(:created_at)
+  # end
 
 end

@@ -14,7 +14,7 @@ Rails.application.routes.draw do
   match "/:event_id/login", to: "home#login", as: "login", via: [:get, :post]
   match "/:event_id/sign_up", to: "home#sign_up", as: "sign_up", via: [:get, :post]
   match "/:event_id/about", to: "home#about", as: "about", via: [:get, :post]
-  match "/:event_id/blog", to: "home#blog", as: "blog", via: [:get, :post]
+  # match "/:event_id/blog", to: "home#blog", as: "blog", via: [:get, :post]
 
 
   match "/:event_id/terms_and_conditions", to: "home#terms_and_conditions", as: "terms_and_conditions", via: [:get, :post]
@@ -32,6 +32,7 @@ Rails.application.routes.draw do
     resources :contact
     resources :teacher
     resources :course
+    resources :blog
   end
 
   # Defines the root path route ("/")

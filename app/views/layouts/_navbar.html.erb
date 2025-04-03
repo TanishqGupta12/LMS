@@ -150,7 +150,7 @@
                     <div class="collapse navbar-collapse justify-content-between" id="navbarCollapse">
                         <div class="navbar-nav py-0">
                             <a href="/" class="nav-item nav-link text-decoration-none">Home</a>
-                            <a href="<%= blog_path(event.try(:id))%>" class="nav-item nav-link text-decoration-none">Blog</a>
+                            <a href="<%= event_blog_index_path(event.try(:id))%>" class="nav-item nav-link text-decoration-none">Blog</a>
                             <a href="<%= event_teacher_index_path(event.try(:id))%>" class="nav-item nav-link text-decoration-none">Teachers</a>
                             <div class="nav-item nav-link ">
                                 <%= link_to "Courses", event_course_index_path(event.try(:id)), aria: { label: "View Teachers" }, class: "link-hover text-decoration-none" %>
