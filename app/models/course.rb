@@ -7,6 +7,11 @@ class Course < ApplicationRecord
   belongs_to :category , optional: true
   belongs_to :teacher, class_name: 'User'
 
+  scope :category_search, ->(category , course) {
+    where("courses.title LIKE ? AND courses.category_id IN (SELECT id FROM categories WHERE title LIKE ?)", "%#{course}%", "%#{category}%")
+  }
+  
+
   has_one_attached :thumbail
 
   attribute :remove_thumbail, :boolean
