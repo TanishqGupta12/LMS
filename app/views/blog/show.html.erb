@@ -1,5 +1,23 @@
 <style>
-    /* Comment Section */
+.scrollable-comments {
+    max-height: 400px;
+    overflow-y: auto;
+    padding-right: 10px;
+}
+
+.scrollable-comments::-webkit-scrollbar {
+    width: 8px;
+}
+
+.scrollable-comments::-webkit-scrollbar-thumb {
+    background-color: #aaa;
+    border-radius: 4px;
+}
+
+.scrollable-comments::-webkit-scrollbar-track {
+    background: #f1f1f1;
+}
+
 .media {
     display: flex;
     align-items: flex-start;
@@ -29,12 +47,6 @@ small i {
     color: gray;
 }
 
-/* Reply Section */
-.media .media {
-    margin-left: 50px;
-    border-left: 2px solid #ddd;
-    padding-left: 15px;
-}
 
 .form-control {
     border-radius: 10px;
@@ -42,13 +54,8 @@ small i {
 }
 
 .btn-primary {
-    /* background: #007bff; */
     border: none;
     border-radius: 5px;
-}
-
-.btn-primary:hover {
-    background: #0056b3;
 }
 
 .input-group_reply {
@@ -66,7 +73,7 @@ small i {
                     </div>
 
                     <!-- Comment List -->
-                    <div class="mb-5">
+                    <div class="mb-5 scrollable-comments">
                         <h3 class="text-uppercase mb-4" style="letter-spacing: 5px;"><%= @blog.comments.size %>Comments</h3>
 
                         <div class="d-block m-5">
@@ -76,62 +83,13 @@ small i {
                                         <%= f.text_area :content, placeholder: "Write a comment...", class: "form-control", rows: 3 %>
                                     </div>
                                     <%= f.hidden_field :blog_id, value: @blog.id %>
-                                    <%= f.hidden_field :user_id, value: current_user.id %>
+
                                     <%= f.submit "Comment", class: "btn btn-primary ms-2 mt-2" %>
                                 <% end %>
                             </div>
                         </div>
 
-                        <% @blog.comments.where(parent_id: nil).each do |comment| %>
-                            <div class="media mb-4">
-                                <img src="<%= comment.user&.image.present? ? url_for(comment.user.image) : asset_path('default-avatar.jpg') %>" 
-                                    alt="User Image" class="img-fluid rounded-circle mr-3 mt-1" style="width: 45px;">
-                                <div class="media-body">
-                                    <h6><%= comment.user&.name %> <small><i><%= comment.created_at.strftime("%d %b %Y at %I:%M%p") %></i></small></h6>
-                                    <p><%= comment.content %></p>
-
-                                    <!-- Reply form -->
-
-                                <div class="d-block m-5">
-                                    <div class="input-group input-group_reply">
-                                        <%= form_with model: Comment.new, url: event_blog_comments_path(params[:event_id], @blog), local: true do |f| %>
-                                            <div class="form-floating w-100">
-                                                <%= f.text_area :content, placeholder: "Reply to this comment..." , class: "form-control", rows: 3 %>
-                                            </div>
-                                            <%= f.hidden_field :blog_id, value: @blog.id %>
-                                            <%= f.hidden_field :parent_id, value: comment.id %>
-                                            <%= f.submit "Reply", class: "btn btn-primary ms-2 mt-2" %>
-                                        <% end %>
-                                    </div>
-                                </div>
-                                    <!-- Show nested replies -->
-                                    <% comment.replies.each do |reply| %>
-                                        <div class="media mt-4">
-                                            <img src="<%= reply.user&.image.present? ? url_for(reply.user.image) : asset_path('default-avatar.jpg') %>" 
-                                                alt="User Image" class="img-fluid rounded-circle mr-3 mt-1" style="width: 45px;">
-                                            <div class="media-body">
-                                                <h6><%= reply.user&.name %> <small><i><%= reply.created_at.strftime("%d %b %Y at %I:%M%p") %></i></small></h6>
-                                                <p><%= reply.content %></p>
-
-                                                <!-- Nested reply form -->
-                                                <div class="d-block m-5">
-                                                    <div class="input-group">
-                                                    <%= form_with model: Comment.new, url: event_blog_comments_path(params[:event_id], @blog), local: true do |f| %>
-                                                        <div class="form-floating w-100">
-                                                            <%= f.text_area :content, placeholder: "Reply to this comment..." , class: "form-control" %>
-                                                        </div>
-                                                        <%= f.hidden_field :blog_id, value: @blog.id %>
-                                                        <%= f.hidden_field :parent_id, value: reply.id %>
-                                                        <%= f.submit "Reply", class: "btn btn-primary ms-2 mt-2" %>
-                                                    <% end %>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    <% end %>
-                                </div>
-                            </div>
-                        <% end %>
+                        <%= render @blog.comments.where(parent_id: nil), partial: "comments/comment" %>
 
                     </div>
                 </div>
@@ -143,3 +101,13 @@ small i {
     </div>
     <!-- Detail End -->
 
+<script>
+
+    document.addEventListener("DOMContentLoaded", function () {
+        var commentSection = document.querySelector(".scrollable-comments");
+        if (commentSection) {
+            commentSection.scrollTop = commentSection.scrollHeight;
+        }
+    });
+
+</script>
