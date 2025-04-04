@@ -71,8 +71,8 @@ ActiveRecord::Schema[7.2].define(version: 2025_04_04_055255) do
 
   create_table "comments", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.bigint "user_id"
-    t.bigint "blog_id", null: false
-    t.bigint "course_id", null: false
+    t.bigint "blog_id"
+    t.bigint "course_id"
     t.bigint "parent_id"
     t.text "content"
     t.datetime "created_at", null: false
