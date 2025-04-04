@@ -48,7 +48,7 @@
                     </div>
 
                     <!-- Comment Form -->
-                    <div class="bg-secondary rounded p-5">
+                    <%# <div class="bg-secondary rounded p-5">
                         <h3 class="text-uppercase mb-4" style="letter-spacing: 5px;">Leave a comment</h3>
                         <form>
                             <div class="form-group">
@@ -72,10 +72,10 @@
                                 <input type="submit" value="Leave Comment" class="btn btn-primary py-md-2 px-md-4 font-weight-semi-bold">
                             </div>
                         </form>
-                    </div>
+                    </div> %>
                 </div>
 
-                <%= render partial: "side_menu", locals: { blogs: @blogs } %>
+                <%= render partial: "side_menu", locals: { categorys: @categorys  , blogs_recenlty: @blogs_recenlty} %>
   
             </div>
         </div>

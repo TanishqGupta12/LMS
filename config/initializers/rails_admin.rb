@@ -26,6 +26,7 @@ RailsAdmin.config do |config|
   # 
   #
   config.model 'Blog' do
+    field :category
     field :image
     field :title
     field :content do
