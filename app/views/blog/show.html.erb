@@ -71,31 +71,30 @@ small i {
                     <div class="mb-5">
                         <%= @blog.try(:content).to_s.gsub(/\s*border="1"/, "").html_safe  %>
                     </div>
-
-                    <!-- Comment List -->
-                    <div class="mb-5 scrollable-comments">
-                        <h3 class="text-uppercase mb-4" style="letter-spacing: 5px;"><%= @blog.comments.size %>Comments</h3>
-
-                        <div class="d-block m-5">
-                            <div class="input-group input-group_reply">
-                                <%= form_with model: Comment.new, url: event_blog_comments_path(params[:event_id], @blog), local: true, class: "w-100" do |f| %>
-                                    <div class="form-floating w-100">
-                                        <%= f.text_area :content, placeholder: "Write a comment...", class: "form-control", rows: 3 %>
-                                    </div>
-                                    <%= f.hidden_field :blog_id, value: @blog.id %>
-
-                                    <%= f.submit "Comment", class: "btn btn-primary ms-2 mt-2" %>
-                                <% end %>
-                            </div>
-                        </div>
-
-                        <%= render @blog.comments.where(parent_id: nil), partial: "comments/comment" %>
-
-                    </div>
                 </div>
 
                 <%= render partial: "side_menu", locals: { categorys: @categorys  , blogs_recenlty: @blogs_recenlty} %>
   
+            </div>
+            <!-- Comment List -->
+            <div class="mb-5 scrollable-comments">
+                <h3 class="text-uppercase mb-4" style="letter-spacing: 5px;"><%= @blog.comments.size %>Comments</h3>
+
+                <div class="d-block m-5">
+                    <div class="input-group input-group_reply">
+                        <%= form_with model: Comment.new, url: event_blog_comments_path(params[:event_id], @blog), local: true, class: "w-100" do |f| %>
+                            <div class="form-floating w-100">
+                                <%= f.text_area :content, placeholder: "Write a comment...", class: "form-control", rows: 3 %>
+                            </div>
+                            <%= f.hidden_field :blog_id, value: @blog.id %>
+
+                            <%= f.submit "Comment", class: "btn btn-primary ms-2 mt-2" %>
+                        <% end %>
+                    </div>
+                </div>
+
+                <%= render @blog.comments.where(parent_id: nil), partial: "comments/comment" %>
+
             </div>
         </div>
     </div>
