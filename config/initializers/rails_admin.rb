@@ -163,6 +163,10 @@ RailsAdmin.config do |config|
       field :ticket do
         associated_collection_cache_all false
       end
+      field :tags do
+        label "Tags"
+        help "Separate with commas, e.g. ruby, rails, backend"
+      end
 
       include_all_fields
 

@@ -25,7 +25,8 @@ class User < ApplicationRecord
   has_many :tickets
   has_many :blogs , dependent: :delete_all
 
-
+  has_many :comments
+  
   def name
     (self.first_name || '') + ' ' + (self.last_name || '')
   end

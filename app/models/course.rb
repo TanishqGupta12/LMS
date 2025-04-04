@@ -6,7 +6,7 @@ class Course < ApplicationRecord
   belongs_to :event, optional: true
   belongs_to :category , optional: true
   belongs_to :teacher, class_name: 'User'
-
+  has_many :comments
   scope :category_search, ->(category , course) {
     where("courses.title LIKE ? AND courses.category_id IN (SELECT id FROM categories WHERE title LIKE ?)", "%#{course}%", "%#{category}%")
   }

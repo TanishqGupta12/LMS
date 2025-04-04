@@ -1,6 +1,6 @@
   <%= stylesheet_link_tag 'custom_style'%>
 
-<%= render partial: "user_header" %>
+<%= render partial: "user_header" , locals: { user: @user } %>
 
 <section class="pt-0">
 	<div class="container">

@@ -9,8 +9,14 @@ class Blog < ApplicationRecord
   belongs_to :event
   belongs_to :category
 
+  has_many :comments
+  
   scope :category_search, ->(category_id) {
     where(category_id: category_id) if category_id.present?
+  }
+
+  scope :tags_search, ->(tag_se) {
+    where("blogs.category_id IN (SELECT courses.category_id FROM courses WHERE tags LIKE ?)", "%#{tag_se}%")
   }
   
 end

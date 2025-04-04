@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2025_04_03_154148) do
+ActiveRecord::Schema[7.2].define(version: 2025_04_04_055255) do
   create_table "active_storage_attachments", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
@@ -69,6 +69,20 @@ ActiveRecord::Schema[7.2].define(version: 2025_04_03_154148) do
     t.index ["event_id"], name: "index_categories_on_event_id"
   end
 
+  create_table "comments", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+    t.bigint "user_id"
+    t.bigint "blog_id", null: false
+    t.bigint "course_id", null: false
+    t.bigint "parent_id"
+    t.text "content"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["blog_id"], name: "index_comments_on_blog_id"
+    t.index ["course_id"], name: "index_comments_on_course_id"
+    t.index ["parent_id"], name: "index_comments_on_parent_id"
+    t.index ["user_id"], name: "index_comments_on_user_id"
+  end
+
   create_table "contacts", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "name"
     t.string "email"
@@ -98,6 +112,7 @@ ActiveRecord::Schema[7.2].define(version: 2025_04_03_154148) do
     t.bigint "teacher_id"
     t.string "title"
     t.bigint "ticket_id"
+    t.text "tags"
     t.index ["category_id"], name: "index_courses_on_category_id"
     t.index ["event_id"], name: "index_courses_on_event_id"
     t.index ["teacher_id"], name: "index_courses_on_teacher_id"
@@ -320,6 +335,27 @@ ActiveRecord::Schema[7.2].define(version: 2025_04_03_154148) do
     t.index ["name"], name: "index_roles_on_name"
   end
 
+  create_table "taggings", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+    t.bigint "tag_id"
+    t.string "taggable_type"
+    t.bigint "taggable_id"
+    t.string "tagger_type"
+    t.bigint "tagger_id"
+    t.string "context", limit: 128
+    t.datetime "created_at", precision: nil
+    t.index ["tag_id"], name: "index_taggings_on_tag_id"
+    t.index ["taggable_id", "taggable_type", "context"], name: "taggings_taggable_context_idx"
+    t.index ["taggable_type", "taggable_id"], name: "index_taggings_on_taggable_type_and_taggable_id"
+    t.index ["tagger_type", "tagger_id"], name: "index_taggings_on_tagger_type_and_tagger_id"
+  end
+
+  create_table "tags", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+    t.string "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["name"], name: "index_tags_on_name", unique: true
+  end
+
   create_table "tickets", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "title"
     t.bigint "event_id", null: false
@@ -451,6 +487,10 @@ ActiveRecord::Schema[7.2].define(version: 2025_04_03_154148) do
   add_foreign_key "blogs", "events"
   add_foreign_key "blogs", "users"
   add_foreign_key "categories", "events", on_delete: :cascade
+  add_foreign_key "comments", "blogs", on_delete: :cascade
+  add_foreign_key "comments", "comments", column: "parent_id", on_delete: :cascade
+  add_foreign_key "comments", "courses", on_delete: :cascade
+  add_foreign_key "comments", "users", on_delete: :nullify
   add_foreign_key "contacts", "events"
   add_foreign_key "courses", "events", on_delete: :cascade
   add_foreign_key "courses", "tickets", on_delete: :cascade
@@ -474,6 +514,7 @@ ActiveRecord::Schema[7.2].define(version: 2025_04_03_154148) do
   add_foreign_key "quiz_results", "users"
   add_foreign_key "quiz_topics", "categories", column: "catgory_id"
   add_foreign_key "quiz_topics", "courses"
+  add_foreign_key "taggings", "tags"
   add_foreign_key "tickets", "events"
   add_foreign_key "tickets", "users", on_delete: :cascade
   add_foreign_key "user_courses", "courses"
