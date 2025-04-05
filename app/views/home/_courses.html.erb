@@ -19,7 +19,7 @@
                   <i class="far fa-clock text-primary mr-2"></i><%= course.duration %>
                 </small>
               </div>
-              <a class="h5" href="#"><%= course.title %></a>
+              <a class="h5" href="<%= event_course_path(course.try(:event_id) ,course.try(:id))%>"><%= course.title %></a>
               <div class="border-top mt-4 pt-4">
                 <div class="d-flex justify-content-between">
                   <h6 class="m-0">
