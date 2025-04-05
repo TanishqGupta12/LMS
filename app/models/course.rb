@@ -11,7 +11,12 @@ class Course < ApplicationRecord
     where("courses.title LIKE ? AND courses.category_id IN (SELECT id FROM categories WHERE title LIKE ?)", "%#{course}%", "%#{category}%")
   }
   
-
+  enum level: {
+    Beginner: "Beginner",
+    Intermediate: "Intermediate",  # or use `middle` if you prefer
+    Advanced: "Advanced",
+    Expert: "Expert"        # assuming "exepot" meant expert
+  }
   has_one_attached :thumbail
 
   attribute :remove_thumbail, :boolean

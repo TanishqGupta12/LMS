@@ -154,9 +154,16 @@ RailsAdmin.config do |config|
   end
   config.model 'Course' do
     visible true
-    exclude_fields :favorited ,:favorited_ids
+
     edit do
+      exclude_fields :favorited ,:favorited_ids
       field :title
+      field :overview do
+        html_attributes do
+          {:class => 'form-control tinymce'}
+        end
+      end
+
       field :category do
         associated_collection_cache_all false
       end

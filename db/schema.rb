@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2025_04_04_055255) do
+ActiveRecord::Schema[7.2].define(version: 2025_04_05_052203) do
   create_table "active_storage_attachments", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
@@ -99,20 +99,17 @@ ActiveRecord::Schema[7.2].define(version: 2025_04_04_055255) do
     t.string "duration"
     t.bigint "category_id"
     t.bigint "event_id"
-    t.boolean "has_download_certificate", default: false
-    t.boolean "is_paid", default: false
     t.float "total_marks", default: 0.0
     t.float "passing_points", default: 0.0
-    t.boolean "has_pass_fail_page", default: false
     t.integer "max_attempts", default: 0
-    t.datetime "valid_from"
-    t.datetime "valid_upto"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.bigint "teacher_id"
     t.string "title"
     t.bigint "ticket_id"
     t.text "tags"
+    t.text "overview"
+    t.string "level"
     t.index ["category_id"], name: "index_courses_on_category_id"
     t.index ["event_id"], name: "index_courses_on_event_id"
     t.index ["teacher_id"], name: "index_courses_on_teacher_id"
