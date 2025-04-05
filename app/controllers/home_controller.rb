@@ -40,6 +40,14 @@ class HomeController < ApplicationController
     @event =  load_events #Event.find_by(id: params[:event_id])
   end
 
+  def search
+    debugger
+  
+    # respond_to do |format|
+    #   format.turbo_stream { render partial: "users/list", locals: { users: @users } }
+    # end
+  end
+
   # def blog
   #   @event =  load_events #Event.find_by(id: params[:event_id])
   #   @blogs = Blog.where(event_id:  @event.try(:id) ).order(:created_at)
