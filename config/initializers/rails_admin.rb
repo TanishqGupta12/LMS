@@ -155,8 +155,24 @@ RailsAdmin.config do |config|
   config.model 'Course' do
     visible true
 
+    list do
+      field :title
+      field :tags
+      field :is_active
+      field :duration
+      field :teacher do
+        associated_collection_cache_all false
+      end
+      field :category do
+        associated_collection_cache_all false
+      end
+      field :event do
+        associated_collection_cache_all false
+      end
+      field :created_at
+    end
+
     edit do
-      exclude_fields :favorited ,:favorited_ids
       field :title
       field :overview do
         html_attributes do
@@ -175,7 +191,6 @@ RailsAdmin.config do |config|
         help "Separate with commas, e.g. ruby, rails, backend"
       end
 
-      include_all_fields
 
       field :event do
         associated_collection_cache_all false
@@ -183,6 +198,8 @@ RailsAdmin.config do |config|
       field :teacher do
         associated_collection_cache_all false
       end
+      include_all_fields
+      exclude_fields :favorited ,:favorited_ids ,:comment_ids ,:comments
     end
   end
 
