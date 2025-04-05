@@ -22,12 +22,12 @@
 
     <% if @event.try(:hide_courses) == true%>
     <% else %>
-      <%= render partial: "courses", locals: { courses_data: @courses } %>
+      <%= render partial: "course/courses", locals: { courses_data: @courses } %>
     <% end %> 
 
     <% if @event.try(:hide_teacher_page) == true %>
     <% else %>
-        <%= render partial: "teacher", locals: { teacher_data: @teacher_data } %>
+        <%= render partial: "teacher/teacher", locals: { teacher_data: @teacher_data } %>
     <% end %> 
 
     <% if @event.try(:hide_info) == true %>

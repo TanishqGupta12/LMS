@@ -6,7 +6,7 @@
 </style>
 <% if level_alert.try(:level).present? %>
   <% alert_class, text_class = case level_alert.level
-    when "All Level" then ["alert-secondary", "alert-link"]
+    when "All Level" then ["alert-dark", "alert-link"]
     when "Beginner" then ["alert-success", "alert-link"]
     when "Intermediate" then ["alert-info", "alert-link"]
     when "Advanced" then ["alert-warning", "alert-link"]

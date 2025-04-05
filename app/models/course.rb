@@ -12,11 +12,11 @@ class Course < ApplicationRecord
   }
   
   enum level: {
-    All_Level: "All Level",
-    Beginner: "Beginner",
-    Intermediate: "Intermediate",  # or use `middle` if you prefer
-    Advanced: "Advanced",
-    Expert: "Expert"        # assuming "exepot" meant expert
+    "All Level": "All Level",
+    "Beginner": "Beginner",
+    "Intermediate": "Intermediate",
+    "Advanced": "Advanced",
+    "Expert": "Expert"
   }
   has_one_attached :thumbail
 

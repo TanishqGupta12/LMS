@@ -156,6 +156,7 @@ RailsAdmin.config do |config|
     visible true
 
     list do
+      field :level
       field :title
       field :tags
       field :is_active
@@ -173,6 +174,7 @@ RailsAdmin.config do |config|
     end
 
     edit do
+      field :level
       field :title
       field :overview do
         html_attributes do
