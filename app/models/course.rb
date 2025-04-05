@@ -12,6 +12,7 @@ class Course < ApplicationRecord
   }
   
   enum level: {
+    All_Level: "All Level",
     Beginner: "Beginner",
     Intermediate: "Intermediate",  # or use `middle` if you prefer
     Advanced: "Advanced",
