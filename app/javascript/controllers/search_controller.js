@@ -10,11 +10,11 @@ export default class extends Controller {
 
     search() {
 
-        if (!window.location.href.includes("/search")) {
-            setTimeout(() => {
-                window.location.href = 'http://127.0.0.1:3000/search';
-              });
-        }
+        // if (!window.location.href.includes("/search")) {
+        //     setTimeout(() => {
+        //         window.location.href = 'http://127.0.0.1:3000/search';
+        //       });
+        // }
         clearTimeout(this.timeout)
     
         this.timeout = setTimeout(() => {
@@ -33,8 +33,8 @@ export default class extends Controller {
         }, 300)
     }
 
-    redirected() {
+    // redirected() {
         
 
-    }
+    // }
 }
