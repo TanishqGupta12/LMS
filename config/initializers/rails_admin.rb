@@ -100,7 +100,8 @@ RailsAdmin.config do |config|
   config.model 'Event' do
 
 
-    list do 
+    list do
+      field :icon 
       field :description do
         visible false
       end 
@@ -108,7 +109,8 @@ RailsAdmin.config do |config|
       exclude_fields :description
     end
 
-    edit do 
+    edit do
+      field :icon 
       exclude_fields :description
       field :description do
         visible false

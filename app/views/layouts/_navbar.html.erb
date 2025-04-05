@@ -181,9 +181,16 @@
                                 <%= link_to "Profile", user_path(current_user.try(:id)), method: :delete, class: "nav-item nav-link text-decoration-none" %>
                             <% end %> 
                         </div>
-                        <div class="col-lg d-none d-lg-block" data-controller="search" data-search-url-value="<%= search_path(current_user.try(:current_event_id)) %>" >
+                        <div class="col-lg d-none d-lg-block" data-controller="search" data-search-url-value="<%= search_path() %>" >
                             <div class="form-outline" data-mdb-input-init>
-                                <input data-search-target="input" type="search" id="form1" class="form-control" placeholder="Type query" aria-label="Search" />
+                                <input data-search-target="input"
+                                    type="search"
+                                    id="form1"
+                                    class="form-control"
+                                    placeholder="Type query"
+                                    aria-label="Search"
+                                    data-action="input->search#search"
+                                />
                             </div>
                         </div>
                         <% if user_signed_in? %>

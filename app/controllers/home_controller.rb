@@ -41,11 +41,13 @@ class HomeController < ApplicationController
   end
 
   def search
-    debugger
-  
-    # respond_to do |format|
-    #   format.turbo_stream { render partial: "users/list", locals: { users: @users } }
-    # end
+    if params[:search].present?
+
+      redirect_to search_path()
+      
+    elsif params[:search] == '' && params[:search].nil?
+      redirect_back fallback_location: root_path
+    end
   end
 
   # def blog

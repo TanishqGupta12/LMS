@@ -1,4 +1,4 @@
-  <div data-search-target="results">
 
-    <%# <%= render partial: "users/list", locals: { users: @users || [] } %> %>
+  <div id="search-results" data-search-target="results">
+    <%= render partial: "results", locals: { results: @results } %>
   </div>
