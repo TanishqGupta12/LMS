@@ -177,6 +177,7 @@ RailsAdmin.config do |config|
 
     edit do
       field :level
+      field :language
       field :title
       field :overview do
         html_attributes do

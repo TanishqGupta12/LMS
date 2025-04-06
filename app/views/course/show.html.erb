@@ -1,0 +1,1085 @@
+<style>
+    @media (min-width: 1200px) {
+        .pt-xl-5 {
+            padding-top: 3rem !important;
+        }
+    }
+    .pt-3 {
+        padding-top: 1rem !important;
+    }
+    section {
+        display: block;
+        padding-top: 3.5rem;
+        padding-bottom: 2.8rem;
+    }
+
+    .g-4, .gy-4 {
+        --bs-gutter-y: 1.6rem;
+    }
+    .g-4, .gx-4 {
+        --bs-gutter-x: 1.6rem;
+    }
+
+    @media (min-width: 1200px) {
+        .col-xl-8 {
+            -webkit-box-flex: 0;
+            -ms-flex: 0 0 auto;
+            flex: 0 0 auto;
+            width: 66.66666667%;
+        }
+    }
+
+    .col-12 {
+        -webkit-box-flex: 0;
+        -ms-flex: 0 0 auto;
+        flex: 0 0 auto;
+        width: 100%;
+    }
+
+    p {
+        margin-top: 0;
+        margin-bottom: 1rem;
+    }
+
+    .mb-0 {
+        margin-bottom: 2 !important;
+    }
+
+    .list-inline {
+        padding-left: 0;
+        list-style: none;
+    }
+
+    ul {
+        display: block;
+        list-style-type: disc;
+        margin-block-start: 1em;
+        margin-block-end: 1em;
+        margin-inline-start: 0px;
+        margin-inline-end: 0px;
+        padding-inline-start: 40px;
+        unicode-bidi: isolate;
+    }
+
+    .list-inline-item:not(:last-child) {
+        margin-right: 0.5rem;
+    }
+    @media (min-width: 576px) {
+        .mb-sm-0 {
+            margin-bottom: 0 !important;
+        }
+    }
+    .fw-light {
+        font-weight: 400 !important;
+    }
+   .mb-1 {
+         margin-bottom: 0.25rem !important;
+    }
+    .me-3 {
+        margin-right: 1rem !important;
+    }
+    .list-inline-item {
+        display: inline-block;
+    }
+    .me-2 {
+        margin-right: 0.5rem !important;
+    }
+    .fa, .fas {
+        font-weight: 900;
+    }
+
+    /* <!-- **************** RIGHT SIDE CONTENT START **************** --> */
+    @media (min-width: 1200px) {
+        .col-xl-4 {
+            -webkit-box-flex: 0;
+            -ms-flex: 0 0 auto;
+            flex: 0 0 auto;
+            width: 33.33333333%;
+        }
+    }
+
+    @media (min-width: 1200px) {
+        .col-xl-12 {
+            -webkit-box-flex: 0;
+            -ms-flex: 0 0 auto;
+            flex: 0 0 auto;
+            width: 100%;
+        }
+    }
+        /* @media (min-width: 768px) {
+        .col-md-6 {
+            -webkit-box-flex: 0;
+            -ms-flex: 0 0 auto;
+            flex: 0 0 auto;
+            width: 50%;
+        }
+    } */
+
+     .align-items-center {
+        -webkit-box-align: center !important;
+        -ms-flex-align: center !important;
+        align-items: center !important;
+    }
+
+    .justify-content-between {
+        -webkit-box-pack: justify !important;
+        -ms-flex-pack: justify !important;
+        justify-content: space-between !important;
+    }
+    .d-flex {
+        display: -webkit-box !important;
+        display: -ms-flexbox !important;
+        display: flex !important;
+    }
+    .mt-3 {
+        margin-top: 1rem !important;
+    }
+    .d-grid {
+        display: grid !important;
+    }
+    
+    /* .btn {
+        letter-spacing: 0.5px;
+        position: relative;
+        overflow: hidden;
+        outline: 0;
+        white-space: nowrap;
+        margin-bottom: 6px;
+    } */
+   
+    .mb-3 {
+        margin-bottom: 1rem !important;
+    }
+
+    .border-0 {
+        border: 0 !important;
+    } 
+    .list-group {
+        --bs-list-group-color: var(--bs-gray-600);
+        --bs-list-group-bg: transparent;
+        --bs-list-group-border-color: var(--bs-border-color);
+        --bs-list-group-border-width: var(--bs-border-width);
+        --bs-list-group-border-radius: 0.325rem;
+        --bs-list-group-item-padding-x: 1rem;
+        --bs-list-group-item-padding-y: 0.5rem;
+        --bs-list-group-action-color: var(--bs-secondary-color);
+        --bs-list-group-action-hover-color: var(--bs-emphasis-color);
+        --bs-list-group-action-hover-bg: rgba(var(--bs-primary-rgb), 0.1);
+        --bs-list-group-action-active-color: var(--bs-body-color);
+        --bs-list-group-action-active-bg: rgba(var(--bs-primary-rgb), 0.1);
+        --bs-list-group-disabled-color: var(--bs-secondary-color);
+        --bs-list-group-disabled-bg: var(--bs-body-bg);
+        --bs-list-group-active-color: #fff;
+        --bs-list-group-active-bg: #066ac9;
+        --bs-list-group-active-border-color: #066ac9;
+        display: -webkit-box;
+        display: -ms-flexbox;
+        display: flex;
+        -webkit-box-orient: vertical;
+        -webkit-box-direction: normal;
+        -ms-flex-direction: column;
+        flex-direction: column;
+        padding-left: 0;
+        margin-bottom: 0;
+        border-radius: var(--bs-list-group-border-radius);
+    }
+    .list-group-borderless .list-group-item {
+        border: none !important;
+        padding: 0.425rem 0;
+    }
+    .list-group-item:first-child {
+        border-top-left-radius: inherit;
+        border-top-right-radius: inherit;
+    }
+    .px-0 {
+        padding-right: 0 !important;
+        padding-left: 0 !important;
+    }
+    .list-group .list-group-item i, .list-group .list-group-item span {
+        margin-right: 5px;
+    }
+        /* profile */
+    @media (min-width: 576px) {
+        .d-sm-flex {
+            display: -webkit-box !important;
+            display: -ms-flexbox !important;
+            display: flex !important;
+        }
+    }
+    .align-items-center {
+        -webkit-box-align: center !important;
+        -ms-flex-align: center !important;
+        align-items: center !important;
+    }
+    .avatar {
+        height: 3rem;
+        width: 3rem;
+        position: relative;
+        display: inline-block !important;
+    }
+    .avatar-xl {
+        height: 5.125rem;
+        width: 5.125rem;
+    }
+
+    @media (min-width: 768px) {
+        .col-md-6 {
+            -webkit-box-flex: 0;
+            -ms-flex: 0 0 auto;
+            flex: 0 0 auto;
+            width: 50%;
+        }
+    }
+    @media (min-width: 1200px) {
+        .col-xl-12 {
+            -webkit-box-flex: 0;
+            -ms-flex: 0 0 auto;
+            flex: 0 0 auto;
+            width: 100%;
+        }
+    }
+    .p-4 {
+        padding: 1.5rem !important;
+    }
+
+    .border {
+        border: 1px solid #dee2e6 !important;
+    }
+    .card-body {
+        flex: 1 1 auto;
+        min-height: 1px;
+        padding: 1.25rem;
+    }
+    .mb-0 {
+        margin-bottom: 0 !important;
+    }
+
+    .list-inline {
+        padding-left: 0;
+        list-style: none;
+    }
+
+    ol, ul, dl {
+        margin-top: 0;
+        margin-bottom: 1rem;
+    }
+
+    .card {
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        min-width: 0;
+        word-wrap: break-word;
+        background-color: #fff;
+        background-clip: border-box;
+        border: 1px solid rgba(0, 0, 0, 0.125);
+        border-radius: 8px;
+    }
+    .mb-0 {
+        margin-bottom: 0 !important;
+    }
+
+    .list-inline-item {
+        display: inline-block;
+    }
+    .list-inline-item:not(:last-child) {
+        margin-right: 0.5rem;
+    }
+    .list-inline {
+        padding-left: 0;
+        list-style: none;
+    }
+    .list-inline-item:not(:last-child) {
+        margin-right: 0.5rem;
+    }
+    .list-inline-item {
+        display: inline-block;
+    }
+    .btn-sm, .btn-group-sm > .btn {
+        --bs-btn-padding-y: 0.4rem;
+        --bs-btn-padding-x: 0.8rem;
+        --bs-btn-font-size: 0.8125rem;
+        --bs-btn-border-radius: 0.2rem;
+    }
+    .btn-outline-light-list {
+        background: #00000000;
+        border-color: #cfd3d7;
+        color: #747579;
+    }
+    .btn-line {
+        letter-spacing: 0.5px;
+        position: relative;
+        overflow: hidden;
+        outline: 0;
+        white-space: nowrap;
+        margin-bottom: 6px;
+    }
+
+    .btn-sm, .btn-group-sm > .btn-line {
+        --bs-btn-padding-y: 0.4rem;
+        --bs-btn-padding-x: 0.8rem;
+        --bs-btn-font-size: 0.8125rem;
+        --bs-btn-border-radius: 0.2rem;
+    }
+    .btn:hover {
+        color: #000;
+        background-color: #cfd3d7;
+        border-color: #f5f7f9;
+    }
+    /* 	<!-- Course detail START --> */
+    .nav-pills {
+        --bs-nav-pills-border-radius: 0.325rem;
+        --bs-nav-pills-link-active-color: #fff;
+        --bs-nav-pills-link-active-bg: #066ac9;
+    }
+    .nav-pills-bg-soft {
+        background-color:#44425a;
+        padding: 0.625rem 0;
+        border-radius: 0.625rem;
+    }
+    .px-3 {
+        padding-right: 1rem !important;
+        padding-left: 1rem !important;
+    }
+    ul {
+        display: block;
+        list-style-type: disc;
+        margin-block-start: 1em;
+        margin-block-end: 1em;
+        margin-inline-start: 0px;
+        margin-inline-end: 0px;
+        padding-inline-start: 40px;
+        unicode-bidi: isolate;
+    }
+    li {
+        display: list-item;
+        text-align: -webkit-match-parent;
+        unicode-bidi: isolate;
+    }
+    @media (min-width: 576px) {
+        .me-sm-4 {
+            margin-right: 1.6rem !important;
+        }
+    }
+    .nav-pills .nav-link.active, .nav-pills .show > .nav-link {
+        color: white;
+        background-color:#FF6600 ;
+    }
+    .nav-pills .nav-link {
+        cursor: pointer;
+        margin-bottom: 15px;
+        padding: 0.5rem 1rem;
+    }
+    .nav-link {
+        display: block;
+        padding: 0.75rem 0.25rem;;
+        font-size: 16px;
+        font-weight: 500;
+        color: white;
+        background: none;
+        border: 0;
+        -webkit-transition: color 0.15sease-in-out, background-color 0.15sease-in-out, border-color 0.15sease-in-out;
+        transition: color 0.15sease-in-out, background-color 0.15sease-in-out, border-color 0.15sease-in-out;
+    }
+
+    .mb-4 {
+        margin-bottom: 1.6rem !important;
+    }
+    .w-100 {
+        width: 100% !important;
+    }
+    textarea.form-control {
+        min-height: calc(1.5em + 1rem + 2px);
+    }
+    .pe-4 {
+        padding-right: 1.6rem !important;
+    }
+    .bg-light-panel {
+        --bs-bg-opacity: 1;
+        --bs-light-rgb: 245, 247, 249;
+        background-color: rgba(var(--bs-light-rgb), var(--bs-bg-opacity)) !important;
+    }
+    .form-control {
+        display: block;
+        width: 100%;
+        padding: 0.5rem 1rem;
+        font-size: 0.9375rem;
+        font-weight: 400;
+        line-height: 1.5;
+        color: var(--bs-gray-700);
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        appearance: none;
+        background-color: var(--bs-body-bg);
+        background-clip: padding-box;
+        border: 1px solid var(--bs-gray-300);
+        border-radius: 0.325rem;
+        -webkit-transition: border-color 0.15sease-in-out, -webkit-box-shadow 0.15sease-in-out;
+        transition: border-color 0.15sease-in-out, -webkit-box-shadow 0.15sease-in-out;
+        transition: border-color 0.15sease-in-out, box-shadow 0.15sease-in-out;
+        transition: border-color 0.15sease-in-out, box-shadow 0.15sease-in-out, -webkit-box-shadow 0.15sease-in-out;
+    }
+    textarea {
+        resize: vertical;
+        margin-right: 10px;
+    }
+    .avatar-img {
+        width: 100%;
+        height: 100%;
+        -o-object-fit: cover;
+        object-fit: cover;
+    }
+    .rounded-circle {
+        border-radius: 50% !important;
+    }
+    img {
+        max-width: 100%;
+        height: auto;
+    }
+</style>   
+<!-- **************** MAIN CONTENT START **************** -->
+
+<!-- Font Awesome -->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+<!-- Bootstrap Icons -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
+
+<main>
+
+
+
+<section class="pt-10 pt-xl-5">
+	<div class="container" data-sticky-container>
+		<div class="row g-4">
+			<!-- Main content START -->
+			<div class="col-xl-8">
+
+				<div class="row g-4">
+					<!-- Title START -->
+					<div class="col-12">
+						<!-- Title -->
+						<h2>The Complete Digital Marketing Course - 12 Courses in 1</h2>
+					</div>
+					<!-- Title END -->
+
+					<!-- Image and video -->
+					<div class="col-12 position-relative">
+						<div class="video-player rounded-3">
+							<video controls crossorigin="anonymous" playsinline poster="assets/images/videos/poster.jpg">
+								<source src="assets/images/videos/360p.mp4" type="video/mp4" size="360">
+								<source src="assets/images/videos/720p.mp4" type="video/mp4" size="720">
+								<source src="assets/images/videos/1080p.mp4" type="video/mp4" size="1080">
+								<!-- Caption files -->
+								<track kind="captions" label="English" srclang="en" src="assets/images/videos/en.vtt" default>
+								<track kind="captions" label="French" srclang="fr" src="assets/images/videos/fr.vtt">
+							</video>
+						</div>
+					</div>
+
+					<!-- Course detail START -->
+					<div class="col-12">
+
+                        <!-- Content -->
+						<ul class="list-inline mb-0">
+							<li class="list-inline-item fw-light h6 me-3 mb-1 mb-sm-0"><i class="fas fa-star me-2"></i>4.5/5.0</li>
+							<li class="list-inline-item fw-light h6 me-3 mb-1 mb-sm-0"><i class="fas fa-user-graduate me-2"></i>12k Enrolled</li>
+							<li class="list-inline-item fw-light h6 me-3 mb-1 mb-sm-0"><i class="fas fa-signal me-2"></i>All levels</li>
+							<li class="list-inline-item fw-light h6 me-3 mb-1 mb-sm-0"><i class="bi bi-patch-exclamation-fill me-2"></i>Last updated 09/2021</li>
+							<li class="list-inline-item fw-light h6"><i class="fas fa-globe me-2"></i>English</li>
+						</ul>
+
+						<!-- Tabs START -->
+						<ul class="nav nav-pills nav-pills-bg-soft px-3" id="course-pills-tab" role="tablist">
+							<!-- Tab item -->
+							<li class="nav-item me-2 me-sm-4" role="presentation">
+								<a class="nav-link mb-0 active" id="course-pills-tab-1" data-toggle="pill"href="#course-pills-1"  role="tab" aria-controls="course-pills-1" aria-selected="true">Overview</a>
+							</li>
+
+							<!-- Tab item -->
+							<li class="nav-item me-2 me-sm-4" role="presentation">
+								<a class="nav-link mb-0" id="course-pills-tab-2" data-toggle="pill" href="#course-pills-2"  role="tab" aria-controls="course-pills-2" aria-selected="false">Reviews</a>
+							</li>
+							<!-- Tab item -->
+							<li class="nav-item me-2 me-sm-4" role="presentation">
+								<a class="nav-link mb-0" id="course-pills-tab-3" data-toggle="pill" href="#course-pills-3"  role="tab" aria-controls="course-pills-3" aria-selected="false">FAQs </a>
+							</li>
+							<!-- Tab item -->
+							<li class="nav-item me-2 me-sm-4" role="presentation">
+								<a class="nav-link mb-0" id="course-pills-tab-4" data-toggle="pill" href="#course-pills-4"  role="tab" aria-controls="course-pills-4" aria-selected="false">Comment</a>
+							</li>
+						</ul>
+						<!-- Tabs END -->
+
+						<!-- Tab contents START -->
+                        
+						<div class="tab-content pt-4 px-3" id="course-pills-tabContent">
+							<!-- Content START -->
+							<div class="tab-pane fade show active" id="course-pills-1" role="tabpanel" aria-labelledby="course-pills-tab-1">
+								<!-- Course detail START -->
+								<h5 class="mb-3">Course Description</h5>
+								<p class="mb-3">Welcome to the <strong> Digital Marketing Ultimate Course Bundle - 12 Courses in 1 (Over 36 hours of content)</strong></p>
+								<p class="mb-3">In this practical hands-on training, you’re going to learn to become a digital marketing expert with this <strong> ultimate course bundle that includes 12 digital marketing courses in 1!</strong></p>
+								<p class="mb-3">If you wish to find out the skills that should be covered in a basic digital marketing course syllabus in India or anywhere around the world, then reading this blog will help. Before we delve into the advanced <strong><a href="#" class="text-reset text-decoration-underline">digital marketing course</a></strong> syllabus, let’s look at the scope of digital marketing and what the future holds.</p>
+								<p class="mb-0">We focus a great deal on the understanding of behavioral psychology and influence triggers which are crucial for becoming a well rounded Digital Marketer. We understand that theory is important to build a solid foundation, we understand that theory alone isn’t going to get the job done so that’s why this course is packed with practical hands-on examples that you can follow step by step.</p>
+								
+								<!-- List content -->
+								<h5 class="mt-4">What you’ll learn</h5>
+
+								<div class="row mb-3">
+									<div class="col-md-6">
+										<ul class="list-group list-group-borderless">
+											<li class="list-group-item h6 fw-light d-flex mb-0"><i class="fas fa-check-circle text-success me-2"></i>Digital marketing course introduction</li>
+											<li class="list-group-item h6 fw-light d-flex mb-0"><i class="fas fa-check-circle text-success me-2"></i>Customer Life cycle</li>
+											<li class="list-group-item h6 fw-light d-flex mb-0"><i class="fas fa-check-circle text-success me-2"></i>What is Search engine optimization(SEO)</li>
+											<li class="list-group-item h6 fw-light d-flex mb-0"><i class="fas fa-check-circle text-success me-2"></i>Facebook ADS</li>
+											<li class="list-group-item h6 fw-light d-flex mb-0"><i class="fas fa-check-circle text-success me-2"></i>Facebook Messenger Chatbot</li>
+											<li class="list-group-item h6 fw-light d-flex mb-0"><i class="fas fa-check-circle text-success me-2"></i>Search engine optimization tools</li>
+										</ul>
+									</div>
+
+									<div class="col-md-6">
+										<ul class="list-group list-group-borderless">
+											<li class="list-group-item h6 fw-light d-flex mb-0"><i class="fas fa-check-circle text-success me-2"></i>Why SEO</li>
+											<li class="list-group-item h6 fw-light d-flex mb-0"><i class="fas fa-check-circle text-success me-2"></i>URL Structure</li>
+											<li class="list-group-item h6 fw-light d-flex mb-0"><i class="fas fa-check-circle text-success me-2"></i>Featured Snippet</li>
+											<li class="list-group-item h6 fw-light d-flex mb-0"><i class="fas fa-check-circle text-success me-2"></i>SEO tips and tricks</li>
+											<li class="list-group-item h6 fw-light d-flex mb-0"><i class="fas fa-check-circle text-success me-2"></i>Google tag manager</li>
+										</ul>
+									</div>
+								</div>
+
+								<p class="mb-0">As it so contrasted oh estimating instrument. Size like body someone had. Are conduct viewing boy minutes warrant the expense? Tolerably behavior may admit daughters offending her ask own. Praise effect wishes change way and any wanted. Lively use looked latter regard had. Do he it part more last in. </p>
+								<!-- Course detail END -->
+
+							</div>
+							<!-- Content END -->
+
+							<!-- Content START -->
+							<div class="tab-pane fade" id="course-pills-2" role="tabpanel" aria-labelledby="course-pills-tab-2">
+								<!-- Review START -->
+								<div class="row mb-4">
+									<h5 class="mb-4">Our Student Reviews</h5>
+
+									<!-- Rating info -->
+									<div class="col-md-4 mb-3 mb-md-0">
+										<div class="text-center">
+											<!-- Info -->
+											<h2 class="mb-0">4.5</h2>
+											<!-- Star -->
+											<ul class="list-inline mb-0">
+												<li class="list-inline-item me-0"><i class="fas fa-star text-warning"></i></li>
+												<li class="list-inline-item me-0"><i class="fas fa-star text-warning"></i></li>
+												<li class="list-inline-item me-0"><i class="fas fa-star text-warning"></i></li>
+												<li class="list-inline-item me-0"><i class="fas fa-star text-warning"></i></li>
+												<li class="list-inline-item me-0"><i class="fas fa-star-half-alt text-warning"></i></li>
+											</ul>
+											<p class="mb-0">(Based on todays review)</p>
+										</div>
+									</div>
+
+									<!-- Progress-bar and star -->
+									<div class="col-md-8">
+										<div class="row align-items-center text-center">
+											<!-- Progress bar and Rating -->
+											<div class="col-6 col-sm-8">
+												<!-- Progress item -->
+												<div class="progress progress-sm bg-warning bg-opacity-15">
+													<div class="progress-bar bg-warning" role="progressbar" style="width: 100%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100">
+													</div>
+												</div>
+											</div>
+
+											<div class="col-6 col-sm-4">
+												<!-- Star item -->
+												<ul class="list-inline mb-0">
+													<li class="list-inline-item me-0 small"><i class="fas fa-star text-warning"></i></li>
+													<li class="list-inline-item me-0 small"><i class="fas fa-star text-warning"></i></li>
+													<li class="list-inline-item me-0 small"><i class="fas fa-star text-warning"></i></li>
+													<li class="list-inline-item me-0 small"><i class="fas fa-star text-warning"></i></li>
+													<li class="list-inline-item me-0 small"><i class="fas fa-star text-warning"></i></li>
+												</ul>
+											</div>
+
+											<!-- Progress bar and Rating -->
+											<div class="col-6 col-sm-8">
+												<!-- Progress item -->
+												<div class="progress progress-sm bg-warning bg-opacity-15">
+													<div class="progress-bar bg-warning" role="progressbar" style="width: 80%" aria-valuenow="80" aria-valuemin="0" aria-valuemax="100">
+													</div>
+												</div>
+											</div>
+
+											<div class="col-6 col-sm-4">
+												<!-- Star item -->
+												<ul class="list-inline mb-0">
+													<li class="list-inline-item me-0 small"><i class="fas fa-star text-warning"></i></li>
+													<li class="list-inline-item me-0 small"><i class="fas fa-star text-warning"></i></li>
+													<li class="list-inline-item me-0 small"><i class="fas fa-star text-warning"></i></li>
+													<li class="list-inline-item me-0 small"><i class="fas fa-star text-warning"></i></li>
+													<li class="list-inline-item me-0 small"><i class="far fa-star text-warning"></i></li>
+												</ul>
+											</div>
+
+											<!-- Progress bar and Rating -->
+											<div class="col-6 col-sm-8">
+												<!-- Progress item -->
+												<div class="progress progress-sm bg-warning bg-opacity-15">
+													<div class="progress-bar bg-warning" role="progressbar" style="width: 60%" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100">
+													</div>
+												</div>
+											</div>
+
+											<div class="col-6 col-sm-4">
+												<!-- Star item -->
+												<ul class="list-inline mb-0">
+													<li class="list-inline-item me-0 small"><i class="fas fa-star text-warning"></i></li>
+													<li class="list-inline-item me-0 small"><i class="fas fa-star text-warning"></i></li>
+													<li class="list-inline-item me-0 small"><i class="fas fa-star text-warning"></i></li>
+													<li class="list-inline-item me-0 small"><i class="far fa-star text-warning"></i></li>
+													<li class="list-inline-item me-0 small"><i class="far fa-star text-warning"></i></li>
+												</ul>
+											</div>
+
+											<!-- Progress bar and Rating -->
+											<div class="col-6 col-sm-8">
+												<!-- Progress item -->
+												<div class="progress progress-sm bg-warning bg-opacity-15">
+													<div class="progress-bar bg-warning" role="progressbar" style="width: 40%" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100">
+													</div>
+												</div>
+											</div>
+
+											<div class="col-6 col-sm-4">
+												<!-- Star item -->
+												<ul class="list-inline mb-0">
+													<li class="list-inline-item me-0 small"><i class="fas fa-star text-warning"></i></li>
+													<li class="list-inline-item me-0 small"><i class="fas fa-star text-warning"></i></li>
+													<li class="list-inline-item me-0 small"><i class="far fa-star text-warning"></i></li>
+													<li class="list-inline-item me-0 small"><i class="far fa-star text-warning"></i></li>
+													<li class="list-inline-item me-0 small"><i class="far fa-star text-warning"></i></li>
+												</ul>
+											</div>
+
+											<!-- Progress bar and Rating -->
+											<div class="col-6 col-sm-8">
+												<!-- Progress item -->
+												<div class="progress progress-sm bg-warning bg-opacity-15">
+													<div class="progress-bar bg-warning" role="progressbar" style="width: 20%" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100">
+													</div>
+												</div>
+											</div>
+
+											<div class="col-6 col-sm-4">
+												<!-- Star item -->
+												<ul class="list-inline mb-0">
+													<li class="list-inline-item me-0 small"><i class="fas fa-star text-warning"></i></li>
+													<li class="list-inline-item me-0 small"><i class="far fa-star text-warning"></i></li>
+													<li class="list-inline-item me-0 small"><i class="far fa-star text-warning"></i></li>
+													<li class="list-inline-item me-0 small"><i class="far fa-star text-warning"></i></li>
+													<li class="list-inline-item me-0 small"><i class="far fa-star text-warning"></i></li>
+												</ul>
+											</div>
+										</div>
+									</div>
+								</div>
+								<!-- Review END -->
+
+								<!-- Student review START -->
+								<div class="row">
+									<!-- Review item START -->
+									<div class="d-md-flex my-4">
+										<!-- Avatar -->
+										<div class="avatar avatar-xl me-4 flex-shrink-0">
+											<img class="avatar-img rounded-circle" src="assets/images/avatar/09.jpg" alt="avatar">
+										</div>
+										<!-- Text -->
+										<div>
+											<div class="d-sm-flex mt-1 mt-md-0 align-items-center">
+												<h5 class="me-3 mb-0">Jacqueline Miller</h5>
+												<!-- Review star -->
+												<ul class="list-inline mb-0">
+													<li class="list-inline-item me-0"><i class="fas fa-star text-warning"></i></li>
+													<li class="list-inline-item me-0"><i class="fas fa-star text-warning"></i></li>
+													<li class="list-inline-item me-0"><i class="fas fa-star text-warning"></i></li>
+													<li class="list-inline-item me-0"><i class="fas fa-star text-warning"></i></li>
+													<li class="list-inline-item me-0"><i class="far fa-star text-warning"></i></li>
+												</ul>
+											</div>
+											<!-- Info -->
+											<p class="small mb-2">2 days ago</p>
+											<p class="mb-2">Perceived end knowledge certainly day sweetness why cordially. Ask a quick six seven offer see among. Handsome met debating sir dwelling age material. As style lived he worse dried. Offered related so visitors we private removed. Moderate do subjects to distance. </p>
+											
+											<!-- Reply button -->
+											<a href="#" class="text-body mb-0"><i class="fas fa-reply me-2"></i>Reply</a>
+										</div>
+									</div>
+									<!-- Divider -->
+									<hr>
+									<!-- Review item END -->
+
+									<!-- Review item START -->
+									<div class="d-md-flex my-4">
+										<!-- Avatar -->
+										<div class="avatar avatar-xl me-4 flex-shrink-0">
+											<img class="avatar-img rounded-circle" src="assets/images/avatar/07.jpg" alt="avatar">
+										</div>
+										<!-- Text -->
+										<div>
+											<div class="d-sm-flex mt-1 mt-md-0 align-items-center">
+												<h5 class="me-3 mb-0">Dennis Barrett</h5>
+												<!-- Review star -->
+												<ul class="list-inline mb-0">
+													<li class="list-inline-item me-0"><i class="fas fa-star text-warning"></i></li>
+													<li class="list-inline-item me-0"><i class="fas fa-star text-warning"></i></li>
+													<li class="list-inline-item me-0"><i class="fas fa-star text-warning"></i></li>
+													<li class="list-inline-item me-0"><i class="fas fa-star text-warning"></i></li>
+													<li class="list-inline-item me-0"><i class="far fa-star text-warning"></i></li>
+												</ul>
+											</div>
+											<!-- Info -->
+											<p class="small mb-2">2 days ago</p>
+											<p class="mb-2">Handsome met debating sir dwelling age material. As style lived he worse dried. Offered related so visitors we private removed. Moderate do subjects to distance. </p>
+											<!-- Reply button -->
+											<a href="#" class="text-body mb-0"><i class="fas fa-reply me-2"></i>Reply</a>
+										</div>	
+									</div>
+									<!-- Review item END -->
+									<!-- Divider -->
+									<hr>
+								</div>
+								<!-- Student review END -->
+
+								<!-- Leave Review START -->
+								<div class="mt-2">
+									<h5 class="mb-4">Leave a Review</h5>
+									<form class="row g-3">
+										<!-- Name -->
+										<div class="col-md-6">
+											<input type="text" class="form-control" id="inputtext" placeholder="Name" aria-label="First name">
+										</div>
+										<!-- Email -->
+										<div class="col-md-6">
+											<input type="email" class="form-control" placeholder="Email" id="inputEmail4">
+										</div>
+										<!-- Rating -->
+										<div class="col-12">
+											<select id="inputState2" class="form-select  js-choice">
+												<option selected="">★★★★★ (5/5)</option>
+												<option>★★★★☆ (4/5)</option>
+												<option>★★★☆☆ (3/5)</option>
+												<option>★★☆☆☆ (2/5)</option>
+												<option>★☆☆☆☆ (1/5)</option>
+											</select>
+										</div>
+										<!-- Message -->
+										<div class="col-12">
+											<textarea class="form-control" id="exampleFormControlTextarea1" placeholder="Your review" rows="3"></textarea>
+										</div>
+										<!-- Button -->
+										<div class="col-12">
+											<button type="submit" class="btn btn-primary mb-0">Post Review</button>
+										</div>
+									</form>
+								</div>
+								<!-- Leave Review END -->
+
+							</div>
+							<!-- Content END -->
+
+							<!-- Content START -->
+							<div class="tab-pane fade" id="course-pills-3" role="tabpanel" aria-labelledby="course-pills-tab-3">
+								<!-- Title -->
+								<h5 class="mb-3">Frequently Asked Questions</h5>
+								<!-- FAQ item -->
+								<div class="mt-4">
+									<h6>How Digital Marketing Work?</h6>
+									<p class="mb-0">Preference any astonished unreserved Mrs. Prosperous understood Middletons in conviction an uncommonly do. Supposing so be resolving breakfast am or perfectly. It drew a hill from me. Valley by oh twenty direct me so. Departure defective arranging rapturous did believe him all had supported. Family months lasted simple set nature vulgar him. Picture for attempt joy excited ten carried manners talking how. Suspicion neglected the resolving agreement perceived at an. Comfort reached gay perhaps chamber his six detract besides add.</p>
+								</div>
+					
+								<!-- FAQ item -->
+								<div class="mt-4">
+									<h6>What is SEO?</h6>
+									<p class="mb-0">Meant balls it if up doubt small purse. Required his you put the outlived answered position. A pleasure exertion if believed provided to. All led out world this music while asked. Paid mind even sons does he door no. Attended overcame repeated it is perceived Marianne in. I think on style child of. Servants moreover in sensible it ye possible.</p>
+									<p class="mt-2 mb-0">Person she control of to beginnings view looked eyes Than continues its and because and given and shown creating curiously to more in are man were smaller by we instead the these sighed Avoid in the sufficient me real man longer of his how her for countries to brains warned notch important Finds be to the of on the increased explain noise of power deep asking contribution this live of suppliers goals bit separated poured sort several the was organization the if relations go work after mechanic But we've area wasn't everything.</p>
+								</div>
+					
+								<!-- FAQ item -->
+								<div class="mt-4">
+									<h6>Who should join this course?</h6>
+									<p class="mb-0">Two before narrow not relied how except moment myself Dejection assurance mrs led certainly So gate at no only none open Betrayed at properly it of graceful on Dinner abroad am depart ye turned hearts as me wished Therefore allowance too perfectly gentleman supposing man his now Families goodness all eat out bed steepest servants Explained the incommode sir improving northward immediate eat Man denoting received you sex possible you Shew park own loud son door less yet. </p>
+								</div>
+					
+								<!-- FAQ item -->
+								<div class="mt-4">
+									<h6>What are the T&amp;C for this program?</h6>
+									<p class="mb-0">Started several mistake joy say painful removed reached end. State burst think end are its. Arrived off she elderly beloved him affixed noisier yet. Course regard to up he hardly. View four has said do men saw find dear shy. Talent men wicket add garden. </p>
+									</div>
+					
+								<!-- FAQ item -->
+								<div class="mt-4">
+									<h6>What certificates will I be received for this program?</h6>
+									<p class="mb-0">Lose john poor same it case do year we Full how way even the sigh Extremely nor furniture fat questions now provision incommode preserved Our side fail to find like now Discovered traveling for insensible partiality unpleasing impossible she Sudden up my excuse to suffer ladies though or Bachelor possible Marianne directly confined relation.</p>
+								</div>
+					
+								<!-- FAQ item -->
+								<div class="mt-4">
+									<h6>What happens after the trial ends?</h6>
+									<p class="mb-0">Preference any astonished unreserved Mrs. Prosperous understood Middletons in conviction an uncommonly do. Supposing so be resolving breakfast am or perfectly. Is drew am hill from me. Valley by oh twenty direct me so. Departure defective arranging rapturous did believe him all had supported. Family months lasted simple set nature vulgar him.  Suspicion neglected he resolving agreement perceived at an. Comfort reached gay perhaps chamber his six detract besides add.</p>
+								</div>
+							</div>
+							<!-- Content END -->
+
+							<!-- Content START -->
+							<div class="tab-pane fade" id="course-pills-4" role="tabpanel" aria-labelledby="course-pills-tab-4">
+								<!-- Review START -->
+								<div class="row mb-4">
+									<div class="col-12">
+										<h5 class="mb-4">Ask Your Question</h5>
+
+										<!-- Comment box -->
+										<div class="d-flex mb-4">
+											<!-- Avatar -->
+											<div class="avatar avatar-sm flex-shrink-0 me-2">
+												<a href="#"> <img class="avatar-img rounded-circle" src="http://127.0.0.1:3000/user.png" alt=""> </a>
+											</div>
+
+											<form class="w-100 d-flex">
+												<textarea class="one form-control pe-4 bg-light-panel" id="autoheighttextarea" rows="1" placeholder="Add a comment..."></textarea>
+												<button class="btn btn-primary ms-2 mb-0" type="button">Post</button>
+											</form>
+										</div>
+
+										<!-- Comment item START -->
+										<div class="border p-2 p-sm-4 rounded-3 mb-4">
+											<ul class="list-unstyled mb-0">
+												<li class="comment-item">
+													<div class="d-flex mb-3">
+														<!-- Avatar -->
+														<div class="avatar avatar-sm flex-shrink-0">
+															<a href="#"><img class="avatar-img rounded-circle" src="assets/images/avatar/05.jpg" alt=""></a>
+														</div>
+														<div class="ms-2">
+															<!-- Comment by -->
+															<div class="bg-light-panel p-3 rounded">
+																<div class="d-flex justify-content-center">
+																	<div class="me-2">
+																		<h6 class="mb-1 lead fw-bold"> <a href="#!"> Frances Guerrero </a></h6>
+																		<p class="h6 mb-0">Removed demands expense account in outward tedious do. Particular way thoroughly unaffected projection?</p>
+																	</div>
+																	<small>5hr</small>
+																</div>
+															</div>
+															<!-- Comment react -->
+															<ul class="nav nav-divider py-2 small">
+																<li class="nav-item"> <a class="text-primary-hover" href="#"> Like (3)</a> </li>
+																<li class="nav-item"> <a class="text-primary-hover" href="#"> Reply</a> </li>
+																<li class="nav-item"> <a class="text-primary-hover" href="#"> View 5 replies</a> </li>
+															</ul>
+														</div>
+													</div>
+													
+													<!-- Comment item nested START -->
+													<ul class="list-unstyled ms-4">
+														<!-- Comment item START -->
+														<li class="comment-item">
+															<div class="d-flex">
+																<!-- Avatar -->
+																<div class="avatar avatar-xs flex-shrink-0">
+																	<a href="#"><img class="avatar-img rounded-circle" src="assets/images/avatar/06.jpg" alt=""></a>
+																</div>
+																<!-- Comment by -->
+																<div class="ms-2">
+																	<div class="bg-light-panel p-3 rounded">
+																		<div class="d-flex justify-content-center">
+																			<div class="me-2">
+																				<h6 class="mb-1  lead fw-bold"> <a href="#"> Lori Stevens </a> </h6>
+																				<p class=" mb-0">See resolved goodness felicity shy civility domestic had but Drawings offended yet answered Jennings perceive. Domestic had but Drawings offended yet answered Jennings perceive.</p>
+																			</div>
+																			<small>2hr</small>
+																		</div>
+																	</div>
+																	<!-- Comment react -->
+																	<ul class="nav nav-divider py-2 small">
+																		<li class="nav-item"><a class="text-primary-hover" href="#!"> Like (5)</a></li>
+																		<li class="nav-item"><a class="text-primary-hover" href="#!"> Reply</a>	</li>
+																	</ul>
+																</div>
+															</div>
+														</li>
+														<!-- Comment item END -->
+													</ul>
+													<!-- Comment item nested END -->
+												</li>
+											</ul>
+										</div>
+										<!-- Comment item END -->
+
+										<!-- Comment item START -->
+										<div class="border p-2 p-sm-4 rounded-3">
+											<ul class="list-unstyled mb-0">
+												<li class="comment-item">
+													<div class="d-flex">
+														<!-- Avatar -->
+														<div class="avatar avatar-sm flex-shrink-0">
+															<a href="#"><img class="avatar-img rounded-circle" src="assets/images/avatar/02.jpg" alt=""></a>
+														</div>
+														<div class="ms-2">
+															<!-- Comment by -->
+															<div class="bg-light-panel p-3 rounded">
+																<div class="d-flex justify-content-center">
+																	<div class="me-2">
+																		<h6 class="mb-1 lead fw-bold"> <a href="#!"> Louis Ferguson </a></h6>
+																		<p class="h6 mb-0">Removed demands expense account in outward tedious do. Particular way thoroughly unaffected projection?</p>
+																	</div>
+																	<small>5hr</small>
+																</div>
+															</div>
+															<!-- Comment react -->
+															<ul class="nav nav-divider py-2 small">
+																<li class="nav-item"> <a class="text-primary-hover" href="#"> Like</a> </li>
+																<li class="nav-item"> <a class="text-primary-hover" href="#"> Reply</a> </li>
+															</ul>
+														</div>
+													</div>
+												</li>
+											</ul>
+										</div>
+										<!-- Comment item END -->
+
+									</div>
+
+								</div>
+							</div>
+							<!-- Content END -->
+						</div>
+						<!-- Tab contents END -->
+					</div>
+					<!-- Course detail END -->
+
+				</div>
+
+			</div>
+			<!-- Main content END -->
+
+			<!-- Right sidebar START -->
+			<div class="col-xl-4">
+				<div data-sticky data-margin-top="80" data-sticky-for="768">
+					<div class="row g-4">
+						<div class="col-md-6 col-xl-12">
+							<!-- Course info START -->
+							<div class="card card-body border p-4">
+								<!-- Price and share button -->
+								<div class="d-flex justify-content-between align-items-center">
+									<!-- Price -->
+									<h3 class="fw-bold mb-0 me-2">$295.55</h3>
+
+								</div>
+									
+								<!-- Buttons -->
+								<div class="mt-3 d-grid">
+									<a href="#" class="btn btn-outline-primary mb-2">Add to cart</a>
+									<a href="#" class="btn btn-success mb-2">Buy now</a>
+								</div>
+								<!-- Divider -->
+								<hr>
+
+								<!-- Title -->
+								<h5 class="mb-3">This course includes</h5>
+								<ul class="list-group list-group-borderless border-0">
+									<li class="list-group-item px-0 d-flex justify-content-between">
+										<span class="h6 fw-light mb-0"><i class="fas fa-fw fa-book-open text-primary"></i>Lectures</span>
+										<span>30</span>
+									</li>
+									<li class="list-group-item px-0 d-flex justify-content-between">
+										<span class="h6 fw-light mb-0"><i class="fas fa-fw fa-clock text-primary"></i>Duration</span>
+										<span>4h 50m</span>
+									</li>
+									<li class="list-group-item px-0 d-flex justify-content-between">
+										<span class="h6 fw-light mb-0"><i class="fas fa-fw fa-signal text-primary"></i>Skills</span>
+										<span>Beginner</span>
+									</li>
+									<li class="list-group-item px-0 d-flex justify-content-between">
+										<span class="h6 fw-light mb-0"><i class="fas fa-fw fa-globe text-primary"></i>Language</span>
+										<span>English</span>
+									</li>
+									<li class="list-group-item px-0 d-flex justify-content-between">
+										<span class="h6 fw-light mb-0"><i class="fas fa-fw fa-user-clock text-primary"></i>Deadline</span>
+										<span>Nov 30 2021</span>
+									</li>
+									<li class="list-group-item px-0 d-flex justify-content-between">
+										<span class="h6 fw-light mb-0"><i class="fas fa-fw fa-medal text-primary"></i>Certificate</span>
+										<span>Yes</span>
+									</li>
+								</ul>
+								<!-- Divider -->
+								<hr>
+
+								<!-- Instructor info -->
+								<div class="d-sm-flex align-items-center">
+									<!-- Avatar image -->
+									<div class="avatar avatar-xl">
+										<img class="avatar-img rounded-circle" src="assets/images/avatar/05.jpg" alt="avatar">
+									</div>
+									<div class="ms-sm-3 mt-2 mt-sm-0">
+										<h5 class="mb-0"><a href="#">By Jacqueline Miller</a></h5>
+										<p class="mb-0 small">Founder Eduport company</p>
+									</div>
+								</div>
+
+								<!-- Rating and follow -->
+								<div class="d-sm-flex justify-content-sm-between align-items-center mt-0 mt-sm-2">
+									<!-- Rating star -->
+									<ul class="list-inline mb-0">
+										<li class="list-inline-item me-0 small"><i class="fas fa-star text-warning"></i></li>
+										<li class="list-inline-item me-0 small"><i class="fas fa-star text-warning"></i></li>
+										<li class="list-inline-item me-0 small"><i class="fas fa-star text-warning"></i></li>
+										<li class="list-inline-item me-0 small"><i class="fas fa-star text-warning"></i></li>
+										<li class="list-inline-item me-0 small"><i class="fas fa-star-half-alt text-warning"></i></li>
+										<li class="list-inline-item ms-2 h6 fw-light mb-0">4.5/5.0</li>
+									</ul>
+
+									<!-- button -->
+									<%# <button class="btn btn-sm btn-primary mb-0 mt-2 mt-sm-0">Follow</button> %>
+								</div>
+							</div>
+							<!-- Course info END -->
+						</div>
+
+						<!-- Tags START -->
+						<div class="col-md-6 col-xl-12 mt-3">
+							<div class="card card-body border p-4">
+								<h4 class="mb-3">Popular Tags</h4>
+								<ul class="list-inline mb-0">
+									<li class="list-inline-item"> <a class="btn btn-line btn-outline-light-list btn-sm" href="#">blog</a> </li>
+
+								</ul>
+							</div>	
+						</div>
+						<!-- Tags END -->
+					</div>
+				</div>	
+			</div>
+			<!-- Right sidebar END -->
+
+		</div><!-- Row END -->
+	</div>
+</section>
+<!-- =======================
+Page content END -->
+
+</main>
+<!-- **************** MAIN CONTENT END **************** -->
+
+
+<script>
+    var triggerTabList = [].slice.call(document.querySelectorAll('#course-pills-tab a'))
+        triggerTabList.forEach(function (triggerEl) {
+        var tabTrigger = new bootstrap.Tab(triggerEl)
+
+        triggerEl.addEventListener('click', function (event) {
+            event.preventDefault()
+            tabTrigger.show()
+        })
+    })
+
+</script>
