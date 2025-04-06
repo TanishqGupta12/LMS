@@ -25,6 +25,17 @@ RailsAdmin.config do |config|
   # config.show_gravatar = true
   # 
   #
+  config.model 'QuizTopic' do
+    visible true
+    edit do
+    
+      exclude_fields :category ,:catgory_id
+    end
+    list do
+
+      exclude_fields :category ,:catgory_id
+    end
+  end
   config.model 'Blog' do
     field :category
     field :image
