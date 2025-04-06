@@ -5,7 +5,8 @@ class CourseController < ApplicationController
  end
 
  def show
-  @courses = Course.find_by(id: params[:id])
+  @courses = Course.includes(:quiz_topics).find_by(id: params[:id])
+
   @quiz_topic_size = QuizTopic.where(course_id: params[:id]).size()
  end
 end
