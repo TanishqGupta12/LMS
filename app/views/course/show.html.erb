@@ -436,6 +436,27 @@
         max-width: 100%;
         height: auto;
     }
+	@media (min-width: 576px) {
+		.ms-sm-3 {
+			margin-left: 1rem !important;
+		}
+	}
+	@media (min-width: 576px) {
+		.mt-sm-0 {
+			margin-top: 0 !important;
+		}
+	}
+	a:hover {
+		color: var(--bs-primary);
+		text-decoration: none;
+	}
+
+	.mb-0 {
+		margin-bottom: 0 !important;
+	}
+	small, .small {
+		font-weight: 400;
+	}
 </style>   
 <!-- **************** MAIN CONTENT START **************** -->
 
@@ -542,7 +563,7 @@
 								<!-- Course detail START -->
 
 								<h5 class="mb-3">Course Description</h5>
-								<h5 class="mb-3"><%= @courses.try(:overview).to_s.gsub(/\s*border="1"/, "").html_safe %></h5>
+								
 								<!-- Course detail END -->
 
 							</div>
