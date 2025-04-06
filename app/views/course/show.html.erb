@@ -388,18 +388,7 @@
     .w-100 {
         width: 100% !important;
     }
-    textarea.form-control {
-        min-height: calc(1.5em + 1rem + 2px);
-    }
-    .pe-4 {
-        padding-right: 1.6rem !important;
-    }
-    .bg-light-panel {
-        --bs-bg-opacity: 1;
-        --bs-light-rgb: 245, 247, 249;
-        background-color: rgba(var(--bs-light-rgb), var(--bs-bg-opacity)) !important;
-    }
-    .form-control {
+	.form-control-input {
         display: block;
         width: 100%;
         padding: 0.5rem 1rem;
@@ -419,6 +408,18 @@
         transition: border-color 0.15sease-in-out, box-shadow 0.15sease-in-out;
         transition: border-color 0.15sease-in-out, box-shadow 0.15sease-in-out, -webkit-box-shadow 0.15sease-in-out;
     }
+    textarea.form-control-input {
+        min-height: calc(1.5em + 1rem + 2px);
+    }
+    .pe-4 {
+        padding-right: 1.6rem !important;
+    }
+    .bg-light-panel {
+        --bs-bg-opacity: 1;
+        --bs-light-rgb: 245, 247, 249;
+        background-color: rgba(var(--bs-light-rgb), var(--bs-bg-opacity)) !important;
+    }
+
     textarea {
         resize: vertical;
         margin-right: 10px;
@@ -970,14 +971,14 @@
 																		</div>
 																	</div> %>
 																</div>
-																<% @quiz_topic.try(:quiz_questions).present?  && @quiz_topic.try(:quiz_questions).order(:sequence).each do |quiz_question| %>
+																<% quiz_topic.try(:quiz_questions).present?  && quiz_topic.try(:quiz_questions).each do |quiz_question| %>
 																<!-- Course lecture -->
 																<div class="d-flex justify-content-between align-items-center">
 																	<div class="position-relative d-flex align-items-center">
 																		<a href="#" class="btn btn-danger-soft btn-round btn-sm mb-0 stretched-link position-static">
 																			<i class="fas fa-play me-0"></i>
 																		</a>
-																		<span class="d-inline-block text-truncate ms-2 mb-0 h6 fw-light w-200px"><%quiz_question.try(:title) %></span>
+																		<span class="d-inline-block text-truncate ms-2 mb-0 h6 fw-light w-200px"><%= quiz_question.try(:title) %></span>
 																	</div>
 																	<p class="mb-0 text-truncate">2m 10s</p>
 																</div>
@@ -1215,11 +1216,11 @@
 									<form class="row g-3">
 										<!-- Name -->
 										<div class="col-md-6">
-											<input type="text" class="form-control" id="inputtext" placeholder="Name" aria-label="First name">
+											<input type="text" class="form-control-input" id="inputtext" placeholder="Name" aria-label="First name">
 										</div>
 										<!-- Email -->
 										<div class="col-md-6">
-											<input type="email" class="form-control" placeholder="Email" id="inputEmail4">
+											<input type="email" class="form-control-input" placeholder="Email" id="inputEmail4">
 										</div>
 										<!-- Rating -->
 										<div class="col-12">
@@ -1233,7 +1234,7 @@
 										</div>
 										<!-- Message -->
 										<div class="col-12">
-											<textarea class="form-control" id="exampleFormControlTextarea1" placeholder="Your review" rows="3"></textarea>
+											<textarea class="form-control-input" id="exampleFormControlTextarea1" placeholder="Your review" rows="3"></textarea>
 										</div>
 										<!-- Button -->
 										<div class="col-12">
@@ -1304,7 +1305,7 @@
 											</div>
 
 											<form class="w-100 d-flex">
-												<textarea class="one form-control pe-4 bg-light-panel" id="autoheighttextarea" rows="1" placeholder="Add a comment..."></textarea>
+												<textarea class="one form-control-input pe-4 bg-light-panel" id="autoheighttextarea" rows="1" placeholder="Add a comment..."></textarea>
 												<button class="btn btn-primary ms-2 mb-0" type="button">Post</button>
 											</form>
 										</div>
