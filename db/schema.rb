@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2025_04_05_052203) do
+ActiveRecord::Schema[7.2].define(version: 2025_04_06_160146) do
   create_table "active_storage_attachments", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
@@ -301,6 +301,7 @@ ActiveRecord::Schema[7.2].define(version: 2025_04_05_052203) do
     t.float "negative_marks"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.boolean "enable_video_update", default: true
     t.index ["quiz_topic_id"], name: "index_quiz_questions_on_quiz_topic_id"
   end
 
