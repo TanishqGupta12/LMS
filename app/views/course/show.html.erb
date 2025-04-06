@@ -457,6 +457,106 @@
 	small, .small {
 		font-weight: 400;
 	}
+
+	/* 	<!-- Responsive offcanvas body START --> */
+		.offcanvas, .offcanvas-xxl, .offcanvas-xl, .offcanvas-lg, .offcanvas-md, .offcanvas-sm {
+			--bs-offcanvas-zindex: 1045;
+			--bs-offcanvas-width: 400px;
+			--bs-offcanvas-height: 30vh;
+			--bs-offcanvas-padding-x: 1.875rem;
+			--bs-offcanvas-padding-y: 1rem;
+			--bs-offcanvas-color: var(--bs-body-color);
+			--bs-offcanvas-bg: var(--bs-body-bg);
+			--bs-offcanvas-border-width: var(--bs-border-width);
+			--bs-offcanvas-border-color: var(--bs-border-color-translucent);
+			--bs-offcanvas-box-shadow: var(--bs-box-shadow-sm);
+			--bs-offcanvas-transition: transform 0.3sease-in-out;
+			--bs-offcanvas-title-line-height: 1.5;
+		}
+
+	@media (min-width: 992px) {
+		.offcanvas-lg {
+			--bs-offcanvas-height: auto;
+			--bs-offcanvas-border-width: 0;
+			background-color: transparent !important;
+		}
+	}
+	@media (min-width: 992px) {
+		.offcanvas-lg .offcanvas-header {
+			display: none;
+		}
+	}
+	/* .bg-dark {
+		--bs-bg-opacity: 1;
+		background-color: rgba(var(--bs-dark-rgb), var(--bs-bg-opacity)) !important;
+	} */
+	 .offcanvas-header {
+		display: -webkit-box;
+		display: -ms-flexbox;
+		display: flex;
+		-webkit-box-align: center;
+		-ms-flex-align: center;
+		align-items: center;
+		padding:  1rem  1.875rem;
+	}
+	.text-white {
+		color: rgba(255, 255, 255, 1) !important;
+	}
+
+	.offcanvas-title {
+			margin-bottom: 0;
+			line-height: 1.5;
+	}
+	@media (min-width: 1200px) {
+		h5, .h5 {
+			font-size: 1.3125rem;
+		}
+	}
+	button:not(:disabled), [type=button]:not(:disabled), [type=reset]:not(:disabled), [type=submit]:not(:disabled) {
+		cursor: pointer;
+	}
+
+	/* .btn {
+		letter-spacing: 0.5px;
+		position: relative;
+		overflow: hidden;
+		outline: 0;
+		white-space: nowrap;
+		margin-bottom: 6px;
+	} */
+
+	 .btn-sm, .btn-group-sm > .btn {
+		--bs-btn-padding-y: 0.4rem;
+		--bs-btn-padding-x: 0.8rem;
+		--bs-btn-font-size: 0.8125rem;
+		--bs-btn-border-radius: 0.2rem;
+	}
+
+	@media (min-width: 992px) {
+		.offcanvas-lg .offcanvas-body {
+			display: -webkit-box;
+			display: -ms-flexbox;
+			display: flex;
+			-webkit-box-flex: 0;
+			-ms-flex-positive: 0;
+			flex-grow: 0;
+			padding: 0;
+			overflow-y: visible;
+			background-color: transparent !important;
+		}
+	}
+	@media (min-width: 992px) {
+		.p-lg-0 {
+			padding: 0 !important;
+		}
+	}
+	.col-12 {
+		-webkit-box-flex: 0;
+		-ms-flex: 0 0 auto;
+		flex: 0 0 auto;
+		width: 100%;
+	}
+
 </style>   
 <!-- **************** MAIN CONTENT START **************** -->
 
@@ -563,7 +663,245 @@
 								<!-- Course detail START -->
 
 								<h5 class="mb-3">Course Description</h5>
-								
+
+								<!-- Responsive offcanvas body START -->
+								<div class="offcanvas-lg offcanvas-end" tabindex="-1" id="offcanvasSidebar" aria-labelledby="offcanvasSidebarLabel">
+									<%# <div class="offcanvas-header bg-dark">
+										<h5 class="offcanvas-title text-white" id="offcanvasSidebarLabel">Course playlist</h5>
+										<button type="button" class="btn btn-sm btn-light mb-0" data-bs-dismiss="offcanvas" data-bs-target="#offcanvasSidebar" aria-label="Close"><i class="bi bi-x-lg"></i></button>
+									</div> %>
+									<div class="offcanvas-body p-3 p-lg-0">
+										<div class="col-12">
+
+											<!-- Accordion START -->
+											<div class="accordion accordion-icon accordion-bg-light" id="accordionExample2">
+												<!-- Item -->
+												<div class="accordion-item mb-3">
+													<h6 class="accordion-header font-base" id="heading-1">
+														<a class="accordion-button fw-bold rounded collapsed d-block" href="#collapse-1" data-bs-toggle="collapse" data-bs-target="#collapse-1" aria-expanded="true" aria-controls="collapse-1">
+															<span class="mb-0">Introduction of Digital Marketing</span> 
+															<span class="small d-block mt-1">(3 Lectures)</span> 
+														</a>
+													</h6>
+													<div id="collapse-1" class="accordion-collapse collapse show" aria-labelledby="heading-1" data-bs-parent="#accordionExample2">
+														<div class="accordion-body mt-3">
+															<div class="vstack gap-3">
+
+																<!-- Progress bar -->
+																<div class="overflow-hidden">
+																	<div class="d-flex justify-content-between">
+																		<p class="mb-1 h6">1/3 Completed</p>
+																		<h6 class="mb-1 text-end">30%</h6>
+																	</div>
+																	<div class="progress progress-sm bg-primary bg-opacity-10">
+																		<div class="progress-bar bg-primary aos" role="progressbar" data-aos="slide-right" data-aos-delay="200" data-aos-duration="1000" data-aos-easing="ease-in-out" style="width: 30%" aria-valuenow="30" aria-valuemin="0" aria-valuemax="100">
+																		</div>
+																	</div>
+																</div>
+
+																<!-- Course lecture -->
+																<div class="d-flex justify-content-between align-items-center">
+																	<div class="position-relative d-flex align-items-center">
+																		<a href="#" class="btn btn-danger-soft btn-round btn-sm mb-0 stretched-link position-static">
+																			<i class="fas fa-play me-0"></i>
+																		</a>
+																		<span class="d-inline-block text-truncate ms-2 mb-0 h6 fw-light w-200px">Introduction</span>
+																	</div>
+																	<p class="mb-0 text-truncate">2m 10s</p>
+																</div>
+
+																<!-- Course lecture -->
+																<div class="p-2 bg-success bg-opacity-10 rounded-3">
+																	<div class="d-flex justify-content-between align-items-center">
+																		<div class="position-relative d-flex align-items-center">
+																			<a href="#" class="btn btn-success btn-round btn-sm mb-0 stretched-link position-static">
+																				<i class="fas fa-play me-0"></i>
+																			</a>
+																			<span class="d-inline-block text-truncate ms-2 mb-0 h6 fw-light w-200px"> What is Digital Marketing What is Digital Marketing</span>
+																		</div>
+																		<p class="mb-0 text-truncate">Playing</p>
+																	</div>
+																</div>
+
+																<!-- Course lecture -->
+																<div class="d-flex justify-content-between align-items-center">
+																	<div class="position-relative d-flex align-items-center">
+																		<a href="#" class="btn btn-danger-soft btn-round btn-sm mb-0 stretched-link position-static">
+																			<i class="fas fa-play me-0"></i>
+																		</a>
+																		<span class="d-inline-block text-truncate ms-2 mb-0 h6 fw-light w-200px">Type of Digital Marketing</span>
+																	</div>
+																	<p class="mb-0 text-truncate">18m 10s</p>
+																</div>
+															</div>
+														</div>
+													</div>
+												</div>
+
+												<!-- Item -->
+												<div class="accordion-item mb-3">
+													<h6 class="accordion-header font-base" id="heading-2">
+														<a class="accordion-button fw-bold collapsed rounded d-block" href="#collapse-2" data-bs-toggle="collapse" data-bs-target="#collapse-2" aria-expanded="false" aria-controls="collapse-2">
+															<span class="mb-0">Customer Life cycle</span> 
+															<span class="small d-block mt-1">(3 Lectures)</span> 
+														</a>
+													</h6>
+													<div id="collapse-2" class="accordion-collapse collapse" aria-labelledby="heading-2" data-bs-parent="#accordionExample2">
+														<!-- Accordion body START -->
+														<div class="accordion-body mt-3">
+															<div class="vstack gap-3">
+																<!-- Progress bar -->
+																<div class="overflow-hidden">
+																	<div class="d-flex justify-content-between">
+																		<p class="mb-1 h6">0/3 Completed</p>
+																		<h6 class="mb-1 text-end">0%</h6>
+																	</div>
+																	<div class="progress progress-sm bg-primary bg-opacity-10">
+																		<div class="progress-bar bg-primary aos" role="progressbar" data-aos="slide-right" data-aos-delay="200" data-aos-duration="1000" data-aos-easing="ease-in-out" style="width: 0%" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">
+																		</div>
+																	</div>
+																</div>
+																<!-- Course lecture -->
+																<div class="d-flex justify-content-between align-items-center">
+																	<div class="position-relative d-flex align-items-center">
+																		<a href="#" class="btn btn-danger-soft btn-round btn-sm mb-0 stretched-link position-static">
+																			<i class="fas fa-play me-0"></i>
+																		</a>
+																		<span class="d-inline-block text-truncate ms-2 mb-0 h6 fw-light w-200px">Introduction</span>
+																	</div>
+																	<p class="mb-0 text-truncate">2m 10s</p>
+																</div>
+
+																<!-- Course lecture -->
+																<div class="d-flex justify-content-between align-items-center">
+																	<div class="position-relative d-flex align-items-center">
+																		<a href="#" class="btn btn-danger-soft btn-round btn-sm mb-0 stretched-link position-static">
+																			<i class="fas fa-play me-0"></i>
+																		</a>
+																		<span class="d-inline-block text-truncate ms-2 mb-0 h6 fw-light w-200px"> What is Digital Marketing What is Digital Marketing</span>
+																	</div>
+																	<p class="mb-0 text-truncate">15m 10s</p>
+																</div>
+
+																<!-- Course lecture -->
+																<div class="d-flex justify-content-between align-items-center">
+																	<div class="position-relative d-flex align-items-center">
+																		<a href="#" class="btn btn-light btn-round btn-sm mb-0 stretched-link position-static" data-bs-toggle="modal" data-bs-target="#coursePremium">
+																			<i class="bi bi-lock-fill"></i>
+																		</a>
+																		<span class="d-inline-block text-truncate ms-2 mb-0 h6 fw-light w-200px">Type of Digital Marketing</span>
+																	</div>
+																	<p class="mb-0 text-truncate">18m 10s</p>
+																</div>
+															</div>
+														</div>
+														<!-- Accordion body END -->
+													</div>
+												</div>
+
+												<!-- Item -->
+												<div class="accordion-item mb-3">
+													<h6 class="accordion-header font-base" id="heading-5">
+														<a class="accordion-button fw-bold collapsed rounded d-block" href="#collapse-5" data-bs-toggle="collapse" data-bs-target="#collapse-5" aria-expanded="false" aria-controls="collapse-5">
+															<span class="mb-0">What is Search Engine Optimization(SEO)</span> 
+															<span class="small d-block mt-1">(6 Lectures)</span>
+														</a>
+													</h6>
+													<div id="collapse-5" class="accordion-collapse collapse" aria-labelledby="heading-5" data-bs-parent="#accordionExample2">
+														<!-- Accordion body START -->
+														<div class="accordion-body mt-3">
+															<div class="vstack gap-3">
+
+																<!-- Progress bar -->
+																<div class="overflow-hidden">
+																	<div class="d-flex justify-content-between">
+																		<p class="mb-1 h6">0/6 Completed</p>
+																		<h6 class="mb-1 text-end">0%</h6>
+																	</div>
+																	<div class="progress progress-sm bg-primary bg-opacity-10">
+																		<div class="progress-bar bg-primary aos" role="progressbar" data-aos="slide-right" data-aos-delay="200" data-aos-duration="1000" data-aos-easing="ease-in-out" style="width: 0%" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">
+																		</div>
+																	</div>
+																</div>
+
+																<!-- Course lecture -->
+																<div class="d-flex justify-content-between align-items-center">
+																	<div class="position-relative d-flex align-items-center">
+																		<a href="#" class="btn btn-danger-soft btn-round btn-sm mb-0 stretched-link position-static">
+																			<i class="fas fa-play me-0"></i>
+																		</a>
+																		<span class="d-inline-block text-truncate ms-2 mb-0 h6 fw-light w-200px">Introduction</span>
+																	</div>
+																	<p class="mb-0 text-truncate">2m 10s</p>
+																</div>
+
+																<!-- Course lecture -->
+																<div class="d-flex justify-content-between align-items-center">
+																	<div class="position-relative d-flex align-items-center">
+																		<a href="#" class="btn btn-danger-soft btn-round btn-sm mb-0 stretched-link position-static">
+																			<i class="fas fa-play me-0"></i>
+																		</a>
+																		<span class="d-inline-block text-truncate ms-2 mb-0 h6 fw-light w-200px">How to SEO Optimise Your Homepage</span>
+																	</div>
+																	<p class="mb-0 text-truncate">15m 00s</p>
+																</div>
+
+																<!-- Course lecture -->
+																<div class="d-flex justify-content-between align-items-center">
+																	<div class="position-relative d-flex align-items-center">
+																		<a href="#" class="btn btn-danger-soft btn-round btn-sm mb-0 stretched-link position-static">
+																			<i class="fas fa-play me-0"></i>
+																		</a>
+																		<span class="d-inline-block text-truncate ms-2 mb-0 h6 fw-light w-200px">How to Write Title Tags Search Engines Love</span>
+																	</div>
+																	<p class="mb-0 text-truncate">28m 10s</p>
+																</div>
+
+																<!-- Course lecture -->
+																<div class="d-flex justify-content-between align-items-center">
+																	<div class="position-relative d-flex align-items-center">
+																		<a href="#" class="btn btn-light btn-round btn-sm mb-0 stretched-link position-static" data-bs-toggle="modal" data-bs-target="#coursePremium">
+																			<i class="bi bi-lock-fill"></i>
+																		</a>
+																		<span class="d-inline-block text-truncate ms-2 mb-0 h6 fw-light w-200px">SEO Keyword Planning</span>
+																	</div>
+																	<p class="mb-0 text-truncate">38m 22s</p>
+																</div>
+
+																<!-- Course lecture -->
+																<div class="d-flex justify-content-between align-items-center">
+																	<div class="position-relative d-flex align-items-center">
+																		<a href="#" class="btn btn-light btn-round btn-sm mb-0 stretched-link position-static" data-bs-toggle="modal" data-bs-target="#coursePremium">
+																			<i class="bi bi-lock-fill"></i>
+																		</a>
+																		<span class="d-inline-block text-truncate ms-2 mb-0 h6 fw-light w-200px">Internal and External Links</span>
+																	</div>
+																	<p class="mb-0 text-truncate">12m 10s</p>
+																</div>
+
+																<!-- Course lecture -->
+																<div class="d-flex justify-content-between align-items-center">
+																	<div class="position-relative d-flex align-items-center">
+																		<a href="#" class="btn btn-light btn-round btn-sm mb-0 stretched-link position-static" data-bs-toggle="modal" data-bs-target="#coursePremium">
+																			<i class="bi bi-lock-fill"></i>
+																		</a>
+																		<span class="d-inline-block text-truncate ms-2 mb-0 h6 fw-light w-200px">Measuring SEO Effectiveness</span>
+																	</div>
+																	<p class="mb-0 text-truncate">35m 10s</p>
+																</div>
+															</div>
+														</div>
+														<!-- Accordion body END -->
+													</div>
+												</div>
+
+											</div>
+											<!-- Accordion END -->
+										</div>
+									</div>
+								</div>
+								<!-- Responsive offcanvas body END -->
+
 								<!-- Course detail END -->
 
 							</div>
