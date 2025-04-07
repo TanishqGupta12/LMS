@@ -36,6 +36,18 @@ RailsAdmin.config do |config|
       exclude_fields :category ,:catgory_id
     end
   end
+
+  config.model 'Lesson' do
+    visible true
+    edit do
+    
+      include_all_fields
+    end
+    list do
+
+      include_all_fields
+    end
+  end
   config.model 'Blog' do
     field :category
     field :image

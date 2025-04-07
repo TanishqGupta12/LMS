@@ -26,6 +26,8 @@ class Ability
       can :manage, Ticket ,user_id: user.id , event_id: user.current_event_id.to_i
       # Allow teacher to manage courses where teacher_id and event_id match
       can :manage, Course, teacher_id: user.id, event_id: user.current_event_id.to_i
+      can :manage, QuizTopic, course: { teacher_id: user.id, event_id: user.current_event_id.to_i }
+      can :manage, Lesson, quiz_topic: { course: { teacher_id: user.id, event_id: user.current_event_id.to_i } }
     end
   end
 end
