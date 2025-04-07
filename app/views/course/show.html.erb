@@ -953,7 +953,7 @@
 													<h6 class="accordion-header font-base" id="heading-1">
 														<a class="accordion-button fw-bold rounded collapsed d-block" href="#collapse-1" data-toggle="collapse" data-target="#collapse-1" aria-expanded="true" aria-controls="collapse-1">
 															<span class="mb-0"><%= quiz_topic.try(:title) %></span> 
-															<span class="small d-block mt-1">(<%= quiz_topic.try(:quiz_questions).size()  %> Lectures)</span> 
+															<span class="small d-block mt-1">(<%= quiz_topic.try(:lessons).size()  %> Lectures)</span> 
 														</a>
 													</h6>
 													<div id="collapse-1" class="accordion-collapse collapse show" aria-labelledby="heading-1" data-parent="#accordionExample2">
@@ -971,14 +971,14 @@
 																		</div>
 																	</div> %>
 																</div>
-																<% quiz_topic.try(:quiz_questions).present?  && quiz_topic.try(:quiz_questions).each do |quiz_question| %>
+																<% quiz_topic.try(:lessons).present?  && quiz_topic.try(:lessons).each do |lesson| %>
 																<!-- Course lecture -->
 																<div class="d-flex justify-content-between align-items-center">
 																	<div class="position-relative d-flex align-items-center">
 																		<a href="#" class="btn btn-danger-soft btn-round btn-sm mb-0 stretched-link position-static">
 																			<i class="fas fa-play me-0"></i>
 																		</a>
-																		<span class="d-inline-block text-truncate ms-2 mb-0 h6 fw-light w-200px"><%= quiz_question.try(:title) %></span>
+																		<span class="d-inline-block text-truncate ms-2 mb-0 h6 fw-light w-200px"><%= lesson.try(:title) %></span>
 																	</div>
 																	<p class="mb-0 text-truncate">2m 10s</p>
 																</div>
