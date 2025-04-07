@@ -5,7 +5,7 @@ class CreateLessons < ActiveRecord::Migration[7.2]
       t.boolean :enable_video_update ,default: true
       t.text :content
       t.string :video_url
-      t.integer :duration
+      t.string :duration
       t.integer :sequence
       t.boolean :is_published
       t.references :quiz_topic, null: true, foreign_key: { on_delete: :nullify }
