@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2025_04_06_160146) do
+ActiveRecord::Schema[7.2].define(version: 2025_04_07_015344) do
   create_table "active_storage_attachments", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
@@ -256,6 +256,20 @@ ActiveRecord::Schema[7.2].define(version: 2025_04_06_160146) do
     t.index ["role_id"], name: "index_forms_on_role_id"
   end
 
+  create_table "lessons", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+    t.string "title"
+    t.boolean "enable_video_update", default: true
+    t.text "content"
+    t.string "video_url"
+    t.integer "duration"
+    t.integer "sequence"
+    t.boolean "is_published"
+    t.bigint "quiz_topic_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["quiz_topic_id"], name: "index_lessons_on_quiz_topic_id"
+  end
+
   create_table "quiz_attempt_results", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.bigint "user_id", null: false
     t.bigint "quiz_topic_id", null: false
@@ -301,7 +315,8 @@ ActiveRecord::Schema[7.2].define(version: 2025_04_06_160146) do
     t.float "negative_marks"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.boolean "enable_video_update", default: true
+    t.bigint "lesson_id"
+    t.index ["lesson_id"], name: "index_quiz_questions_on_lesson_id"
     t.index ["quiz_topic_id"], name: "index_quiz_questions_on_quiz_topic_id"
   end
 
@@ -507,11 +522,13 @@ ActiveRecord::Schema[7.2].define(version: 2025_04_06_160146) do
   add_foreign_key "form_sections", "forms"
   add_foreign_key "forms", "events"
   add_foreign_key "forms", "roles", on_delete: :nullify
+  add_foreign_key "lessons", "quiz_topics", on_delete: :nullify
   add_foreign_key "quiz_attempt_results", "quiz_topics"
   add_foreign_key "quiz_attempt_results", "users"
   add_foreign_key "quiz_attempts", "quiz_attempt_results"
   add_foreign_key "quiz_attempts", "users"
   add_foreign_key "quiz_question_options", "quiz_questions"
+  add_foreign_key "quiz_questions", "lessons", on_delete: :nullify
   add_foreign_key "quiz_questions", "quiz_topics", on_delete: :cascade
   add_foreign_key "quiz_results", "courses"
   add_foreign_key "quiz_results", "quiz_attempts"
