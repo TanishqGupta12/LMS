@@ -32,7 +32,9 @@ Rails.application.routes.draw do
   scope "/:event_id", as: "event" do
     resources :contact
     resources :teacher
-    resources :course
+    resources :course do
+      resources :comments, only: [:create, :destroy]
+    end
     resources :blog do
       resources :comments, only: [:create, :destroy]
     end

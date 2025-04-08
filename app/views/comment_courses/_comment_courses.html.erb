@@ -6,13 +6,14 @@
         <p><%= comment.content %></p>
 
         <!-- Reply Form -->
+        <% debugger%>
         <div class="d-block m-5">
             <div class="input-group input-group_reply">
-                <%= form_with model: Comment.new, url: main_app.event_blog_comments_path(params[:event_id],1), local: true do |f| %>
+                <%= form_with model: Comment.new, url: event_course_comments_path(params[:event_id], @courses), local: true do |f| %>
                     <div class="form-floating w-100">
                         <%= f.text_area :content, placeholder: "Reply to this comment..." , class: "form-control", rows: 3 %>
                     </div>
-                    <%= f.hidden_field :blog_id, value: 1 %>
+                    <%= f.hidden_field :blog_id, value: @courses.id %>
                     <%= f.hidden_field :parent_id, value: comment.id %>
                     <%= f.submit "Reply", class: "btn btn-primary ms-2 mt-2" %>
                 <% end %>
@@ -22,7 +23,7 @@
         <!-- Render Replies Recursively -->
         <% comment.replies.each do |reply| %>
             <div class="media mt-4 ml-5  mb-4">
-                <%= render 'comments/comment', comment: reply %>
+                <%= render 'comment_courses/comment_courses', comment: reply %>
             </div>
         <% end %>
     </div>

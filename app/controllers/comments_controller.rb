@@ -2,6 +2,7 @@ class CommentsController < ApplicationController
   before_action :authenticate_user!, only: [:create, :destroy]
 
   def create
+    debugger
     @comment = Comment.new(comment_params)
     @comment.user = current_user
 
@@ -27,6 +28,6 @@ class CommentsController < ApplicationController
   private
 
   def comment_params
-    params.require(:comment).permit(:content, :blog_id, :parent_id )
+    params.require(:comment).permit(:content, :blog_id, :course_id ,:parent_id )
   end
 end
