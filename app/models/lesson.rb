@@ -9,23 +9,9 @@ class Lesson < ApplicationRecord
 
   after_commit :extract_video_duration, on: [:create, :update], if: -> { media.attached? && media.video? }
 
-
+  has_many :quiz_questions
   def extract_video_duration
-    return unless media.video?
-
-    media.open(tmpdir: Dir.tmpdir) do |file|
-      movie = FFMPEG::Movie.new(file.path)
-      raw_duration = movie.duration
-
-      # Format the duration
-      minutes = (raw_duration / 60).floor
-      seconds = (raw_duration % 60).round
-      formatted = minutes > 0 ? "#{minutes}min #{seconds}sec" : "#{seconds}sec"
-
-      update_column(:duration, formatted)
-    end
-
+    # Enqueue the job to extract the duration after the media is saved
+    VideoDurationJob.perform_later(self.id)
   end
-
-
 end

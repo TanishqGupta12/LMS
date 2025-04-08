@@ -2,7 +2,6 @@ class CreateLessons < ActiveRecord::Migration[7.2]
   def change
     create_table :lessons do |t|
       t.string :title
-      t.boolean :enable_video_update ,default: true
       t.text :content
       t.string :video_url
       t.string :duration

@@ -29,6 +29,7 @@ class Ability
       can :manage, Course, teacher_id: user.id, event_id: user.current_event_id.to_i
       can :manage, QuizTopic, course: { teacher_id: user.id, event_id: user.current_event_id.to_i }
       can :manage, Lesson, quiz_topic: { course: { teacher_id: user.id, event_id: user.current_event_id.to_i } }
+      can :manage, QuizQuestion, lesson: { quiz_topic: { course: { teacher_id: user.id, event_id: user.current_event_id.to_i } }}
     end
   end
 end
