@@ -12,7 +12,7 @@
 						<!-- Avatar -->
 						<div class="col-auto">
 							<div class="avatar avatar-xxl position-relative mt-n3">
-								<img class="avatar-img rounded-circle border border-white border-3 shadow" src="<%= url_for(user.try(:image)).present? ? url_for(user.try(:image)) : "http://127.0.0.1:3000/user.png" %>" alt="<%= user.try(:name)  %>">
+								<img class="avatar-img rounded-circle border border-white border-3 shadow" src="<%= (user.try(:image)).persisted? ? url_for(user.try(:image)) : "http://127.0.0.1:3000/user.png" %>" alt="<%= user.try(:name)  %>">
 							</div>
 						</div>
 						<!-- Profile info -->

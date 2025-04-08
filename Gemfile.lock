@@ -144,6 +144,7 @@ GEM
     jbuilder (2.13.0)
       actionview (>= 5.0.0)
       activesupport (>= 5.0.0)
+    json (2.10.2)
     kaminari (1.2.2)
       activesupport (>= 4.1.0)
       kaminari-actionview (= 1.2.2)
@@ -271,6 +272,8 @@ GEM
     rake (13.2.1)
     rdoc (6.13.0)
       psych (>= 4.0.0)
+    redis-client (0.24.0)
+      connection_pool
     regexp_parser (2.10.0)
     reline (0.6.0)
       io-console (~> 0.5)
@@ -289,6 +292,12 @@ GEM
       rexml (~> 3.2, >= 3.2.5)
       rubyzip (>= 1.2.2, < 3.0)
       websocket (~> 1.0)
+    sidekiq (8.0.2)
+      connection_pool (>= 2.5.0)
+      json (>= 2.9.0)
+      logger (>= 1.6.2)
+      rack (>= 3.1.0)
+      redis-client (>= 0.23.2)
     sprockets (4.2.1)
       concurrent-ruby (~> 1.0)
       rack (>= 2.2.4, < 4)
@@ -360,6 +369,7 @@ DEPENDENCIES
   rails (~> 7.2.2, >= 7.2.2.1)
   rails_admin
   selenium-webdriver
+  sidekiq (~> 8.0)
   sprockets-rails
   stimulus-rails
   streamio-ffmpeg

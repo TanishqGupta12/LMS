@@ -88,3 +88,4 @@ gem 'money-rails', '~> 1.12'
 # gem 'sassc-rails'
 
 gem 'streamio-ffmpeg'
+gem "sidekiq", "~> 8.0"
