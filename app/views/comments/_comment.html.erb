@@ -8,7 +8,7 @@
         <!-- Reply Form -->
         <div class="d-block m-5">
             <div class="input-group input-group_reply">
-                <%= form_with model: Comment.new, url: main_app.event_blog_comments_path(params[:event_id],@blog.try(:id)), local: true do |f| %>
+                <%= form_with model: Comment.new, url: (params[:blog_id] ? event_blog_comments_path(params[:event_id], params[:blog_id]) : event_course_comments_path(params[:event_id], @courses)), local: true do |f| %>
                     <div class="form-floating w-100">
                         <%= f.text_area :content, placeholder: "Reply to this comment..." , class: "form-control", rows: 3 %>
                     </div>
