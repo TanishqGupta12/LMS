@@ -3,6 +3,6 @@ class Category < ApplicationRecord
   belongs_to :event
   has_many :courses
   has_many :blogs
-  has_many :quiz_topics
+  belongs_to :quiz_topic
   
 end
