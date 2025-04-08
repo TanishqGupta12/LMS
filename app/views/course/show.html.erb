@@ -980,7 +980,7 @@
 																		</a>
 																		<span class="d-inline-block text-truncate ms-2 mb-0 h6 fw-light w-200px"><%= lesson.try(:title) %></span>
 																	</div>
-																	<p class="mb-0 text-truncate">2m 10s</p>
+																	<p class="mb-0 text-truncate"><%= lesson.try(:duration) %></p>
 																</div>
 																<% end %>
 
