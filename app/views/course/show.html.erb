@@ -893,7 +893,7 @@
 	}
 
 	.input-group_reply {
-		margin-top: -25px;
+		margin-top: -49px;
 	}
 
 </style>   
@@ -1367,16 +1367,16 @@
 											<div class="avatar avatar-sm flex-shrink-0 me-2">
 												<a href="#"> <img class="avatar-img rounded-circle" src="http://127.0.0.1:3000/user.png" alt=""> </a>
 											</div>
-												<%# <div class="d-block m-5">
-													<div class="input-group input-group_reply"> %>
-												<%= form_with model: Comment.new, url: event_course_comments_path(params[:event_id], @courses), local: true, class: "w-100 d-flex" do |f| %>
-													<%= f.text_area :content, placeholder: "Add a comment...", class: "one form-control-input pe-4 bg-light-panel", rows: 1 ,id: "autoheighttextarea" %>
+												<div class="d-block mt-5">
+													<div class="input-group input-group_reply">
+												<%= form_with model: Comment.new, url: event_course_comments_path(params[:event_id], @courses), local: true, class: "w-100 d-flex mb-5" do |f| %>
+													<%= f.text_area :content, placeholder: "Add a comment...", class: "one form-control-input bg-light-panel", rows: 1 ,id: "autoheighttextarea" %>
 													<%= f.hidden_field :course_id, value: @courses.id %>
 													<button class="btn btn-primary ms-2 mb-0" type="submit">Post</button>
 												<% end %>
-														<%= render @courses.comments.where(parent_id: nil), partial: "comment_courses/comment_courses" %>
-													<%# </div>
-												</div> %>
+														<%= render @courses.comments.where(parent_id: nil), partial: "comments/comment" %>
+													</div>
+												</div>
 										</div>
 									</div>
 

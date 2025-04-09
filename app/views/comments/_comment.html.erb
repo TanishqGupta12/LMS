@@ -8,12 +8,16 @@
         <!-- Reply Form -->
         <div class="d-block m-5">
             <div class="input-group input-group_reply">
-                <%= form_with model: Comment.new, url: (params[:blog_id] ? event_blog_comments_path(params[:event_id], params[:blog_id]) : event_course_comments_path(params[:event_id], @courses)), local: true do |f| %>
+                <%= form_with model: Comment.new, url: (comment.blog_id ? event_blog_comments_path(params[:event_id], comment.blog_id) : event_course_comments_path(params[:event_id], comment.course_id)), local: true do |f| %>
                     <div class="form-floating w-100">
                         <%= f.text_area :content, placeholder: "Reply to this comment..." , class: "form-control", rows: 3 %>
                     </div>
-                    <%= f.hidden_field :blog_id, value: @blog.try(:id) %>
                     <%= f.hidden_field :parent_id, value: comment.id %>
+                    <% if comment.blog_id %>
+                        <%= f.hidden_field :blog_id, value: comment.blog_id %>
+                    <% else %>
+                        <%= f.hidden_field :course_id, value: comment.course_id %>
+                    <% end %>
                     <%= f.submit "Reply", class: "btn btn-primary ms-2 mt-2" %>
                 <% end %>
             </div>

@@ -2,14 +2,13 @@ class CommentsController < ApplicationController
   before_action :authenticate_user!, only: [:create, :destroy]
 
   def create
-    debugger
     @comment = Comment.new(comment_params)
     @comment.user = current_user
 
     if @comment.save
       flash[:notice] = "Comment added successfully."
     else
-      flash[:alert] = "Failed to add comment."
+      flash[:alert] = @comment.errors.full_messages.to_sentence
     end
     redirect_back fallback_location: root_path
   end
@@ -22,12 +21,13 @@ class CommentsController < ApplicationController
     else
       flash[:alert] = "You can't delete this comment."
     end
+
     redirect_back fallback_location: root_path
   end
 
   private
 
   def comment_params
-    params.require(:comment).permit(:content, :blog_id, :course_id ,:parent_id )
+    params.require(:comment).permit(:content, :blog_id, :course_id, :parent_id)
   end
 end
