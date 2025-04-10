@@ -1401,10 +1401,12 @@
 							<!-- Course info START -->
 							<div class="card card-body border p-4">
 								<!-- Price and share button -->
-								<div class="d-flex justify-content-between align-items-center">
+								<div class="d-flex justify-content-round align-items-center">
 									<!-- Price -->
-									<h3 class="fw-bold mb-0 me-2">$295.55</h3>
-
+									<% if @courses.try(:ticket).try(:price).present? %>
+									<h3 class="fw-bold mb-0 me-2">Price: <%= @courses.try(:ticket).try(:price) %></h3>
+									<small><%= @courses.try(:ticket).try(:currency).titleize %> </small>
+									<% end %>
 								</div>
 									
 								<!-- Buttons -->
