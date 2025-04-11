@@ -33,6 +33,9 @@ Rails.application.routes.draw do
     resources :contact
     resources :teacher
     resources :course do
+      member do
+        match "course_favoritor", to: "course#course_favoritor", as: "course_favoritor", via: [:get, :post]
+      end
       resources :comments, only: [:create, :destroy]
     end
     resources :blog do

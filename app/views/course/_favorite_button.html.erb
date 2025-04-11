@@ -1,0 +1,9 @@
+<% if course.favorited_by?(current_user) %>
+  <%= link_to event_course_path(event.try(:id), course), method: :post, remote: true, class: "text-primary" do %>
+    <i class="fas fa-heart fa-lg text-primary " title="Unfavorite"></i>
+  <% end %>
+<% else %>
+  <%= link_to event_course_path(event.try(:id), course), method: :post, remote: true, class: "text-primary" do %>
+    <i class="far fa-heart fa-lg text-primary " title="Favorite"></i>
+  <% end %>
+<% end %>

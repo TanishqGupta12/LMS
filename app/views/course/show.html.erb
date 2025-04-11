@@ -1407,6 +1407,12 @@
 									<h3 class="fw-bold mb-0 me-2">Price: <%= @courses.try(:ticket).try(:price) %></h3>
 									<small><%= @courses.try(:ticket).try(:currency).titleize %> </small>
 									<% end %>
+									<!-- favorite_button -->
+									<small class="m-0 ml-2">
+										<div class="favorite-link_<%= @courses.try(:id) %>">
+											<%= render partial: "course/favorite_button", locals: { course: @courses, event: @event }%>
+										</div>
+									</small>
 								</div>
 									
 								<!-- Buttons -->

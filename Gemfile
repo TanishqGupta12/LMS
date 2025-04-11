@@ -89,3 +89,5 @@ gem 'money-rails', '~> 1.12'
 
 gem 'streamio-ffmpeg'
 gem "sidekiq", "~> 8.0"
+
+gem 'acts_as_shopping_cart'
