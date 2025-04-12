@@ -1547,19 +1547,6 @@ Page content END -->
 </main>
 <!-- **************** MAIN CONTENT END **************** -->
 
-
-<script>
-    var triggerTabList = [].slice.call(document.querySelectorAll('#course-pills-tab a'))
-        triggerTabList.forEach(function (triggerEl) {
-        var tabTrigger = new bootstrap.Tab(triggerEl)
-
-        triggerEl.addEventListener('click', function (event) {
-            event.preventDefault()
-            tabTrigger.show()
-        })
-    })
-
-</script>
 <!-- Modal -->
 <div class="modal modal-right" id="notesModel" tabindex="-1" role="dialog" style="pointer-events: none;">
   <div class="modal-dialog" role="document" style="pointer-events: auto;">
@@ -1570,7 +1557,7 @@ Page content END -->
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
-      <form action="<%= user_notes_path %>" method="POST">
+      <form class="form-user-notes" action="<%= user_notes_path %>" method="POST">
         <div class="modal-body">
           <input type="hidden" name="user_id" value="<%= current_user.try(:id) %>">
           <input type="hidden" name="event_id" value="<%= current_user.try(:current_event_id) %>">
@@ -1593,3 +1580,15 @@ Page content END -->
     </div>
   </div>
 </div>
+
+<script>
+    var triggerTabList = [].slice.call(document.querySelectorAll('#course-pills-tab a'))
+        triggerTabList.forEach(function (triggerEl) {
+        var tabTrigger = new bootstrap.Tab(triggerEl)
+
+        triggerEl.addEventListener('click', function (event) {
+            event.preventDefault()
+            tabTrigger.show()
+        })
+    })
+</script>

@@ -8,7 +8,7 @@
 			<%= render partial: "profile_side_bar" %>
 
             <!-- Main content START -->
-                <div class="col-xl-9">
+                <div class="col-xl-9 mb-5">
 
                     <div class="card bg-transparent border rounded-3">
                         <!-- Card header START -->
@@ -22,8 +22,8 @@
                             <div class="row g-4">
                                 <% @favorited_course.each do |favorited_course| %>
                                 <!-- Card item START -->
-                                <div class="col-sm-6 col-lg-4">
-                                    <div class="card shadow h-100">
+                                <div class="col-sm-1 col-lg-4">
+                                    <div class="card shadow h-80">
                                         <!-- Image -->
                                         <img src="<%= url_for(favorited_course.thumbail)%>" class="card-img-top" alt="course image">
                                         <div class="card-body pb-0">
