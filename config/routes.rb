@@ -44,7 +44,7 @@ Rails.application.routes.draw do
       resources :comments, only: [:create, :destroy]
     end
   end
-
+  resources :user_notes
   # Defines the root path route ("/")
   # root "posts#index"
 end

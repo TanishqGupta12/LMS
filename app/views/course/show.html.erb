@@ -1,4 +1,16 @@
 <style>
+	/* dailbox side  */
+	.modal-right .modal-dialog {
+		/* top, right, bottom, left */
+		margin: 1.70rem 0.5rem 1.70rem auto; 
+	}
+
+	.modal-right .modal-content {
+		box-shadow: none !important;
+		border: 1px solid #ccc;
+		
+	}
+	/* dailbox side  */
     @media (min-width: 1200px) {
         .pt-xl-5 {
             padding-top: 3rem !important;
@@ -332,7 +344,7 @@
 		background-color: #0aa073;
 		border-color: #0a966c;
 	} */
-	 
+
     /* 	<!-- Course detail START --> */
     .nav-pills {
         --bs-nav-pills-border-radius: 0.325rem;
@@ -1405,9 +1417,9 @@
 								<!-- Price and share button -->
 								<div class="d-flex justify-content-round align-items-center">
 									<!-- Price -->
-									<% if @courses.try(:ticket).try(:price).present? %>
-									<h3 class="fw-bold mb-0 me-2">Price: <%= @courses.try(:ticket).try(:price) %></h3>
-									<small><%= @courses.try(:ticket).try(:currency).titleize %> </small>
+									<% if @courses.try(:is_paid).present? %>
+										<h3 class="fw-bold mb-0 me-2">Price: <%= @courses.try(:ticket).try(:price) %></h3>
+										<small><%= @courses.try(:ticket).try(:currency).titleize %> </small>
 									<% end %>
 									<!-- favorite_button -->
 									<small class="m-0 ml-2">
@@ -1420,7 +1432,19 @@
 								<!-- Buttons -->
 								<div class="mt-3 d-grid">
 									<a href="#" class="btn btn-outline-primary mb-2">Add to cart</a>
-									<a href="#" class="btn btn-success mb-2">Buy now</a>
+									<% if @courses.try(:is_paid).present? %>
+										<a href="#" class="btn btn-success mb-2">Buy now</a>
+										<!-- Button trigger modal -->
+										<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#notesModel" data-backdrop="false" data-keyboard="false">
+											Add Notes
+										</button>
+									<% else %>
+										<a href="#" class="btn btn-success mb-2">Enroller</a>
+										<!-- Button trigger modal -->
+										<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#notesModel" data-backdrop="false" data-keyboard="false">
+											Add Notes
+										</button>
+									<% end %>
 								</div>
 								<!-- Divider -->
 								<hr>
@@ -1536,3 +1560,36 @@ Page content END -->
     })
 
 </script>
+<!-- Modal -->
+<div class="modal modal-right" id="notesModel" tabindex="-1" role="dialog" style="pointer-events: none;">
+  <div class="modal-dialog" role="document" style="pointer-events: auto;">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title"><%= @courses.try(:title) %></h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <form action="<%= user_notes_path %>" method="POST">
+        <div class="modal-body">
+          <input type="hidden" name="user_id" value="<%= current_user.try(:id) %>">
+          <input type="hidden" name="event_id" value="<%= current_user.try(:current_event_id) %>">
+          <input type="hidden" name="course_id" value="<%= @courses.try(:id) %>">
+          
+          <div class="form-group">
+            <label for="subject" class="col-form-label">Subject:</label>
+            <input type="text" class="form-control" name="subject" id="subject">
+          </div>
+          <div class="form-group">
+            <label for="description" class="col-form-label">Content:</label>
+            <textarea class="form-control" name="description" id="description"></textarea>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          <input type="submit" value="Save changes" class="btn btn-primary">
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
