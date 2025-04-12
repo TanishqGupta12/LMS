@@ -46,6 +46,7 @@ class UsersController < ApplicationController
   end
 
   def user_payment_info
+    @user = User.find_by(id: params[:id])
   end
 
   def update_email
