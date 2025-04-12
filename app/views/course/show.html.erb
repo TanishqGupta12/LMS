@@ -959,8 +959,9 @@
 					<div class="col-12">
 
                         <!-- Content -->
+						<% @average_rating = @courses.reviews.average(:rating)&.round(1) || 0 %>
 						<ul class="list-inline mb-0">
-							<li class="list-inline-item fw-light h6 me-3 mb-1 mb-sm-0"><i class="fas fa-star me-2"></i>4.5/5.0</li>
+							<li class="list-inline-item fw-light h6 me-3 mb-1 mb-sm-0"><i class="fas fa-star me-2"></i><%= @average_rating %> / 5</li>
 							<li class="list-inline-item fw-light h6 me-3 mb-1 mb-sm-0"><i class="fas fa-user-graduate me-2"></i>12k Enrolled</li>
 							<% if @courses.try(:level).present? %>
 								<li class="list-inline-item fw-light h6 me-3 mb-1 mb-sm-0"><i class="fas fa-signal me-2"></i>All levels</li>
@@ -1108,7 +1109,7 @@
 									<div class="col-md-4 mb-3 mb-md-0">
 										<div class="text-center">
 											<!-- Info -->
-											<% @average_rating = @courses.reviews.average(:rating)&.round(1) || 0 %>
+											
 											<h2 class="mb-0"> <%= @average_rating %> /5</h2>
 											<!-- Star -->
 											<% rating = @average_rating.to_i %>
