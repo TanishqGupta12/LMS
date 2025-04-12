@@ -11,17 +11,22 @@ class CourseController < ApplicationController
 
   @quiz_topic_size = QuizTopic.where(course_id: params[:id]).size()
 
-
-  # if current_user.favorited?(@course)
-  #   current_user.unfavorite(@course)
-  # else
-  #   current_user.favorite(@course)
-  # end
-
   respond_to do |format|
     format.js 
     format.html
   end
 
  end
+
+  def course_favoritor
+    @event = @event
+    @courses = Course.includes(:quiz_topics).find_by(id: params[:id])
+    if current_user.favorited?(@courses)
+      current_user.unfavorite(@courses)
+    else
+      current_user.favorite(@courses)
+    end
+    render partial: "course/favorite_button", locals: { course: @courses, event: @event } , formats: :html
+  end
+
 end

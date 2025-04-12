@@ -1,9 +1,22 @@
-<% if course.favorited_by?(current_user) %>
-  <%= link_to event_course_path(event.try(:id), course), method: :post, remote: true, class: "text-primary" do %>
-    <i class="fas fa-heart fa-lg text-primary " title="Unfavorite"></i>
-  <% end %>
-<% else %>
-  <%= link_to event_course_path(event.try(:id), course), method: :post, remote: true, class: "text-primary" do %>
-    <i class="far fa-heart fa-lg text-primary " title="Favorite"></i>
-  <% end %>
-<% end %>
+<style>
+  .Unfavorite {
+    color: rgb(30, 125, 52); /* Change icon color */
+    font-size: 20px; /* Adjust font size to a reasonable value */
+  }
+  .favorite{
+    color: #FF6600 !important; /* Change icon color */
+    font-size: 20px; /* Adjust font size to a reasonable value */
+  }
+</style>
+<div data-controller="favorite">
+  <input type="hidden" class="event" value="<%= event.id %>" data-favorite-target="event">
+  <input type="hidden" class="course" value="<%= course.id %>" data-favorite-target="course">
+
+  <div data-favorite-target="statusContainer">
+    <% if current_user.favorited?(course) %>
+      <i class="fas fa-heart fa-lg Unfavorite" data-action="click->favorite#favorite" title="Unfavorite"></i>
+    <% else %>
+      <i class="fas fa-heart fa-lg favorite" data-action="click->favorite#favorite" title="favorite"></i>
+    <% end %>
+  </div>
+</div>
