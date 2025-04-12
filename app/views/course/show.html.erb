@@ -1159,7 +1159,7 @@
 													</ul>
 												</div>
 												<!-- Info -->
-												<p class="small mb-2"><%= (review.created_at)%></p>
+												<p class="small mb-2"><%= (review.created_at).strftime("%d %b %Y at %I:%M%p")%></p>
 												<p class="mb-2"><%= (review.comment)%> </p>
 											</div>
 										</div>
