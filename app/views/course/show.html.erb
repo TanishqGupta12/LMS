@@ -909,6 +909,11 @@
 	.input-group_reply {
 		margin-top: -49px;
 	}
+	.review-scroll-container {
+		max-height: 400px;
+		overflow-y: auto;
+		padding-right: 10px; /* optional for scrollbar spacing */
+	}
 
 </style>
 <!-- **************** MAIN CONTENT START **************** -->
@@ -1103,14 +1108,20 @@
 									<div class="col-md-4 mb-3 mb-md-0">
 										<div class="text-center">
 											<!-- Info -->
-											<h2 class="mb-0">4.5</h2>
+											<% @average_rating = @courses.reviews.average(:rating)&.round(1) || 0 %>
+											<h2 class="mb-0"> <%= @average_rating %> /5</h2>
 											<!-- Star -->
+											<% rating = @average_rating.to_i %>
 											<ul class="list-inline mb-0">
-												<li class="list-inline-item me-0"><i class="fas fa-star text-warning"></i></li>
-												<li class="list-inline-item me-0"><i class="fas fa-star text-warning"></i></li>
-												<li class="list-inline-item me-0"><i class="fas fa-star text-warning"></i></li>
-												<li class="list-inline-item me-0"><i class="fas fa-star text-warning"></i></li>
-												<li class="list-inline-item me-0"><i class="fas fa-star-half-alt text-warning"></i></li>
+											<% 5.times do |i| %>
+												<li class="list-inline-item me-0">
+												<% if i < rating %>
+													<i class="fas fa-star text-warning"></i>
+												<% else %>
+													<i class="far fa-star text-warning"></i>
+												<% end %>
+												</li>
+											<% end %>
 											</ul>
 										
 										</div>
@@ -1122,29 +1133,37 @@
 								<!-- Student review START -->
 								<div class="row">
 									<!-- Review item START -->
-									<div class="d-md-flex my-4">
-										<!-- Avatar -->
-										<div class="avatar avatar-xl me-4 flex-shrink-0">
-											<img class="avatar-img rounded-circle" src="assets/images/avatar/09.jpg" alt="avatar">
-										</div>
-										<!-- Text -->
-										<div>
-											<div class="d-sm-flex mt-1 mt-md-0 align-items-center">
-												<h5 class="me-3 mb-0">Jacqueline Miller</h5>
-												<!-- Review star -->
-												<ul class="list-inline mb-0">
-													<li class="list-inline-item me-0"><i class="fas fa-star text-warning"></i></li>
-													<li class="list-inline-item me-0"><i class="fas fa-star text-warning"></i></li>
-													<li class="list-inline-item me-0"><i class="fas fa-star text-warning"></i></li>
-													<li class="list-inline-item me-0"><i class="fas fa-star text-warning"></i></li>
-													<li class="list-inline-item me-0"><i class="far fa-star text-warning"></i></li>
-												</ul>
+									<div class="review-scroll-container" style="max-height: 400px; overflow-y: auto; width: 100%;">
+									<%@courses.try(:reviews).present? && @courses.try(:reviews).each do |review|%>
+										<div class="d-md-flex my-4">
+											<!-- Avatar -->
+											<div class="avatar avatar-xl me-4 flex-shrink-0">
+												<img class="avatar-img rounded-circle" src="<%= url_for(review.user.avatar)%>" alt="avatar">
 											</div>
-											<!-- Info -->
-											<p class="small mb-2">2 days ago</p>
-											<p class="mb-2">Perceived end knowledge certainly day sweetness why cordially. Ask a quick six seven offer see among. Handsome met debating sir dwelling age material. As style lived he worse dried. Offered related so visitors we private removed. Moderate do subjects to distance. </p>
-											
+											<!-- Text -->
+											<div class="ml-5">
+												<div class="d-sm-flex mt-1 mt-md-0 align-items-center">
+													<h5 class="me-3 mb-0"><%= (review.user.name)%></h5>
+													<!-- Review star -->
+													<ul class="list-inline mb-0">
+														<% rating = review.rating.to_i %>
+														<% 5.times do |i| %>
+															<li class="list-inline-item me-0">
+															<% if i < rating %>
+																<i class="fas fa-star text-warning"></i>
+															<% else %>
+																<i class="far fa-star text-warning"></i>
+															<% end %>
+															</li>
+														<% end %>
+													</ul>
+												</div>
+												<!-- Info -->
+												<p class="small mb-2"><%= (review.created_at)%></p>
+												<p class="mb-2"><%= (review.comment)%> </p>
+											</div>
 										</div>
+									<% end %>
 									</div>
 									<!-- Divider -->
 									<hr>
@@ -1154,24 +1173,35 @@
 								<!-- Leave Review START -->
 								<div class="mt-2">
 									<h5 class="mb-4">Leave a Review</h5>
-									<form class="row g-3">
+									<form data-controller="review" data-action="submit->review#submit" class="row g-3">
 
-										<!-- Rating -->
+									<!-- Rating -->
 										<div class="col-12 mb-5">
-											<select id="inputState2" class="form-select border border-primary rounded shadow-sm js-choice" style= "width: 100%; padding: 15px; background-color: white; color: #ff6600;" >
-												<option value="5" selected>★★★★★ (5/5)</option>
-												<option value="4" >★★★★☆ (4/5)</option>
-												<option value="3" >★★★☆☆ (3/5)</option>
-												<option value="2" >★★☆☆☆ (2/5)</option>
-												<option value="1" >★☆☆☆☆ (1/5)</option>
+											<select id="inputState2" name="rate"
+													class="form-select border border-primary rounded shadow-sm js-choice"
+													style="width: 100%; padding: 15px; background-color: white; color: #ff6600;"
+													data-review-target="rate">
+											<option value="5" selected>★★★★★ (5/5)</option>
+											<option value="4">★★★★☆ (4/5)</option>
+											<option value="3">★★★☆☆ (3/5)</option>
+											<option value="2">★★☆☆☆ (2/5)</option>
+											<option value="1">★☆☆☆☆ (1/5)</option>
 											</select>
 										</div>
 										<!-- Message -->
 										<div class="col-12 mb-3">
-											<textarea class="form-control-input border" id="exampleFormControlTextarea1" placeholder="Your review" rows="3"></textarea>
+											<textarea class="form-control-input border"
+													name="review"
+													id="exampleFormControlTextarea1"
+													placeholder="Your review"
+													rows="3"
+													data-review-target="review"></textarea>
 										</div>
-										<!-- Button -->
+
+										<!-- Hidden Fields + Button -->
 										<div class="col-12">
+											<input type="hidden" name="user" value="<%= current_user.try(:id) %>" data-review-target="user">
+											<input type="hidden" name="course" value="<%= @courses.try(:id) %>" data-review-target="course">
 											<button type="submit" class="btn btn-primary mb-0">Post Review</button>
 										</div>
 									</form>

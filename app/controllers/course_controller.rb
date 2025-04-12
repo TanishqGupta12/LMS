@@ -7,7 +7,7 @@ class CourseController < ApplicationController
 
  def show
   @event = @event
-  @courses = Course.includes(:quiz_topics).find_by(id: params[:id])
+  @courses = Course.includes(:quiz_topics).includes(:reviews).find_by(id: params[:id])
 
   @quiz_topic_size = QuizTopic.where(course_id: params[:id]).size()
 
@@ -20,7 +20,7 @@ class CourseController < ApplicationController
 
   def course_favoritor
     @event = @event
-    @courses = Course.includes(:quiz_topics).find_by(id: params[:id])
+    @courses = Course.find_by(id: params[:id])
     if current_user.favorited?(@courses)
       current_user.unfavorite(@courses)
     else

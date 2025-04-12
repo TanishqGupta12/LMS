@@ -24,11 +24,19 @@ class User < ApplicationRecord
   has_many :courses, foreign_key: :teacher_id, dependent: :nullify
   has_many :tickets
   has_many :blogs , dependent: :delete_all
-
+  has_many :reviews, dependent: :destroy
   has_many :comments
   
   def name
     (self.first_name || '') + ' ' + (self.last_name || '')
+  end
+
+  def avatar
+    if image.persisted?
+      image
+    else
+      "http://127.0.0.1:3000/user.png"
+    end
   end
 
   def check_authentication_token

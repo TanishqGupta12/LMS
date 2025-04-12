@@ -36,29 +36,12 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
+    <%= stylesheet_link_tag "https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" %>
+    <%= javascript_include_tag "https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js" %>
   </head>
     <style>
       <%= @event.try(:custom_css).try(:html_safe) %>
     </style>
-    <%= javascript_tag do %>
-      <% flash.each do |type, message| %>
-        <%# Map Rails flash types to Toastr types %>
-        <% toastr_type = case type.to_sym
-            when :notice then 'success'
-            when :alert then 'error'
-            else type.to_s
-          end %>
-            toastr.options = {
-              "closeButton": true,
-              "progressBar": true,
-              "timeOut": "5000",
-              "extendedTimeOut": "1000",
-              "positionClass": "toast-bottom-left",
-              "preventDuplicates": true,
-            };
-        toastr["<%= toastr_type %>"]("<%= j message %>");
-      <% end %>
-    <% end %>
   <body>
     <%= render partial: "layouts/navbar", locals: { event: @event } %>
       <% if notice.present?%>

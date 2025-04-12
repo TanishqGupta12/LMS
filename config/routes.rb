@@ -45,6 +45,7 @@ Rails.application.routes.draw do
     end
   end
   resources :user_notes
+  resources :review
   # Defines the root path route ("/")
   # root "posts#index"
 end
