@@ -91,4 +91,3 @@ gem 'streamio-ffmpeg'
 gem "sidekiq", "~> 8.0"
 
 gem 'acts_as_shopping_cart'
-gem 'toastr-rails', '~> 1.0', '>= 1.0.3'

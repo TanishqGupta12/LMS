@@ -318,8 +318,6 @@ GEM
     timeout (0.4.3)
     tinymce-rails (7.7.1)
       railties (>= 3.1.1)
-    toastr-rails (1.0.3)
-      railties (>= 3.1.0)
     turbo-rails (2.0.13)
       actionpack (>= 7.1.0)
       railties (>= 7.1.0)
@@ -381,7 +379,6 @@ DEPENDENCIES
   streamio-ffmpeg
   stripe
   tinymce-rails
-  toastr-rails (~> 1.0, >= 1.0.3)
   turbo-rails
   tzinfo-data
   web-console
