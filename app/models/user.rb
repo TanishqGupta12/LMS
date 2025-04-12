@@ -26,7 +26,7 @@ class User < ApplicationRecord
   has_many :blogs , dependent: :delete_all
   has_many :reviews, dependent: :destroy
   has_many :comments
-  
+  has_many :faqs, dependent: :destroy
   def name
     (self.first_name || '') + ' ' + (self.last_name || '')
   end

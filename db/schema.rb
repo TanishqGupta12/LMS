@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2025_04_12_103921) do
+ActiveRecord::Schema[7.2].define(version: 2025_04_12_123253) do
   create_table "active_storage_attachments", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
@@ -180,6 +180,17 @@ ActiveRecord::Schema[7.2].define(version: 2025_04_12_103921) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "location"
+  end
+
+  create_table "faqs", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+    t.text "question"
+    t.text "answer"
+    t.bigint "course_id"
+    t.bigint "user_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["course_id"], name: "index_faqs_on_course_id"
+    t.index ["user_id"], name: "index_faqs_on_user_id"
   end
 
   create_table "favorites", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
@@ -526,6 +537,8 @@ ActiveRecord::Schema[7.2].define(version: 2025_04_12_103921) do
   add_foreign_key "courses", "users", column: "teacher_id"
   add_foreign_key "discounts", "events"
   add_foreign_key "email_contents", "events"
+  add_foreign_key "faqs", "courses"
+  add_foreign_key "faqs", "users"
   add_foreign_key "form_field_choices", "form_section_fields"
   add_foreign_key "form_section_fields", "form_sections"
   add_foreign_key "form_section_fields", "forms"
