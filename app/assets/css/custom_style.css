@@ -143,7 +143,7 @@
     --bs-btn-disabled-border-color: #066ac9;
 }
 
-/* btn {
+btn {
     --bs-btn-padding-x: 1rem;
     --bs-btn-padding-y: 0.5rem;
     --bs-btn-font-family: ;
@@ -178,7 +178,7 @@
     background-color: var(--bs-btn-bg);
     -webkit-transition: all 0.3sease-in-out;
     transition: all 0.3sease-in-out;
-} */
+}
 button,
 select {
     text-transform: none;
