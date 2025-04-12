@@ -17,7 +17,7 @@
                         <a class="list-group-item active text-decoration-none" href="<%= user_path(params[:id]) %>"><i class="bi bi-ui-checks-grid fa-fw me-2"></i>Dashboard</a>
                         <a class="list-group-item d-none text-decoration-none" href="student-subscription.html"><i class="bi bi-card-checklist fa-fw me-2"></i>My Subscriptions</a>
                         <a class="list-group-item d-none text-decoration-none" href="student-course-list.html"><i class="bi bi-basket fa-fw me-2"></i>My Courses</a>
-                        <a class="list-group-item text-decoration-none" href="student-course-resume.html"><i class="far fa-fw fa-file-alt me-2"></i>Course Resume</a>
+                        <a class="list-group-item text-decoration-none" href="<%= course_resume_user_path(params[:id])%>"><i class="far fa-fw fa-file-alt me-2"></i>Course Resume</a>
                         <a class="list-group-item d-none text-decoration-none" href="student-quiz.html"><i class="bi bi-question-diamond fa-fw me-2"></i>Quiz</a>
                         <a class="list-group-item text-decoration-none" href="<%= payment_info_user_path(params[:id]) %>"><i class="bi bi-credit-card-2-front fa-fw me-2"></i>Payment Info</a>
                         <a class="list-group-item text-decoration-none" href="<%= wishlist_user_path(params[:id])%>"><i class="bi bi-cart-check fa-fw me-2"></i>Wishlist</a>

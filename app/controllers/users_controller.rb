@@ -71,4 +71,10 @@ class UsersController < ApplicationController
     @favorited_course = @user.favorited_by_type('Course')
     # debugger
   end
+  def course_resume
+    @event = @event
+    @user = User.find_by(id: params[:id])
+
+    # debugger
+  end
 end
