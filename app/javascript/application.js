@@ -2,4 +2,4 @@
 import "@hotwired/turbo-rails"
 import "controllers"
 import "jquery"
-//= require toastr
+import "toastr"

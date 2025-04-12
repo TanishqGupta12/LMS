@@ -2,5 +2,4 @@
 
 @import "../scss/style.scss";
 @import "../css/style.css";
-//= require toastr
-@import "toastr";
+@import "https://cdn.jsdelivr.net/npm/toastr@2.1.4/build/toastr.min.css";
