@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2025_04_07_015344) do
+ActiveRecord::Schema[7.2].define(version: 2025_04_12_103921) do
   create_table "active_storage_attachments", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
@@ -345,6 +345,17 @@ ActiveRecord::Schema[7.2].define(version: 2025_04_07_015344) do
     t.index ["course_id"], name: "index_quiz_topics_on_course_id"
   end
 
+  create_table "reviews", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+    t.bigint "user_id"
+    t.bigint "course_id"
+    t.integer "rating"
+    t.text "comment"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["course_id"], name: "index_reviews_on_course_id"
+    t.index ["user_id"], name: "index_reviews_on_user_id"
+  end
+
   create_table "roles", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "name", null: false
     t.boolean "active", default: true
@@ -534,6 +545,8 @@ ActiveRecord::Schema[7.2].define(version: 2025_04_07_015344) do
   add_foreign_key "quiz_results", "users"
   add_foreign_key "quiz_topics", "categories", column: "catgory_id"
   add_foreign_key "quiz_topics", "courses"
+  add_foreign_key "reviews", "courses"
+  add_foreign_key "reviews", "users"
   add_foreign_key "taggings", "tags"
   add_foreign_key "tickets", "events"
   add_foreign_key "tickets", "users", on_delete: :cascade
