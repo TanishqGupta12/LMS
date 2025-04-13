@@ -1363,13 +1363,18 @@
 								<!-- Rating and follow -->
 								<div class="d-sm-flex justify-content-sm-between align-items-center mt-0 mt-sm-2">
 									<!-- Rating star -->
+									<% rating = @average_rating.to_i %>
 									<ul class="list-inline mb-0">
-										<li class="list-inline-item me-0 small"><i class="fas fa-star text-warning"></i></li>
-										<li class="list-inline-item me-0 small"><i class="fas fa-star text-warning"></i></li>
-										<li class="list-inline-item me-0 small"><i class="fas fa-star text-warning"></i></li>
-										<li class="list-inline-item me-0 small"><i class="fas fa-star text-warning"></i></li>
-										<li class="list-inline-item me-0 small"><i class="fas fa-star-half-alt text-warning"></i></li>
-										<li class="list-inline-item ms-2 h6 fw-light mb-0">4.5/5.0</li>
+										<% 5.times do |i| %>
+											<li class="list-inline-item me-0 small">
+											<% if i < rating %>
+												<i class="fas fa-star text-warning"></i>
+											<% else %>
+												<i class="far fa-star text-warning"></i>
+											<% end %>
+											</li>
+										<% end %>
+										<li class="list-inline-item ms-2 h6 fw-light mb-0"><%= @average_rating%> /5</li>
 									</ul>
 
 									<!-- button -->
