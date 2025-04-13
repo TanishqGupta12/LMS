@@ -7,7 +7,7 @@ class CourseController < ApplicationController
 
  def show
   @event = @event
-  @courses = Course.includes(:quiz_topics).includes(:reviews).find_by(id: params[:id])
+  @courses = Course.includes(:quiz_topics).includes(:reviews).includes(:user_courses).find_by(id: params[:id])
 
   @quiz_topic_size = QuizTopic.where(course_id: params[:id]).size()
 

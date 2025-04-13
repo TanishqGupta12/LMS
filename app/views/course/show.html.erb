@@ -1291,13 +1291,18 @@
 								<div class="mt-3 d-grid">
 									<a href="#" class="btn btn-outline-primary mb-2">Add to cart</a>
 									<% if @courses.try(:is_paid).present? %>
-										<button type="button" class="btn btn-success mb-2"data-toggle="modal" data-target="#PaidModel">Buy now</button>
+									
+										<% if @courses.try(:user_courses).find_by(user_id: current_user.try(:id) ,is_payment: true ).present? %>
+											<button type="button" class="btn btn-success mb-2">Enrolled</button>
+										<% else %>
+											<button type="button" class="btn btn-success mb-2"data-toggle="modal" data-target="#PaidModel">Buy now</button>
+										<% end %>
 										<!-- Button trigger modal -->
 										<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#notesModel" data-backdrop="false" data-keyboard="false">
 											Add Notes
 										</button>
 									<% else %>
-										<a href="#" class="btn btn-success mb-2">Enroller</a>
+										<a href="#" class="btn btn-success mb-2">Enroll</a>
 										<!-- Button trigger modal -->
 										<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#notesModel" data-backdrop="false" data-keyboard="false">
 											Add Notes

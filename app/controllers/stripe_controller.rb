@@ -111,7 +111,7 @@ class StripeController < ApplicationController
     user_course.payment_amount = amount 
     user_course.payment_details = session
     user_course.teacher_id = @teacher.id
-    user_course.is_payment = 0
+    user_course.is_payment = false
     user_course.save
     
     render json: session
@@ -121,7 +121,7 @@ class StripeController < ApplicationController
     user_course = UserCourse.find_by(user_id: params[:user_id] , course_id:params[:course_id])
 
     if user_course.present?
-      user_course.update(payment_status: "Payment complete",time: Time.current, is_payment: 1)
+      user_course.update(payment_status: "Payment complete",time: Time.current, is_payment: true)
     end
   end
 

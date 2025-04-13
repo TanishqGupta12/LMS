@@ -11,6 +11,7 @@ class Course < ApplicationRecord
   has_many :comments, dependent: :destroy
   has_many :reviews, dependent: :destroy
   has_many :faqs, dependent: :destroy
+  has_many :user_courses, dependent: :destroy
   scope :category_search, ->(category , course) {
     where("courses.title LIKE ? AND courses.category_id IN (SELECT id FROM categories WHERE title LIKE ?)", "%#{course}%", "%#{category}%")
   }
