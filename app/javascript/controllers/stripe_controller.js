@@ -86,8 +86,7 @@ export default class extends Controller {
         'X-CSRF-Token': csrfToken 
       },
       success: (response) => {
-      
-        toastr.success("okkk!")
+        window.location.href = response.url
       },
       error: (xhr) => {
         toastr.warning(xhr.responseText)

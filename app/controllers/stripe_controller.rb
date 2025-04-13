@@ -35,26 +35,67 @@ class StripeController < ApplicationController
 
   end
   
-  def create
+  # Define compatible payment methods by currency
+  def supported_payment_methods(currency)
+    case currency.downcase
+    when 'usd'
+      ['card', 'amazon_pay']
+    when 'inr'
+      ['card'] # upi not supported in Stripe yet
+    else
+      ['card']
+    end
+  end
 
-    session = Stripe::Checkout::Session.create(
-      payment_method_types: ['card'],
+  def create
+    @course = Course.find(params[:courseId])
+    @ticket = Ticket.find(params[:ticket])
+    @user = User.find(params[:userId])
+    @event = @course.event
+  
+    Stripe.api_key = @event.try(:secret_key)
+
+  
+    payment_methods = supported_payment_methods(@ticket.currency)
+  
+    # # Create a PaymentIntent
+    payment_intent = Stripe::PaymentIntent.create(
+      {
+        amount: @ticket.price_cents,
+        currency: @ticket.currency,
+        payment_method_types: payment_methods,
+        receipt_email: @user.try(:email),
+        description: @event.try(:name)
+      }
+    )
+  
+    data = {
+      customer_email: @user.try(:email),
+      client_reference_id: @user.try(:authentication_token),
+      payment_method_types: payment_methods,
       line_items: [{
-        price_data: {currency: 'usd',
+        price_data: {
+          currency: @ticket.currency,
           product_data: {
-            name: @course.name,
+            name: @course.title,
           },
-          unit_amount: @course.price_cents,
+          unit_amount: params[:total_amount].present? ? params[:total_amount].to_i * 100  : @ticket.price_cents * 100 ,
         },
         quantity: 1,
       }],
+      payment_intent_data: {
+        description: @event.try(:name),
+        metadata: { payment_intent_id: payment_intent.id }
+      },
       mode: 'payment',
       success_url: success_url,
       cancel_url: cancel_url,
-    )
-
-    render json: { id: session.id }
-  end
+    }
+  
+    session = Stripe::Checkout::Session.create(data)
+  
+    render json: session
+  end  
 
   def success
     
