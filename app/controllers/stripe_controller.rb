@@ -63,7 +63,7 @@ class StripeController < ApplicationController
     # # Create a PaymentIntent
     payment_intent = Stripe::PaymentIntent.create(
       {
-        amount: @ticket.price_cents,
+        amount: amount,
         currency: @ticket.currency,
         payment_method_types: payment_methods,
         receipt_email: @user.try(:email),
@@ -98,16 +98,31 @@ class StripeController < ApplicationController
         time: Time.now
       },
       mode: 'payment',
-      success_url: success_url,
-      cancel_url: cancel_url,
+      success_url: success_url(user_id: @user.id ,course_id: @course.id),
+      cancel_url: cancel_url(),
     }
     session[:back_url] = request.referer
     session = Stripe::Checkout::Session.create(data)
+
+    user_course = UserCourse.new
+    user_course.user_id = @user.id
+    user_course.course_id = @course.id
+    user_course.payment_status = "Payment incomplete"
+    user_course.payment_amount = amount 
+    user_course.payment_details = session
+    user_course.teacher_id = @teacher.id
+    user_course.is_payment = 0
+    user_course.save
+    
     render json: session
   end  
 
   def success
-    
+    user_course = UserCourse.find_by(user_id: params[:user_id] , course_id:params[:course_id])
+
+    if user_course.present?
+      user_course.update(payment_status: "Payment complete",time: Time.current, is_payment: 1)
+    end
   end
 
   def cancel

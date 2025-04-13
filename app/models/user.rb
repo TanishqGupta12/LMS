@@ -22,6 +22,7 @@ class User < ApplicationRecord
   after_save -> { image.purge }, if: :remove_image
 
   has_many :courses, foreign_key: :teacher_id, dependent: :nullify
+  has_many :user_courses, foreign_key: :teacher_id, dependent: :nullify
   has_many :tickets
   has_many :blogs , dependent: :delete_all
   has_many :reviews, dependent: :destroy
