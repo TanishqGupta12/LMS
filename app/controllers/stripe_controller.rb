@@ -48,6 +48,7 @@ class StripeController < ApplicationController
   end
 
   def create
+    session[:back_url] = nil
     @course = Course.find(params[:courseId])
     @ticket = Ticket.find(params[:ticket])
     @user = User.find(params[:userId])
@@ -91,7 +92,7 @@ class StripeController < ApplicationController
       success_url: success_url,
       cancel_url: cancel_url,
     }
-  
+    session[:back_url] = request.referer
     session = Stripe::Checkout::Session.create(data)
   
     render json: session
