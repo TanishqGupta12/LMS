@@ -52,13 +52,14 @@ class StripeController < ApplicationController
     @course = Course.find(params[:courseId])
     @ticket = Ticket.find(params[:ticket])
     @user = User.find(params[:userId])
+    @teacher = User.find(params[:teacher])
     @event = @course.event
   
     Stripe.api_key = @event.try(:secret_key)
 
   
     payment_methods = supported_payment_methods(@ticket.currency)
-  
+    amount = params[:total_amount].present? ? params[:total_amount].to_i * 100  : @ticket.price_cents * 100
     # # Create a PaymentIntent
     payment_intent = Stripe::PaymentIntent.create(
       {
@@ -80,7 +81,7 @@ class StripeController < ApplicationController
           product_data: {
             name: @course.title,
           },
-          unit_amount: params[:total_amount].present? ? params[:total_amount].to_i * 100  : @ticket.price_cents * 100 ,
+          unit_amount: amount ,
         },
         quantity: 1,
       }],
@@ -88,13 +89,20 @@ class StripeController < ApplicationController
         description: @event.try(:name),
         metadata: { payment_intent_id: payment_intent.id }
       },
+      metadata: {
+        id: @teacher.id,
+        name: @teacher.name,
+        email: @teacher.email,
+        authentication_token: @teacher.authentication_token,
+        unit_amount: amount,
+        time: Time.now
+      },
       mode: 'payment',
       success_url: success_url,
       cancel_url: cancel_url,
     }
     session[:back_url] = request.referer
     session = Stripe::Checkout::Session.create(data)
-  
     render json: session
   end  
 

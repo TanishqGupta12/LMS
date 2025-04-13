@@ -2,7 +2,7 @@ import { Controller } from "@hotwired/stimulus"
 
 // Connects to data-controller="stripe"
 export default class extends Controller {
-  static targets = [ "ticket", "course", "user",'Discount',"discount_amount" ,'total_amount']
+  static targets = [ "ticket", "course", "user",'Discount',"discount_amount" ,'total_amount' ,'teacher']
 
   connect() {
     // console.log("stripe");
@@ -69,6 +69,7 @@ export default class extends Controller {
     var courseId = this.courseTarget.value 
     var ticket = this.ticketTarget.value
     var Discount = this.DiscountTarget.value
+    var teacher = this.teacherTarget.value
     var total_amounts = this.total_amountTarget.textContent;
 
     $.ajax({
@@ -80,6 +81,7 @@ export default class extends Controller {
         courseId: courseId,
         ticket: ticket,
         Discount: Discount,
+        teacher: teacher,
         total_amount: total_amounts
       },
       headers: {

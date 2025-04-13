@@ -1457,6 +1457,7 @@ Page content END -->
 			<input type="hidden" class="form-control" name="ticket" data-stripe-target="ticket" value=" <%= @courses.try(:ticket).try(:id) %>">
 			<input type="hidden" class="form-control" name="course" data-stripe-target="course" value=" <%= @courses.try(:id) %>">
 			<input type="hidden" class="form-control" name="user" data-stripe-target="user" value=" <%= current_user.try(:id) %>">
+			<input type="hidden" class="form-control" name="teacher" data-stripe-target="teacher" value=" <%= @courses.try(:teacher).try(:id) %>">
 			<input type="text" class="form-control" name="Discount" data-stripe-target="Discount">
 			<button type="submit" class="btn btn-primary m-2">Apply</button>
 			<p>Discount Amount: <span data-stripe-target="discount_amount"></span></p>
