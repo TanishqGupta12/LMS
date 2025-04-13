@@ -60,4 +60,40 @@ export default class extends Controller {
       }
     })
   }
+
+  payment (event){
+    event.preventDefault()
+
+    var csrfToken = document.querySelector('meta[name="csrf-token"]').content;
+    var userId = this.userTarget.value
+    var courseId = this.courseTarget.value 
+    var ticket = this.ticketTarget.value
+    var Discount = this.DiscountTarget.value
+    var total_amounts = this.total_amountTarget.textContent;
+
+    $.ajax({
+      url: `/create`,
+      method: "POST",
+      dataType: "json",
+      data : {
+        userId: userId,
+        courseId: courseId,
+        ticket: ticket,
+        Discount: Discount,
+        total_amount: total_amounts
+      },
+      headers: {
+        'X-CSRF-Token': csrfToken 
+      },
+      success: (response) => {
+      
+        toastr.success("okkk!")
+      },
+      error: (xhr) => {
+        toastr.warning(xhr.responseText)
+        console.log(xhr.responseText);
+        
+      }
+    })
+  }
 }

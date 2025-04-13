@@ -11,22 +11,24 @@ class StripeController < ApplicationController
         params[:Discount],
         ticket.id
       ).first
-  
-      if discount.present?
-        if discount.is_percentage == true
-          discounted_amount = ticket.price_cents.to_i - ((ticket.price_cents.to_i * discount.discount_amount.to_f) / 100.0)
-        else
-          discounted_amount = [ticket.price_cents.to_i - discount.discount_amount.to_i, 0].max
-        end
-      else
-        render json: { error: "Invalid or inactive discount code", ticket: ticket }
+
+      if discount.nil? || discount.blank?
+        render json: { error: "Invalid or inactive discount code" }, status: :unprocessable_entity and return
       end
+  
+
+      if discount.is_percentage == true
+        discounted_amount = ticket.price_cents.to_i - ((ticket.price_cents.to_i * discount.discount_amount.to_f) / 100.0)
+      else
+        discounted_amount = [ticket.price_cents.to_i - discount.discount_amount.to_i, 0].max
+      end
+
     else
       discounted_amount = ticket.price_cents
     end
     
     result=  {
-      discount_amount: discount.discount_amount.to_i,
+      discount_amount: discount.is_percentage == true ? "#{discount.discount_amount.to_i} % " : discount.discount_amount.to_i,
       total_amount: discounted_amount.to_i
     }
     render json: result
@@ -34,6 +36,31 @@ class StripeController < ApplicationController
   end
   
   def create
+
+    session = Stripe::Checkout::Session.create(
+      payment_method_types: ['card'],
+      line_items: [{
+        price_data: {currency: 'usd',
+          product_data: {
+            name: @course.name,
+          },
+          unit_amount: @course.price_cents,
+        },
+        quantity: 1,
+      }],
+      mode: 'payment',
+      success_url: success_url,
+      cancel_url: cancel_url,
+    )
+
+    render json: { id: session.id }
+  end
+
+  def success
+    
+  end
+
+  def cancel
     
   end
 end
