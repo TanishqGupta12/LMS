@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2025_04_12_123253) do
+ActiveRecord::Schema[7.2].define(version: 2025_04_13_063336) do
   create_table "active_storage_attachments", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
@@ -123,18 +123,12 @@ ActiveRecord::Schema[7.2].define(version: 2025_04_12_123253) do
   end
 
   create_table "discounts", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
-    t.bigint "event_id", null: false
     t.string "code"
     t.boolean "is_active"
     t.boolean "is_percentage"
     t.string "discount_amount"
-    t.float "min_discount"
-    t.float "max_discount"
-    t.datetime "valid_from"
-    t.datetime "valid_still"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["event_id"], name: "index_discounts_on_event_id"
   end
 
   create_table "email_contents", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
@@ -408,6 +402,8 @@ ActiveRecord::Schema[7.2].define(version: 2025_04_12_123253) do
     t.datetime "updated_at", null: false
     t.bigint "user_id"
     t.integer "price_cents", default: 0, null: false
+    t.bigint "discount_id"
+    t.index ["discount_id"], name: "index_tickets_on_discount_id"
     t.index ["event_id"], name: "index_tickets_on_event_id"
     t.index ["user_id"], name: "index_tickets_on_user_id"
   end
@@ -416,10 +412,11 @@ ActiveRecord::Schema[7.2].define(version: 2025_04_12_123253) do
     t.bigint "user_id", null: false
     t.bigint "course_id", null: false
     t.boolean "completed"
-    t.string "feedback"
     t.string "certificate_url"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "payment_status"
+    t.string "payment_amount"
     t.index ["course_id"], name: "index_user_courses_on_course_id"
     t.index ["user_id"], name: "index_user_courses_on_user_id"
   end
@@ -535,7 +532,6 @@ ActiveRecord::Schema[7.2].define(version: 2025_04_12_123253) do
   add_foreign_key "courses", "events", on_delete: :cascade
   add_foreign_key "courses", "tickets", on_delete: :cascade
   add_foreign_key "courses", "users", column: "teacher_id"
-  add_foreign_key "discounts", "events"
   add_foreign_key "email_contents", "events"
   add_foreign_key "faqs", "courses"
   add_foreign_key "faqs", "users"
@@ -561,6 +557,7 @@ ActiveRecord::Schema[7.2].define(version: 2025_04_12_123253) do
   add_foreign_key "reviews", "courses"
   add_foreign_key "reviews", "users"
   add_foreign_key "taggings", "tags"
+  add_foreign_key "tickets", "discounts", on_delete: :cascade
   add_foreign_key "tickets", "events"
   add_foreign_key "tickets", "users", on_delete: :cascade
   add_foreign_key "user_courses", "courses"

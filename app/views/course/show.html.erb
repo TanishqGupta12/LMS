@@ -1276,7 +1276,7 @@
 								<div class="d-flex justify-content-round align-items-center">
 									<!-- Price -->
 									<% if @courses.try(:is_paid).present? %>
-										<h3 class="fw-bold mb-0 me-2">Price: <%= @courses.try(:ticket).try(:price) %></h3>
+										<h3 class="fw-bold mb-0 me-2">Price: <%= @courses.try(:ticket).try(:price_cents) %></h3>
 										<small><%= @courses.try(:ticket).try(:currency).titleize %> </small>
 									<% end %>
 									<!-- favorite_button -->
@@ -1291,7 +1291,7 @@
 								<div class="mt-3 d-grid">
 									<a href="#" class="btn btn-outline-primary mb-2">Add to cart</a>
 									<% if @courses.try(:is_paid).present? %>
-										<a href="#" class="btn btn-success mb-2">Buy now</a>
+										<button type="button" class="btn btn-success mb-2"data-toggle="modal" data-target="#PaidModel">Buy now</button>
 										<!-- Button trigger modal -->
 										<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#notesModel" data-backdrop="false" data-keyboard="false">
 											Add Notes
@@ -1435,6 +1435,33 @@ Page content END -->
           <input type="submit" value="Save changes" class="btn btn-primary">
         </div>
       </form>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="PaidModel" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content" data-controller="stripe">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLongTitle">Payment Section</h5>
+      </div>
+      <div class="modal-body">
+		<form data-action="submit->stripe#amount">
+			<p>Apply Discount</p>
+			<p class="fw-bold mb-2 me-2">Price: <%= @courses.try(:ticket).try(:price_cents) %></p>
+			<input type="hidden" class="form-control" name="ticket" data-stripe-target="ticket" value=" <%= @courses.try(:ticket).try(:id) %>">
+			<input type="hidden" class="form-control" name="course" data-stripe-target="course" value=" <%= @courses.try(:id) %>">
+			<input type="hidden" class="form-control" name="user" data-stripe-target="user" value=" <%= current_user.try(:id) %>">
+			<input type="text" class="form-control" name="Discount" data-stripe-target="Discount">
+			<button type="submit" class="btn btn-primary m-2">Apply</button>
+			<p>Discount Amount: <span data-stripe-target="discount_amount"></span></p>
+			<p>Total Amount: <span data-stripe-target="total_amount"></span></p>
+		</form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Payment</button>
+      </div>
     </div>
   </div>
 </div>

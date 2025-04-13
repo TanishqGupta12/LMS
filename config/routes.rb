@@ -46,6 +46,8 @@ Rails.application.routes.draw do
   end
   resources :user_notes
   resources :review
+
+  match "discount/amount", to: "stripe#discount_amount", as: "discount_amount", via: [:get, :post]
   # Defines the root path route ("/")
   # root "posts#index"
 end

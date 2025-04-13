@@ -4,5 +4,6 @@ class Ticket < ApplicationRecord
   has_many :courses
   belongs_to :user , optional: true
   belongs_to :event
+  belongs_to :discount, optional: true
 
 end
