@@ -117,11 +117,39 @@ class StripeController < ApplicationController
     render json: session
   end  
 
+  def free_payment
+    session[:back_url] = nil
+    @course = Course.find(params[:courseId])
+    @user = User.find(params[:userId])
+    @teacher = User.find(params[:teacher])
+    @event = @course.event
+
+    user_course = UserCourse.new
+    user_course.user_id = @user.id
+    user_course.course_id = @course.id
+    user_course.payment_status = "Free access"
+    user_course.payment_amount =  "free", 
+    # user_course.payment_details = session 
+    user_course.teacher_id = @teacher.id
+    user_course.is_payment = false
+    user_course.save
+
+    session[:back_url] = request.referer
+    
+    render json: {
+      redirect_url: success_url(user_id: @user.id, course_id: @course.id, is_free: "free")
+    }
+  end
+
   def success
     user_course = UserCourse.find_by(user_id: params[:user_id] , course_id:params[:course_id])
 
     if user_course.present?
-      user_course.update(payment_status: "Payment complete",time: Time.current, is_payment: true)
+      if params[:is_free].blank? 
+        user_course.update(payment_status: "Free access",time: Time.current, is_payment: true)
+      else
+        user_course.update(payment_status: "Payment complete",time: Time.current, is_payment: true)
+      end
     end
   end
 

@@ -5,6 +5,7 @@ class UserCourse < ApplicationRecord
 
   enum payment_status: {
     "Payment incomplete": "Payment incomplete",
-    "Payment complete": "Payment complete"
+    "Payment complete": "Payment complete",
+    "Free access": "Free access"
   }
 end

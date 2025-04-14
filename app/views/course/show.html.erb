@@ -1302,7 +1302,7 @@
 											Add Notes
 										</button>
 									<% else %>
-										<a href="#" class="btn btn-success mb-2">Enroll</a>
+										<button type="button" class="btn btn-success mb-2"data-toggle="modal" data-target="#PaidModel"> Enroll</button>
 										<!-- Button trigger modal -->
 										<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#notesModel" data-backdrop="false" data-keyboard="false">
 											Add Notes
@@ -1457,21 +1457,29 @@ Page content END -->
       </div>
       <div class="modal-body">
 		<form data-action="submit->stripe#amount">
-			<p>Apply Discount</p>
-			<p class="fw-bold mb-2 me-2">Price: <%= @courses.try(:ticket).try(:price_cents) %></p>
+			<% if @courses.try(:is_paid) %>
+				<p>Apply Discount</p>
+				<p>Discount Amount: <span data-stripe-target="discount_amount"></span></p>
+				<p>Total Amount: <span data-stripe-target="total_amount"></span></p>
+				<p class="fw-bold mb-2 me-2">Price: <%= @courses.try(:ticket).try(:price_cents) %></p>
+				<input type="text" class="form-control" name="Discount" data-stripe-target="Discount">
+				<button type="submit" class="btn btn-primary m-2">Apply</button>
+			<% else %>
+			<p class="fw-bold mb-2 me-2">Free</p>
+			<% end %>
 			<input type="hidden" class="form-control" name="ticket" data-stripe-target="ticket" value=" <%= @courses.try(:ticket).try(:id) %>">
 			<input type="hidden" class="form-control" name="course" data-stripe-target="course" value=" <%= @courses.try(:id) %>">
 			<input type="hidden" class="form-control" name="user" data-stripe-target="user" value=" <%= current_user.try(:id) %>">
 			<input type="hidden" class="form-control" name="teacher" data-stripe-target="teacher" value=" <%= @courses.try(:teacher).try(:id) %>">
-			<input type="text" class="form-control" name="Discount" data-stripe-target="Discount">
-			<button type="submit" class="btn btn-primary m-2">Apply</button>
-			<p>Discount Amount: <span data-stripe-target="discount_amount"></span></p>
-			<p>Total Amount: <span data-stripe-target="total_amount"></span></p>
 		</form>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-		<button type="button" class="btn btn-primary" data-action="click->stripe#payment">Payment</button>
+		<% if @courses.try(:is_paid) %>
+			<button type="button" class="btn btn-primary" data-action="click->stripe#payment">Payment</button>
+		<% else %>
+			<button type="button" class="btn btn-primary" data-action="click->stripe#free_payment">Payment now</button>
+		<% end %>
       </div>
     </div>
   </div>

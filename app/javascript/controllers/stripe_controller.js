@@ -97,4 +97,33 @@ export default class extends Controller {
       }
     })
   }
+  free_payment(event){
+    event.preventDefault();
+
+    const csrfToken = document.querySelector('meta[name="csrf-token"]').content;
+    
+    const data = {
+      userId: this.userTarget.value,
+      courseId: this.courseTarget.value,
+      teacher: this.teacherTarget.value
+    };
+    $.ajax({
+      url: `/free_payment`,
+      method: "POST",
+      dataType: "json",
+      data: data,
+      headers: {
+        'X-CSRF-Token': csrfToken
+      },
+      success: (response) => {
+        window.location.href = response.redirect_url
+        
+        toastr.info("This Course is free!");
+      },
+      error: (xhr) => {
+        toastr.warning(xhr.responseText);
+        console.error("Free payment error:", xhr.responseText);
+      }
+    });
+  }
 }
