@@ -25,9 +25,13 @@
               <a class="h5" href="<%= event_course_path(course.try(:event_id) ,course.try(:id))%>"><%= course.title %></a>
               <div class="border-top mt-4 pt-4">
                 <div class="d-flex justify-content-between">
+                  <% average_rating = course.reviews.average(:rating)&.round(1) || 0 %>
+
+                  <% if average_rating.present? &&  average_rating != 0 %>
                   <h6 class="m-0">
-                    <i class="fa fa-star text-primary mr-2"></i> <small>()</small>
+                    <i class="fa fa-star text-primary mr-2"></i> <small><%= average_rating %> / 5</small>
                   </h6>
+                  <% end %>
                     <h5 class="m-0">
                       <%= course.try(:ticket).present? ? "#{course.try(:ticket).price.to_hash[:cents] } #{course.try(:ticket).price.to_hash[:currency_iso] }" : "Free" %>
                     </h5>
