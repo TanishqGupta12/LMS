@@ -96,7 +96,7 @@ RailsAdmin.config do |config|
 
   end
   config.model 'FormSection' do
-    visible false
+    visible true
   end
   config.model 'FormSectionField' do
 
