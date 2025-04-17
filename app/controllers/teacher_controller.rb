@@ -5,6 +5,6 @@ class TeacherController < ApplicationController
   end
 
   def show
-    
+    @teachers = User.find(params[:id])
   end
  end
