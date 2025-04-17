@@ -1360,7 +1360,7 @@
 										<img class="avatar-img rounded-circle" src="<%= url_for( @courses.try(:teacher).try(:image).present? ?  @courses.try(:teacher).try(:image) : "http://127.0.0.1:3000/user.png" )  %>" alt="avatar">
 									</div>
 									<div class="ms-sm-3 mt-2 mt-sm-0">
-										<h5 class="mb-0"><a href="#"><%= @courses.try(:teacher).try(:name) %></a></h5>
+										<h5 class="mb-0"><a href="<%= event_teacher_path(@courses.try(:teacher).current_event_id , @courses.try(:teacher).id)%>"><%= @courses.try(:teacher).try(:name) %></a></h5>
 										<p class="mb-0 small"><%= @courses.try(:teacher).try(:position) %></p>
 									</div>
 								</div>

@@ -18,7 +18,9 @@
                 </div>
               </div>
               <div class="bg-secondary p-4">
+                <a href="<%= event_teacher_path(teacher.current_event_id , teacher.id)%>">
                 <h5><%= teacher.first_name %> <%= teacher.last_name %></h5>
+                </a>
                 <p class="m-0"><%= teacher.position %></p>
               </div>
             </div>
