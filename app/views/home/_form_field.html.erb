@@ -1,8 +1,16 @@
+<style>
+    .form-outline {
+    position: relative;
+    margin-bottom: 1.5rem;
+}
+
+
+</style>
 <div style="width: <%= item.is_single_column ? '100%' : '50%' %>;">
   <% case item.data_field %>
   <% when "email" %>
     <div class="col-md-12 mb-4">
-      <div class="form-outline">
+      <div class="form-outline m-3">
         <%= f.label item.field_type, item.caption, class: "form-label" %>
         <%= f.email_field item.field_type, class: "form-control form-control-lg", placeholder: item.placeholder, required: item.is_required %>
         <small class="form-text text-muted d-block mt-1">Hint: <%= item.field_hint %></small>
@@ -11,7 +19,7 @@
 
   <% when "password" %>
     <div class="col-md-12 mb-4">
-      <div class="form-outline">
+      <div class="form-outline m-3">
         <%= f.label item.field_type, item.caption, class: "form-label" %>
         <%= f.password_field item.field_type, class: "form-control form-control-lg", placeholder: item.placeholder, required: item.is_required %>
         <small class="form-text text-muted d-block mt-1">Hint: <%= item.field_hint %></small>
@@ -20,7 +28,7 @@
 
   <% when "number" %>
     <div class="col-md-12 mb-4">
-      <div class="form-outline">
+      <div class="form-outline m-3">
         <%= f.label item.field_type, item.caption, class: "form-label" %>
         <%= f.number_field item.field_type, class: "form-control form-control-lg", placeholder: item.placeholder, required: item.is_required %>
         <small class="form-text text-muted d-block mt-1">Hint: <%= item.field_hint %></small>
@@ -29,7 +37,7 @@
 
   <% when "radio" %>
     <div class="col-md-12 mb-4">
-      <div class="form-outline">
+      <div class="form-outline m-3">
         <label class="form-label d-block"><%= item.caption %>:</label>
         <% item.form_field_choices&.each_with_index do |choice, idx| %>
           <div class="form-check form-check-inline">
