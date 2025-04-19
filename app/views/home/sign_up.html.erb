@@ -12,7 +12,7 @@
           <ul class="nav nav-tabs" id="myTab" role="tablist">
             <% @form.try(:form_sections).order(:sequence).each_with_index do |form_section, idx| %>
               <% tab_id = form_section.caption.parameterize %>
-              <li class="nav-item">
+              <li class="nav-item" id="<%= idx %>-item">
                 <a class="nav-link <%= 'active' if idx == 0 %>" id="<%= tab_id %>-tab" data-toggle="tab" href="#<%= tab_id %>" role="tab" aria-controls="<%= tab_id %>" aria-selected="<%= idx == 0 %>"><%= form_section.caption %></a>
               </li>
             <% end %>

@@ -17,11 +17,7 @@ class HomeController < ApplicationController
   end
 
   def sign_up
-    # @form = Form
-    # .includes(:form_sections , )
-    # .includes(form_section_fields: :form_field_choices) 
-    # .find_by(event_id: params[:event_id])                      
-    # 
+    
     @form = Form.includes(form_sections: { form_section_fields: :form_field_choices }).find_by(event_id: params[:event_id])
 
   end
