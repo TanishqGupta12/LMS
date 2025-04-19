@@ -25,29 +25,6 @@ RailsAdmin.config do |config|
   # config.show_gravatar = true
   # 
   #
-  config.model 'QuizTopic' do
-    visible true
-    edit do
-    
-      exclude_fields :category ,:catgory_id
-    end
-    list do
-
-      exclude_fields :category ,:catgory_id
-    end
-  end
-
-  config.model 'Lesson' do
-    visible true
-    edit do
-    
-      include_all_fields
-    end
-    list do
-
-      include_all_fields
-    end
-  end
 
   config.model 'Blog' do
     field :category
@@ -214,6 +191,9 @@ RailsAdmin.config do |config|
   config.model 'Course' do
     visible true
 
+    navigation_label "Topic"
+    weight 1
+
     list do
       field :level
       field :title
@@ -262,6 +242,98 @@ RailsAdmin.config do |config|
       end
       include_all_fields
       exclude_fields :favorited ,:favorited_ids ,:comment_ids ,:comments
+    end
+  end
+
+  config.model 'Lesson' do
+    visible true
+
+    navigation_label "Topic"
+    weight 2
+    edit do
+    
+      include_all_fields
+    end
+    list do
+
+      include_all_fields
+    end
+  end
+
+  config.model 'QuizTopic' do
+    visible true
+    navigation_label "Topic"
+    weight 3
+    edit do
+    
+      exclude_fields :category ,:catgory_id
+    end
+    list do
+
+      exclude_fields :category ,:catgory_id
+    end
+  end
+
+  config.model 'QuizQuestion' do
+    visible true
+    navigation_label "Topic"
+    weight 4
+    edit do
+    
+    end
+    list do
+
+    end
+  end
+
+  config.model 'QuizQuestionOption' do
+    visible true
+    navigation_label "Topic"
+    weight 5
+    edit do
+    
+    end
+    list do
+
+    end
+  end
+
+  config.model 'QuizAttempt' do
+    visible true
+    navigation_label "Topic"
+    weight 6
+    edit do
+    
+    end
+    list do
+
+    end
+  end
+
+  config.model 'QuizAttemptResult' do
+    visible true
+    navigation_label "Topic"
+    weight 7
+    edit do
+    
+
+    end
+    list do
+
+
+    end
+  end
+
+  config.model 'QuizResult' do
+    visible true
+    navigation_label "Topic"
+    weight 8
+    edit do
+    
+    end
+    list do
+
+    
     end
   end
 
