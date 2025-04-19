@@ -7,12 +7,20 @@
 
 </style>
 <div style="width: <%= item.is_single_column ? '100%' : '50%' %>;">
-  <% case item.data_field %>
+  <% case item.field_type %>
   <% when "email" %>
     <div class="col-md-12 mb-4">
       <div class="form-outline m-3">
         <%= f.label item.field_type, item.caption, class: "form-label" %>
-        <%= f.email_field item.field_type, class: "form-control form-control-lg", placeholder: item.placeholder, required: item.is_required %>
+        <%= f.email_field item.field_type, class: "form-control form-control-lg", name: item.data_field ,placeholder: item.placeholder, required: item.is_required %>
+        <small class="form-text text-muted d-block mt-1">Hint: <%= item.field_hint %></small>
+      </div>
+    </div>
+  <% when "text" %>
+    <div class="col-md-12 mb-4">
+      <div class="form-outline m-3">
+        <%= f.label item.field_type, item.caption, class: "form-label" %>
+        <%= f.email_field item.field_type, class: "form-control form-control-lg", name: item.data_field, placeholder: item.placeholder, required: item.is_required %>
         <small class="form-text text-muted d-block mt-1">Hint: <%= item.field_hint %></small>
       </div>
     </div>
@@ -21,7 +29,7 @@
     <div class="col-md-12 mb-4">
       <div class="form-outline m-3">
         <%= f.label item.field_type, item.caption, class: "form-label" %>
-        <%= f.password_field item.field_type, class: "form-control form-control-lg", placeholder: item.placeholder, required: item.is_required %>
+        <%= f.password_field item.field_type, class: "form-control form-control-lg", name: item.data_field, placeholder: item.placeholder, required: item.is_required %>
         <small class="form-text text-muted d-block mt-1">Hint: <%= item.field_hint %></small>
       </div>
     </div>
@@ -30,7 +38,7 @@
     <div class="col-md-12 mb-4">
       <div class="form-outline m-3">
         <%= f.label item.field_type, item.caption, class: "form-label" %>
-        <%= f.number_field item.field_type, class: "form-control form-control-lg", placeholder: item.placeholder, required: item.is_required %>
+        <%= f.number_field item.field_type, class: "form-control form-control-lg", name: item.data_field, placeholder: item.placeholder, required: item.is_required %>
         <small class="form-text text-muted d-block mt-1">Hint: <%= item.field_hint %></small>
       </div>
     </div>
@@ -41,7 +49,7 @@
         <label class="form-label d-block"><%= item.caption %>:</label>
         <% item.form_field_choices&.each_with_index do |choice, idx| %>
           <div class="form-check form-check-inline">
-            <%= f.radio_button item.field_type, choice.caption, id: "#{item.data_field}-#{index}-#{idx}", class: "form-check-input", checked: idx == 0, required: item.is_required %>
+            <%= f.radio_button item.field_type, choice.caption, id: "#{item.data_field}-#{index}-#{idx}", name: item.data_field,class: "form-check-input", checked: idx == 0, required: item.is_required %>
             <%= f.label "#{item.data_field}-#{index}-#{idx}", choice.caption, class: "form-check-label fw-bold text-primary" %>
           </div>
         <% end %>
