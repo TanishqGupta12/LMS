@@ -56,6 +56,30 @@
         <small class="form-text text-muted d-block mt-1">Hint: <%= item.field_hint %></small>
       </div>
     </div>
+  <% when "checkbox" %>
+    <div class="col-md-12 mb-4">
+      <div class="form-outline m-3">
+        <label class="form-label d-block"><%= item.caption %>:</label>
+        <% item.form_field_choices&.each_with_index do |choice, idx| %>
+          <div class="form-check form-check-inline">
+            <%= f.check_box "#{item.data_field}_#{index}[]", { id: "#{item.data_field}-#{index}-#{idx}", class: "form-check-input", required: item.is_required }, choice.caption, nil %>
+            <%= f.label "#{item.data_field}-#{index}-#{idx}", choice.caption, class: "form-check-label fw-bold text-primary" %>
+          </div>
+        <% end %>
+        <small class="form-text text-muted d-block mt-1">Hint: <%= item.field_hint %></small>
+      </div>
+    </div>
+  <% when "select" %>
+    <div class="col-md-12 mb-4">
+      <div class="form-outline m-3">
+        <label class="form-label d-block" for="<%= item.data_field %>"><%= item.caption %>:</label>
+        <%= f.select "#{item.data_field}_#{index}", 
+                    item.form_field_choices.map { |c| [c.caption, c.caption] }, 
+                    { include_blank: true }, 
+                    { id: "#{item.data_field}-#{index}", class: "form-select", required: item.is_required } %>
+        <small class="form-text text-muted d-block mt-1">Hint: <%= item.field_hint %></small>
+      </div>
+    </div>
 
   <% when "hidden" %>
     <%= f.hidden_field item.field_type, value: item.value %>
