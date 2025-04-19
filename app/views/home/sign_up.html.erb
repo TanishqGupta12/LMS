@@ -2,41 +2,42 @@
   <p><%= @form&.description %></p>
 </div>
 
-<section class="vh-auto">
+<section class="vh-auto gradient-custom">
   <div class="container py-5 h-100 w-100">
     <div class="row justify-content-center align-items-center h-100">
-      <div class="card  col-lg-12" style="border-radius: 15px;">
-        <h4 class="ml-4 mt-3 pb-2 pb-md-0"><%= @form&.caption %></h4>
-        <div class="card-body p-4 p-md-5">
-          <ul class="nav nav-tabs" id="myTab" role="tablist">
-            <% @form.try(:form_sections).order(:sequence).each_with_index do |form_section, idx| %>
-              <% tab_id = form_section.caption.parameterize %>
-              <li class="nav-item">
-                <a class="nav-link <%= 'active' if idx == 0 %>" id="<%= tab_id %>-tab" data-toggle="tab" href="#<%= tab_id %>" role="tab" aria-controls="<%= tab_id %>" aria-selected="<%= idx == 0 %>"><%= form_section.caption %></a>
-              </li>
-            <% end %>
-          </ul>
+      <div class="col-12 col-lg-12 col-xl-8">
+        <div class="card shadow-2-strong card-registration" style="border-radius: 15px;">
+          <h4 class="ml-4 mt-3 pb-2 pb-md-0"><%= @form&.caption %></h4>
+          <div class="card-body p-4 p-md-5">
+            <ul class="nav nav-tabs" id="myTab" role="tablist">
+              <% @form.try(:form_sections).order(:sequence).each_with_index do |form_section, idx| %>
+                <% tab_id = form_section.caption.parameterize %>
+                <li class="nav-item">
+                  <a class="nav-link <%= 'active' if idx == 0 %>" id="<%= tab_id %>-tab" data-toggle="tab" href="#<%= tab_id %>" role="tab" aria-controls="<%= tab_id %>" aria-selected="<%= idx == 0 %>"><%= form_section.caption %></a>
+                </li>
+              <% end %>
+            </ul>
 
-          <div class="tab-content">
-            <% @form.try(:form_sections).order(:sequence).each_with_index do |form_section, idx| %>
-              <% tab_id = form_section.caption.parameterize %>
-              <div class="tab-pane fade <%= 'show active' if idx == 0 %>" id="<%= tab_id %>" role="tabpanel" aria-labelledby="<%= tab_id %>-tab">
-                <%= form_with method: :post, html: { class: "d-flex flex-wrap" } do |f| %>
-                  <% form_section&.form_section_fields.order(:sequence)&.each_with_index do |item, index| %>
-                    <%= render partial: "form_field", locals: { f:f, item: item, index: index } %>
+            <div class="tab-content">
+              <% @form.try(:form_sections).order(:sequence).each_with_index do |form_section, idx| %>
+                <% tab_id = form_section.caption.parameterize %>
+                <div class="tab-pane fade <%= 'show active' if idx == 0 %>" id="<%= tab_id %>" role="tabpanel" aria-labelledby="<%= tab_id %>-tab">
+                  <%= form_with method: :post, html: { class: "d-flex flex-wrap" } do |f| %>
+                    <% form_section.try(:form_section_fields).order(:sequence).each_with_index do |item, index| %>
+                      <%= render partial: "form_field", locals: { f:f, item: item, index: index } %>
+                    <% end %>
+
+                    <div class="mt-auto pt-2 text-center">
+                      <%= f.hidden_field :current_event_id, value: params[:event_id] %>
+                      <%= f.submit "Submit", class: "btn btn-primary btn-lg px-4 py-2 fw-semibold shadow-sm mt-5", disabled: @loading %>
+                    </div>
                   <% end %>
-
-                  <small class="message ml-3">
-                    <a href="/<%= params[:event_id] %>/login">Already User?</a>
-                  </small>
-
-                  <div class="mt-auto pt-2 text-center">
-                    <%= f.hidden_field :current_event_id, value: params[:event_id] %>
-                    <%= f.submit "Submit", class: "btn btn-primary btn-lg px-4 py-2 fw-semibold shadow-sm mt-5", disabled: @loading %>
-                  </div>
-                <% end %>
-              </div>
-            <% end %>
+                </div>
+              <% end %>
+              <small class="message ml-3">
+                <a href="/<%= params[:event_id] %>/login">Already User?</a>
+              </small>
+            </div>
           </div>
         </div>
       </div>
