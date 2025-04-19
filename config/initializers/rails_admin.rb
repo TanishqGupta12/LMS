@@ -48,6 +48,7 @@ RailsAdmin.config do |config|
       include_all_fields
     end
   end
+
   config.model 'Blog' do
     field :category
     field :image
@@ -64,6 +65,7 @@ RailsAdmin.config do |config|
       associated_collection_cache_all false
     end
   end
+
   config.model 'Ticket' do
     edit do 
       field :title
@@ -95,10 +97,28 @@ RailsAdmin.config do |config|
     end
 
   end
+
+  config.model 'Form' do
+    visible true
+
+    navigation_label "Form"
+    weight 1
+
+  end
+
   config.model 'FormSection' do
     visible true
+
+    navigation_label "Form"
+    weight 2
+
   end
+
   config.model 'FormSectionField' do
+    visible true
+
+    navigation_label "Form"
+    weight 3
 
     edit do 
 
@@ -120,6 +140,19 @@ RailsAdmin.config do |config|
       include_all_fields
     end
   end
+
+  config.model 'FormFieldChoice' do
+    visible true
+
+    navigation_label "Form"
+    weight 4
+
+    edit do 
+
+      include_all_fields
+    end
+  end
+
   config.model 'Event' do
 
 
@@ -177,6 +210,7 @@ RailsAdmin.config do |config|
 
     end
   end
+
   config.model 'Course' do
     visible true
 
@@ -246,4 +280,5 @@ RailsAdmin.config do |config|
     # history_index
     # history_show
   end
+
 end
