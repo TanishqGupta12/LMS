@@ -22,11 +22,100 @@ RailsAdmin.config do |config|
 
   ## == Gravatar integration ==
   ## To disable Gravatar integration in Navigation Bar set to false
-  # config.show_gravatar = true
+  config.show_gravatar = true
   # 
   #
+  config.model 'Event' do
+
+    navigation_label "Config"
+
+    weight 0
+    list do
+      field :icon 
+      field :description do
+        visible false
+      end 
+      include_all_fields
+      exclude_fields :description
+    end
+
+    edit do
+      field :icon 
+      exclude_fields :description
+      field :description do
+        visible false
+      end 
+      field :location do
+        help "Enter the 127.0.0.1"
+      end 
+      field :time_zone, :enum do
+        enum ActiveSupport::TimeZone.all.map { |tz| ["(UTC #{tz.formatted_offset}) #{tz.name}", tz.name] }
+      end
+
+      include_all_fields
+      
+      field :slug do
+        # html_attributes do
+        #   { class: 'form-control tinymce', style: 'height: 400px;' }
+        # end
+      end
+      field :page_content do
+        label "Privacy Page Content"
+        html_attributes do
+          {:class => 'form-control tinymce'}
+        end
+      end
+
+      field :terms_and_conditions do
+          html_attributes do
+            {:class => 'form-control tinymce'}
+          end
+      end
+      field :about_text do
+        html_attributes do
+          {:class => 'form-control tinymce'}
+        end
+      end
+      field :gallery_text do
+        html_attributes do
+          {:class => 'form-control tinymce'}
+        end
+      end
+
+    end
+  end
+
+  config.model 'Banner' do
+
+    navigation_label "Config"
+    weight 2
+
+    list do
+      include_all_fields
+    end
+    edit do 
+      include_all_fields
+    end
+
+  end
+
+  config.model 'EmailContent' do
+
+    navigation_label "Config"
+    weight 3
+
+    list do
+      include_all_fields
+    end
+    edit do 
+      include_all_fields
+    end
+
+  end
 
   config.model 'Blog' do
+    navigation_label "More Link"
+    weight 1
     field :category
     field :image
     field :title
@@ -44,6 +133,8 @@ RailsAdmin.config do |config|
   end
 
   config.model 'Ticket' do
+    navigation_label "Ticket"
+    weight 1
     edit do 
       field :title
       field :currency, :enum do
@@ -64,15 +155,12 @@ RailsAdmin.config do |config|
       exclude_fields :price
     end
   end
+  config.model 'Discount' do
 
-  config.model 'Banner' do
-    edit do 
-      field :gallery do
-        help "width 1366 and hieght 798"
-      end 
-      include_all_fields
-    end
+    navigation_label "Ticket"
+    weight 2
 
+    include_all_fields
   end
 
   config.model 'Form' do
@@ -130,63 +218,6 @@ RailsAdmin.config do |config|
     end
   end
 
-  config.model 'Event' do
-
-
-    list do
-      field :icon 
-      field :description do
-        visible false
-      end 
-      include_all_fields
-      exclude_fields :description
-    end
-
-    edit do
-      field :icon 
-      exclude_fields :description
-      field :description do
-        visible false
-      end 
-      field :location do
-        help "Enter the 127.0.0.1"
-      end 
-      field :time_zone, :enum do
-        enum ActiveSupport::TimeZone.all.map { |tz| ["(UTC #{tz.formatted_offset}) #{tz.name}", tz.name] }
-      end
-
-      include_all_fields
-      
-      field :slug do
-        # html_attributes do
-        #   { class: 'form-control tinymce', style: 'height: 400px;' }
-        # end
-      end
-      field :page_content do
-        label "Privacy Page Content"
-        html_attributes do
-          {:class => 'form-control tinymce'}
-        end
-      end
-
-      field :terms_and_conditions do
-          html_attributes do
-            {:class => 'form-control tinymce'}
-          end
-      end
-      field :about_text do
-        html_attributes do
-          {:class => 'form-control tinymce'}
-        end
-      end
-      field :gallery_text do
-        html_attributes do
-          {:class => 'form-control tinymce'}
-        end
-      end
-
-    end
-  end
 
   config.model 'Course' do
     visible true
