@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2025_04_13_145717) do
+ActiveRecord::Schema[7.2].define(version: 2025_04_20_102138) do
   create_table "active_storage_attachments", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
@@ -421,6 +421,8 @@ ActiveRecord::Schema[7.2].define(version: 2025_04_13_145717) do
     t.json "payment_details"
     t.boolean "is_payment"
     t.datetime "time"
+    t.string "percentage"
+    t.string "completed_lession"
     t.index ["course_id"], name: "index_user_courses_on_course_id"
     t.index ["teacher_id"], name: "index_user_courses_on_teacher_id"
     t.index ["user_id"], name: "index_user_courses_on_user_id"
