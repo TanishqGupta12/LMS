@@ -21,14 +21,14 @@
 								<h1 class="my-1 fs-4"><%= user.try(:name) %></h1>
 								<ul class="list-inline mb-0">
 									<li class="list-inline-item me-3 mb-1 mb-sm-0">
-										<span class="h6">255</span>
+										<span class="h6">0</span>
 										<span class="text-body fw-light">points</span>
 									</li>
 									<li class="list-inline-item me-3 mb-1 mb-sm-0">
-										<span class="h6">7</span>
+										<span class="h6"><%= user.user_courses.where(completed: true).count %></span>
 										<span class="text-body fw-light">Completed courses</span>
 									</li>
-									<li class="list-inline-item me-3 mb-1 mb-sm-0">
+									<li class="list-inline-item me-3 mb-1 mb-sm-0 d-none">
 										<span class="h6">52</span>
 										<span class="text-body fw-light">Completed lessons</span>
 									</li>
