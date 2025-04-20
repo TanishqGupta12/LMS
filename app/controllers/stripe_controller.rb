@@ -128,7 +128,7 @@ class StripeController < ApplicationController
     user_course.user_id = @user.id
     user_course.course_id = @course.id
     user_course.payment_status = "Free access"
-    user_course.payment_amount =  "free", 
+    user_course.payment_amount =  "0", 
     # user_course.payment_details = session 
     user_course.teacher_id = @teacher.id
     user_course.is_payment = false

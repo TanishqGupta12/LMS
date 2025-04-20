@@ -46,7 +46,9 @@ class UsersController < ApplicationController
   end
 
   def user_payment_info
+    @event = load_events
     @user = User.find_by(id: params[:id])
+    @user_courses = UserCourse.where(user_id: @user.id)
   end
 
   def update_email
