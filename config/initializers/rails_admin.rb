@@ -280,28 +280,30 @@ RailsAdmin.config do |config|
     visible true
 
     navigation_label "Topic"
-    weight 2
+    weight 3
     edit do
     
       include_all_fields
+      exclude_fields :content
     end
     list do
 
       include_all_fields
+      exclude_fields :content
     end
   end
 
   config.model 'QuizTopic' do
     visible true
     navigation_label "Topic"
-    weight 3
+    weight 2
     edit do
     
-      exclude_fields :category ,:catgory_id
+      exclude_fields :category ,:catgory_id , :description
     end
     list do
 
-      exclude_fields :category ,:catgory_id
+      exclude_fields :category ,:catgory_id , :description
     end
   end
 
