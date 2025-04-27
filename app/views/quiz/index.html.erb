@@ -4,186 +4,23 @@
     
     <form action="https://formbold.com/s/FORM_ID" method="POST">
 
-
+    <% @questions.each do |question|%>
       <div class="formbold-mb-5">
         <label for="qusOne" class="formbold-form-label">
-          All HTML code must be put which symbols?
+          <%= question.try(:title)%>
         </label>
 
-        <div class="formbold-radio-flex">
-          <div class="formbold-radio-group">
-            <label class="formbold-radio-label">
-              <input
-                class="formbold-input-radio"
-                type="radio"
-                name="qusOne"
-                id="qusOne"
-              />
-              Option one
-              <span class="formbold-radio-checkmark"></span>
-            </label>
-          </div>
-
-          <div class="formbold-radio-group">
-            <label class="formbold-radio-label">
-              <input
-                class="formbold-input-radio"
-                type="radio"
-                name="qusOne"
-                id="qusOne"
-              />
-              Option Two
-              <span class="formbold-radio-checkmark"></span>
-            </label>
-          </div>
-
-          <div class="formbold-radio-group">
-            <label class="formbold-radio-label">
-              <input
-                class="formbold-input-radio"
-                type="radio"
-                name="qusOne"
-                id="qusOne"
-              />
-              Option Three
-              <span class="formbold-radio-checkmark"></span>
-            </label>
-          </div>
-
-          <div class="formbold-radio-group">
-            <label class="formbold-radio-label">
-              <input
-                class="formbold-input-radio"
-                type="radio"
-                name="qusOne"
-                id="qusOne"
-              />
-              None of them
-              <span class="formbold-radio-checkmark"></span>
-            </label>
-          </div>
-        </div>
+        <% if question.try(:question_type) == "Multiple Choice Single Option" %>
+            <%= render partial: "single_option", locals: { question: question} %>
+         <% elsif question.try(:question_type) == "Multiple Choice Multiple option" %>
+            <%= render partial: "multiple_option", locals: { question: question} %>
+         <% elsif question.try(:question_type) == "True False" %>
+            <%= render partial: "true_false", locals: { question: question} %>
+         <% elsif question.try(:question_type) == "Short Answer" %> 
+            <%= render partial: "short_answer", locals: { question: question} %>
+        <% end %>
       </div>
-
-      <div class="formbold-mb-5">
-        <label for="qusTwo" class="formbold-form-label">
-          To display any image on web which tag we have to use?
-        </label>
-
-        <div class="formbold-radio-flex">
-          <div class="formbold-radio-group">
-            <label class="formbold-radio-label">
-              <input
-                class="formbold-input-radio"
-                type="radio"
-                name="qusTwo"
-                id="qusTwo"
-              />
-              Option one
-              <span class="formbold-radio-checkmark"></span>
-            </label>
-          </div>
-
-          <div class="formbold-radio-group">
-            <label class="formbold-radio-label">
-              <input
-                class="formbold-input-radio"
-                type="radio"
-                name="qusTwo"
-                id="qusTwo"
-              />
-              Option Two
-              <span class="formbold-radio-checkmark"></span>
-            </label>
-          </div>
-
-          <div class="formbold-radio-group">
-            <label class="formbold-radio-label">
-              <input
-                class="formbold-input-radio"
-                type="radio"
-                name="qusTwo"
-                id="qusTwo"
-              />
-              Option Three
-              <span class="formbold-radio-checkmark"></span>
-            </label>
-          </div>
-
-          <div class="formbold-radio-group">
-            <label class="formbold-radio-label">
-              <input
-                class="formbold-input-radio"
-                type="radio"
-                name="qusTwo"
-                id="qusTwo"
-              />
-              None of them
-              <span class="formbold-radio-checkmark"></span>
-            </label>
-          </div>
-        </div>
-      </div>
-
-      <div>
-        <label for="qusThree" class="formbold-form-label">
-          What is the full definition of HTML?
-        </label>
-
-        <div class="formbold-radio-flex">
-          <div class="formbold-radio-group">
-            <label class="formbold-radio-label">
-              <input
-                class="formbold-input-radio"
-                type="radio"
-                name="qusThree"
-                id="qusThree"
-              />
-              Option one
-              <span class="formbold-radio-checkmark"></span>
-            </label>
-          </div>
-
-          <div class="formbold-radio-group">
-            <label class="formbold-radio-label">
-              <input
-                class="formbold-input-radio"
-                type="radio"
-                name="qusThree"
-                id="qusThree"
-              />
-              Option Two
-              <span class="formbold-radio-checkmark"></span>
-            </label>
-          </div>
-
-          <div class="formbold-radio-group">
-            <label class="formbold-radio-label">
-              <input
-                class="formbold-input-radio"
-                type="radio"
-                name="qusThree"
-                id="qusThree"
-              />
-              Option Three
-              <span class="formbold-radio-checkmark"></span>
-            </label>
-          </div>
-
-          <div class="formbold-radio-group">
-            <label class="formbold-radio-label">
-              <input
-                class="formbold-input-radio"
-                type="radio"
-                name="qusThree"
-                id="qusThree"
-              />
-              None of them
-              <span class="formbold-radio-checkmark"></span>
-            </label>
-          </div>
-        </div>
-      </div>
+    <% end %>
 
       <button class="formbold-btn">Submit</button>
     </form>
