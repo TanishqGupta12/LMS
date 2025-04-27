@@ -9,7 +9,7 @@
       <div class="formbold-mb-5">
         <label id="qus_<%= question.id %>" class="formbold-form-label">
           <%= question.try(:title)%>
-          <input type="hidden"  name="question_<%= question.id %>" value="<%= question.id %>"/>
+          <input type="hidden"  name="answers[<%= question.id %>][question_id]" value="<%= question.id %>"/>
         </label>
 
         <% if question.try(:question_type) == "Multiple Choice Single Option" %>
