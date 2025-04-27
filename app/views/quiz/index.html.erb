@@ -4,6 +4,7 @@
     
     <form action= "<%= quiz_review_path(params[:quiz_topic])%>" method="POST">
         <input type="hidden"  name="quiz_topic" value="<%= params[:quiz_topic] %>"/>
+        <input type="hidden"  name="lesson" value="<%= params[:lesson] %>"/>
     
     <% @questions.each do |question|%>
       <div class="formbold-mb-5">

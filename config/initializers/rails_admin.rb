@@ -351,11 +351,11 @@ RailsAdmin.config do |config|
     weight 7
     edit do
     
-
+      exclude_fields  :quiz_question , :quiz_question_option , :lesson
     end
     list do
 
-
+      exclude_fields  :quiz_question , :quiz_question_option , :lesson
     end
   end
 

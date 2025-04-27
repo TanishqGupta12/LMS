@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2025_04_27_055453) do
+ActiveRecord::Schema[7.2].define(version: 2025_04_27_144652) do
   create_table "active_storage_attachments", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
@@ -280,10 +280,16 @@ ActiveRecord::Schema[7.2].define(version: 2025_04_27_055453) do
     t.bigint "quiz_topic_id", null: false
     t.text "question"
     t.text "answer"
-    t.float "is_right"
-    t.float "is_wrong"
+    t.boolean "is_right"
+    t.boolean "is_wrong"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "quiz_question_id"
+    t.bigint "quiz_question_option_id"
+    t.bigint "lesson_id"
+    t.index ["lesson_id"], name: "index_quiz_attempt_results_on_lesson_id"
+    t.index ["quiz_question_id"], name: "index_quiz_attempt_results_on_quiz_question_id"
+    t.index ["quiz_question_option_id"], name: "index_quiz_attempt_results_on_quiz_question_option_id"
     t.index ["quiz_topic_id"], name: "index_quiz_attempt_results_on_quiz_topic_id"
     t.index ["user_id"], name: "index_quiz_attempt_results_on_user_id"
   end
@@ -549,6 +555,9 @@ ActiveRecord::Schema[7.2].define(version: 2025_04_27_055453) do
   add_foreign_key "forms", "events"
   add_foreign_key "forms", "roles", on_delete: :nullify
   add_foreign_key "lessons", "quiz_topics", on_delete: :nullify
+  add_foreign_key "quiz_attempt_results", "lessons"
+  add_foreign_key "quiz_attempt_results", "quiz_question_options"
+  add_foreign_key "quiz_attempt_results", "quiz_questions"
   add_foreign_key "quiz_attempt_results", "quiz_topics"
   add_foreign_key "quiz_attempt_results", "users"
   add_foreign_key "quiz_attempts", "quiz_attempt_results"
