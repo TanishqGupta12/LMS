@@ -6,9 +6,9 @@
         <input 
           class="formbold-input-checkbox" 
           type="checkbox" 
-          name="qusOne[]" 
-          id="qusOne_<%= quiz_question_option.id %>" 
-          value="<%= quiz_question_option.id %>"
+          name="answers[<%= question.id %>][option_id]" 
+          id="qus_<%= question.id %>" 
+          value="<%= question.id %>"
           <% if question.is_required %> required <% end %>
         />
         <%= quiz_question_option.try(:title) %>
@@ -18,4 +18,11 @@
   <% end %>
 </div>
 
+<% if question.enable_correct_answer%>
+    <div class="alert alert-success" role="alert">
+    <p class="font-weight-bold">
+        <%= question.correct_answer_explanation %>
+    </p>
+    </div>
+<% end %>
 

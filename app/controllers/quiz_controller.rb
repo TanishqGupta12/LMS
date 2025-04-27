@@ -34,6 +34,6 @@ class QuizController < ApplicationController
      
     end
 
-    redirect_to quiz_index_path(quiz_topic: params[:quiz_topic]  ,lesson: params[:lesson] , review: true )
+    redirect_to quiz_index_path(quiz_topic: params[:quiz_topic]  ,lesson: params[:lesson] , review: 'true' )
   end
 end

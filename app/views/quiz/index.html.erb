@@ -1,8 +1,13 @@
+<script>
+  function updateFormAction(action) {
+    document.getElementById('bulk-form').action = action;
+  }
+</script>
 <div class="formbold-main-wrapper">
 
   <div class="formbold-form-wrapper">
     
-    <form action= "<%= quiz_review_path(params[:quiz_topic])%>" method="POST">
+    <form id="bulk-form"  method="POST">
         <input type="hidden"  name="quiz_topic" value="<%= params[:quiz_topic] %>"/>
         <input type="hidden"  name="lesson" value="<%= params[:lesson] %>"/>
     
@@ -24,8 +29,12 @@
         <% end %>
       </div>
     <% end %>
-
-      <button class="formbold-btn">Submit</button>
+        <% if params[:review] == 'true' %> <!-- Compare as string -->
+        <button class="formbold-btn" onclick="updateFormAction('/event_stats/restore')"> Final Submit</button>
+        <a class="formbold-btn" href= '<%= quiz_index_path(quiz_topic: params[:quiz_topic], lesson: params[:lesson], review: 'false') %>' style="background-color: green; text-decoration: none; color: white;"> Edit</a>
+        <% else %>
+        <button class="formbold-btn" onclick="updateFormAction('<%= quiz_review_path(params[:quiz_topic]) %>')">Submit</button>
+        <% end %>
     </form>
   </div>
 </div>
