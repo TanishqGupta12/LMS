@@ -1054,7 +1054,7 @@
 																	<% if lesson.try(:practise_quiz) ==  true%>
 																		<div class="d-flex justify-content-between align-items-center">
 																		<div class="position-relative d-flex align-items-center">
-																			<a href="#" class="btn-sm mb-0 stretched-link position-static">
+																			<a href="<%= quiz_index_path(quiz_topic: quiz_topic.id  ,lesson: lesson.try(:id) )%>" class="btn-sm mb-0 stretched-link position-static">
 																				<i class="fa-solid fa-question fa-bounce me-0"></i>
 																			</a>
 																			<span class="d-inline-block text-truncate ms-2 mb-0 h6 fw-light w-200px"><%= lesson.try(:title) %></span>

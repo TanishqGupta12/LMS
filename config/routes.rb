@@ -47,6 +47,8 @@ Rails.application.routes.draw do
   resources :user_notes
   resources :review
 
+  resources :quiz
+
   match "discount/amount", to: "stripe#discount_amount", as: "discount_amount", via: [:get, :post]
   match "create", to: "stripe#create", as: "create", via: [:get, :post]
   match "success", to: "stripe#success", as: "success", via: [:get, :post]
