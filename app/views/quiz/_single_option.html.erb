@@ -1,0 +1,19 @@
+  <div class="formbold-radio-flex">
+    <% question.try(:quiz_question_options).each do | quiz_question_option|%>
+    <div class="formbold-radio-group">
+      <label class="formbold-radio-label">
+        <input class="formbold-input-radio" value=<%= quiz_question_option.id%> type="radio" name="qusOne" id="qusOne_<%= quiz_question_option.id %>"  <% if question.is_required%> required <% end %>  />
+        <%= quiz_question_option.try(:title)%>
+        <span class="formbold-radio-checkmark"></span>
+      </label>
+    </div>
+    <% end %>
+  </div>
+  
+<% if question.enable_correct_answer%>
+    <div class="alert alert-success" role="alert">
+    <p class="font-weight-bold">
+        <%= question.correct_answer_explanation %>
+    </p>
+    </div>
+<% end %>
