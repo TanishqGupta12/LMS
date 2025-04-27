@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2025_04_20_102138) do
+ActiveRecord::Schema[7.2].define(version: 2025_04_27_055453) do
   create_table "active_storage_attachments", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
@@ -271,6 +271,7 @@ ActiveRecord::Schema[7.2].define(version: 2025_04_20_102138) do
     t.bigint "quiz_topic_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.boolean "practise_quiz"
     t.index ["quiz_topic_id"], name: "index_lessons_on_quiz_topic_id"
   end
 
@@ -312,7 +313,6 @@ ActiveRecord::Schema[7.2].define(version: 2025_04_20_102138) do
     t.text "title"
     t.string "question_type"
     t.bigint "quiz_topic_id"
-    t.text "wrong_answer_explanation"
     t.boolean "is_required", default: false
     t.text "correct_answer_explanation"
     t.float "marks"
@@ -320,6 +320,7 @@ ActiveRecord::Schema[7.2].define(version: 2025_04_20_102138) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.bigint "lesson_id"
+    t.boolean "enable_correct_answer", default: false
     t.index ["lesson_id"], name: "index_quiz_questions_on_lesson_id"
     t.index ["quiz_topic_id"], name: "index_quiz_questions_on_quiz_topic_id"
   end
@@ -341,7 +342,6 @@ ActiveRecord::Schema[7.2].define(version: 2025_04_20_102138) do
     t.string "title"
     t.string "description"
     t.integer "sequence"
-    t.boolean "practise_quiz", default: false
     t.bigint "course_id"
     t.bigint "catgory_id"
     t.datetime "created_at", null: false

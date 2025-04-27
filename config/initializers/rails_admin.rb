@@ -313,9 +313,11 @@ RailsAdmin.config do |config|
     weight 4
     edit do
     
+      exclude_fields :quiz_topic
     end
     list do
 
+      exclude_fields :quiz_topic
     end
   end
 
