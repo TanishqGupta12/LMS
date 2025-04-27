@@ -9,13 +9,13 @@ class QuizController < ApplicationController
     answers_params = params.require(:answers).permit!
     answers_params.each do |question_id, answer_data|
 
-      attempt = QuizAttemptResult.new 
-      attempt.user_id = current_user.id
-      attempt.quiz_topic_id = params[:quiz_topic]
-      attempt.lesson_id = params[:lesson]
-
       option =  QuizQuestionOption.find(answer_data["option_id"])
       question =  QuizQuestion.find(answer_data["question_id"])
+
+      attempt = QuizAttemptResult.find_or_create_by(user_id:current_user.id ,quiz_question_id:question.try(:id)) 
+
+      attempt.quiz_topic_id = params[:quiz_topic]
+      attempt.lesson_id = params[:lesson]
 
       attempt.question = question.try(:title)
       attempt.answer = option.try(:title)
