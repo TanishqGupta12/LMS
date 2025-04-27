@@ -2,7 +2,7 @@
     <% question.try(:quiz_question_options).each do | quiz_question_option|%>
     <div class="formbold-radio-group">
       <label class="formbold-radio-label">
-        <input class="formbold-input-radio" value=<%= quiz_question_option.id%> type="radio" name="quiz_option" id="qusOne_<%= quiz_question_option.id %>"  <% if question.is_required%> required <% end %>  />
+        <input class="formbold-input-radio" value=<%= quiz_question_option.id%> type="radio" name="quiz_option_<%= question.id %>" id="qus_<%= question.id %>"  <% if question.is_required%> required <% end %>  />
         <%= quiz_question_option.try(:title)%>
         <span class="formbold-radio-checkmark"></span>
       </label>

@@ -7,9 +7,9 @@
     
     <% @questions.each do |question|%>
       <div class="formbold-mb-5">
-        <label for="qusOne" class="formbold-form-label">
+        <label id="qus_<%= question.id %>" class="formbold-form-label">
           <%= question.try(:title)%>
-          <input type="hidden"  name="question" value="<%= question.id %>"/>
+          <input type="hidden"  name="question_<%= question.id %>" value="<%= question.id %>"/>
         </label>
 
         <% if question.try(:question_type) == "Multiple Choice Single Option" %>
