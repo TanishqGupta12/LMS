@@ -31,7 +31,6 @@
     <% end %>
         <% if params[:review] == 'true' %> <!-- Compare as string -->
         <button class="formbold-btn" onclick="updateFormAction('/event_stats/restore')"> Final Submit</button>
-        <button class="formbold-btn" onclick="updateFormAction('<%= quiz_review_path(params[:quiz_topic]) %>')">Submit</button>
 
         <a class="formbold-btn" href= '<%= quiz_index_path(quiz_topic: params[:quiz_topic], lesson: params[:lesson], review: 'false') %>' style="background-color: green; text-decoration: none; color: white;"> Edit</a>
         <% else %>

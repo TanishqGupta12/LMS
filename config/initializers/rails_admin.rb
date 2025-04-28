@@ -113,6 +113,21 @@ RailsAdmin.config do |config|
 
   end
 
+  config.model 'UserCourse' do
+    navigation_label "More Link"
+    weight 1
+    edit do
+
+      exclude_fields :payment_details
+    end
+
+    list do
+
+      exclude_fields :payment_details
+    end
+
+  end
+
   config.model 'Blog' do
     navigation_label "More Link"
     weight 1

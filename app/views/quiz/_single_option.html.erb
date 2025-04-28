@@ -9,6 +9,7 @@
         id="qus_<%= question.id %>"  
         <% if question.is_required == true%> required <% end %>  
         <% if params[:review] == 'true' && quiz_question_option.id ==  QuizAttemptResult.find_by(quiz_question_option_id: quiz_question_option.id).try(:quiz_question_option_id) %> checked <% end %>
+        <% if params[:review] == 'true' %> disabled <% end %>
         />
         <%= quiz_question_option.try(:title)%>
         <span class="formbold-radio-checkmark"></span>
