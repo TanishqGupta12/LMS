@@ -10,7 +10,7 @@
         <h4 class="ml-4 mt-3 pb-2 pb-md-0"><%= @form&.caption %></h4>
         <div class="card-body p-4 p-md-5">
           <ul class="nav nav-tabs" id="myTab" role="tablist">
-            <% @form.try(:form_sections).order(:sequence).each_with_index do |form_section, idx| %>
+            <% @form.try(:form_sections).where(is_active: true).order(:sequence).each_with_index do |form_section, idx| %>
               <% tab_id = form_section.caption.parameterize %>
               <li class="nav-item" id="<%= idx %>-item">
                 <a class="nav-link <%= 'active' if idx == 0 %>" id="<%= tab_id %>-tab" data-toggle="tab" href="#<%= tab_id %>" role="tab" aria-controls="<%= tab_id %>" aria-selected="<%= idx == 0 %>"><%= form_section.caption %></a>
@@ -19,11 +19,11 @@
           </ul>
 
           <div class="tab-content">
-            <% @form.try(:form_sections).order(:sequence).each_with_index do |form_section, idx| %>
+            <% @form.try(:form_sections).where(is_active: true).order(:sequence).each_with_index do |form_section, idx| %>
               <% tab_id = form_section.caption.parameterize %>
               <div class="tab-pane fade <%= 'show active' if idx == 0 %>" id="<%= tab_id %>" role="tabpanel" aria-labelledby="<%= tab_id %>-tab">
                 <%= form_with method: :post, html: { class: "d-flex flex-wrap" } do |f| %>
-                  <% form_section.try(:form_section_fields).order(:sequence).each_with_index do |item, index| %>
+                  <% form_section.try(:form_section_fields).where(is_active: true).order(:sequence).each_with_index do |item, index| %>
                     <%= render partial: "form_field", locals: { f:f, item: item, index: index } %>
                   <% end %>
 
