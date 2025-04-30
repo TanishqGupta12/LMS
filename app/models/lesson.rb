@@ -7,6 +7,11 @@ class Lesson < ApplicationRecord
   attribute :remove_media, :boolean
   after_save -> { media.purge }, if: :remove_media
 
+  has_one_attached :thumbail
+
+  attribute :remove_thumbail, :boolean
+  after_save -> { thumbail.purge }, if: :remove_thumbail
+
   after_commit :extract_video_duration, on: [:create, :update], if: -> { media.attached? && media.video? }
 
   has_many :quiz_questions

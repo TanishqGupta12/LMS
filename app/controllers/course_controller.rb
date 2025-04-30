@@ -9,6 +9,8 @@ class CourseController < ApplicationController
   @event = @event
   @courses = Course.includes(:quiz_topics).includes(:reviews).includes(:user_courses).find_by(id: params[:id])
 
+  @lesson = @courses.quiz_topics.first.lessons.order(:sequence).first
+
   @quiz_topic_size = QuizTopic.where(course_id: params[:id]).size()
 
   respond_to do |format|
@@ -26,6 +28,11 @@ class CourseController < ApplicationController
     else
       current_user.favorite(@courses)
     end
+    render partial: "course/favorite_button", locals: { course: @courses, event: @event } , formats: :html
+  end
+
+  def lesson_video
+
     render partial: "course/favorite_button", locals: { course: @courses, event: @event } , formats: :html
   end
 

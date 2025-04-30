@@ -28,10 +28,6 @@ class Course < ApplicationRecord
   attribute :remove_thumbail, :boolean
   after_save -> { thumbail.purge }, if: :remove_thumbail
 
-  has_one_attached :video
-
-  attribute :remove_video, :boolean
-  after_save -> { video.purge }, if: :remove_video
 
   scope :courses_for_event, ->(event_id) { includes(:categories).where(event_id: event_id) }
   # before_save :set_event
