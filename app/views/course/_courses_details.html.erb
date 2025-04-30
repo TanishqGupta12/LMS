@@ -26,9 +26,16 @@
 									<track kind="captions" label="French" srclang="fr" src="assets/images/videos/fr.vtt"> %>
 								</video>
 								<% else %>
-								<video controls crossorigin="anonymous" playsinline poster="<%= url_for(@courses.try(:thumbail)) %>">
-									<source src="<%= url_for(@courses.try(:video)) %>" type="video/mp4" size="720">
-								</video>
+									
+									<% if @lesson.try(:video_url) %>
+										<video controls crossorigin="anonymous" playsinline poster="<%= url_for(@lesson.try(:thumbail)) %>">
+											<source src="<%= @lesson.try(:video_url) %>" type="video/mp4" size="720">
+										</video>
+									<% else %>
+									<p>  </p>
+									<% end %>
+
+									
 								<% end  %>
 							</div>
 						</div>
