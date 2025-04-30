@@ -9,3 +9,5 @@ pin "jquery", to: "https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js"
 
 pin "toastr", to: "https://cdn.jsdelivr.net/npm/toastr@2.1.4/build/toastr.min.js"
 pin "toastr_css", to: "https://cdn.jsdelivr.net/npm/toastr@2.1.4/build/toastr.min.css"
+
+pin "plye", to: "plye.js"

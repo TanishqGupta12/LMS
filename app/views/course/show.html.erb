@@ -944,14 +944,20 @@
 					<!-- Image and video -->
 					<div class="col-12 position-relative">
 						<div class="video-player rounded-3">
-							<video controls crossorigin="anonymous" playsinline poster="assets/images/videos/poster.jpg">
-								<source src="assets/images/videos/360p.mp4" type="video/mp4" size="360">
-								<source src="assets/images/videos/720p.mp4" type="video/mp4" size="720">
-								<source src="assets/images/videos/1080p.mp4" type="video/mp4" size="1080">
+							<% if @courses.try(:video).present? %>
+							<video controls crossorigin="anonymous" playsinline poster="<%= url_for(@courses.try(:thumbail)) %>">
+								<%# <source src="assets/images/videos/360p.mp4" type="video/mp4" size="360"> %>
+								<source src="<%= url_for(@courses.try(:video)) %>" type="video/mp4" size="720">
+								<%# <source src="assets/images/videos/1080p.mp4" type="video/mp4" size="1080"> %>
 								<!-- Caption files -->
 								<track kind="captions" label="English" srclang="en" src="assets/images/videos/en.vtt" default>
 								<track kind="captions" label="French" srclang="fr" src="assets/images/videos/fr.vtt">
 							</video>
+							<% else %>
+							<div class="video-player">
+								<div id="player-youtube" data-plyr-provider="youtube" data-plyr-embed-id="Uh9643c2P6k"></div>
+							</div>
+							<% end  %>
 						</div>
 					</div>
 
@@ -1067,7 +1073,7 @@
 																			<a href="#" class="btn btn-danger-soft btn-round btn-sm mb-0 stretched-link position-static">
 																				<i class="fas fa-play me-0"></i>
 																			</a>
-																			<span class="d-inline-block text-truncate ms-2 mb-0 h6 fw-light w-200px"><%= lesson.try(:title) %></span>
+																			<span class="d-inline-block text-truncate ms-2 mb-0 h6 fw-light"><%= lesson.try(:title) %></span>
 																		</div>
 																		<p class="mb-0 text-truncate"><%= lesson.try(:duration) %></p>
 																	</div>
