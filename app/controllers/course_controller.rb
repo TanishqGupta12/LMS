@@ -6,11 +6,14 @@ class CourseController < ApplicationController
  end
 
  def show
-  
   @event = @event
   @courses = Course.includes(:quiz_topics).includes(:reviews).includes(:user_courses).find_by(id: params[:id])
 
-  @lesson = @courses.quiz_topics.first.lessons.order(:sequence).first
+  if params[:lesson].present?
+    @lesson = Lesson.find(params[:lesson])
+  else
+    @lesson = @courses.quiz_topics.first.lessons.order(:sequence).first
+  end
 
   @quiz_topic_size = QuizTopic.where(course_id: params[:id]).size()
 

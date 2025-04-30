@@ -32,6 +32,9 @@ export default class extends Controller {
         url: `/${eventId}/course/${courseId}/`,
         method: "GET",
         dataType: "html",
+        data : {
+          lesson: event.currentTarget.dataset.lessonId
+        },
         headers: {
           'X-CSRF-Token': csrfToken 
         },
