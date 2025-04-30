@@ -144,9 +144,18 @@
 																	<div class="d-flex justify-content-between align-items-center">
 
 																		<div class="position-relative d-flex align-items-center"  data-plye-target="lesson" data-action="click->plye#video_player" data-lesson-id="<%= lesson.id %>">
-																			<p class="btn btn-danger-soft btn-round btn-sm mb-0 stretched-link position-static">
-																				<i class="fas fa-play me-0"></i>
-																			</p>
+																			
+																			<% if lesson.try(:id) == @lesson.try(:id) %>
+
+																				<p href="#" class="btn btn-success btn-round btn-sm mb-0 stretched-link position-static">
+																					<i class="fas fa-play me-0"></i>
+																				</p>
+																			<% else %>
+
+																				<p class="btn btn-danger-soft btn-round btn-sm mb-0 stretched-link position-static">
+																					<i class="fas fa-play me-0"></i>
+																				</p>
+																			<% end %>
 																			<span class="d-inline-block text-truncate ms-2 mb-0 h6 fw-light"><%= lesson.try(:title) %></span>
 																		</div>
 																		<p class="mb-0 text-truncate"><%= lesson.try(:duration) %></p>
