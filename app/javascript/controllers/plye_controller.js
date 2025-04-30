@@ -22,8 +22,8 @@ export default class extends Controller {
     const csrfToken = document.querySelector('meta[name="csrf-token"]').content;
 
 
-    const id = event.currentTarget.dataset.lessonId;
-    console.log("Selected lesson ID:", id);
+    // const id = event.currentTarget.dataset.lessonId;
+    // console.log("Selected lesson ID:", id);
 
     const eventId = this.eventIdTarget.value
     const courseId = this.courseIdTarget.value
