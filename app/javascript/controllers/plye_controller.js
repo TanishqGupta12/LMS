@@ -2,7 +2,7 @@ import { Controller } from "@hotwired/stimulus"
 
 // Connects to data-controller="plye" course details
 export default class extends Controller {
-  static targets = ["lesson"]
+  static targets = ["lesson" , "courseContainer" , "eventId", "courseId"]
 
   connect() {
     console.log("plye controller connected");
@@ -18,18 +18,33 @@ export default class extends Controller {
   }
 
   video_player(event) {
-    // Remove 'active-plye' from all lesson blocks
-    this.lessonTargets.forEach(el => {
-      el.querySelector(".position-relative")?.classList.remove("active-plye");
-    });
+    event.preventDefault()
+    const csrfToken = document.querySelector('meta[name="csrf-token"]').content;
 
-    // Add 'active-plye' to the clicked lesson's inner div
-    event.currentTarget.querySelector(".position-relative")?.classList.add("active-plye");
 
     const id = event.currentTarget.dataset.lessonId;
     console.log("Selected lesson ID:", id);
 
-    toastr.success("Lesson clicked!");
+    const eventId = this.eventIdTarget.value
+    const courseId = this.courseIdTarget.value
+
+    $.ajax({
+        url: `/${eventId}/course/${courseId}/`,
+        method: "GET",
+        dataType: "html",
+        headers: {
+          'X-CSRF-Token': csrfToken 
+        },
+        success: (html) => {
+          this.courseContainerTarget.innerHTML = html
+          toastr.success("Lesson clicked!");
+        },
+        error: (xhr) => {
+          alert("Error: " + xhr.responseText)
+          console.log(xhr.responseText);
+          
+        }
+      })
   }
 
 }

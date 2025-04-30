@@ -6,6 +6,7 @@ class CourseController < ApplicationController
  end
 
  def show
+  debugger
   @event = @event
   @courses = Course.includes(:quiz_topics).includes(:reviews).includes(:user_courses).find_by(id: params[:id])
 
