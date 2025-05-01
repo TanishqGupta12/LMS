@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2025_04_30_051656) do
+ActiveRecord::Schema[7.2].define(version: 2025_05_01_125020) do
   create_table "active_storage_attachments", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
@@ -443,8 +443,10 @@ ActiveRecord::Schema[7.2].define(version: 2025_04_30_051656) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "timestamp"
+    t.bigint "lesson_id"
     t.index ["course_id"], name: "index_user_notes_on_course_id"
     t.index ["event_id"], name: "index_user_notes_on_event_id"
+    t.index ["lesson_id"], name: "index_user_notes_on_lesson_id"
     t.index ["user_id"], name: "index_user_notes_on_user_id"
   end
 
@@ -582,6 +584,7 @@ ActiveRecord::Schema[7.2].define(version: 2025_04_30_051656) do
   add_foreign_key "user_courses", "users", column: "teacher_id"
   add_foreign_key "user_notes", "courses"
   add_foreign_key "user_notes", "events"
+  add_foreign_key "user_notes", "lessons"
   add_foreign_key "user_notes", "users"
   add_foreign_key "user_tickets", "courses"
   add_foreign_key "user_tickets", "events"

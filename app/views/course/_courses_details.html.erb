@@ -17,7 +17,7 @@
 						<div class="col-12 position-relative">
 							<div class="video-player rounded-3">
 								<% if @lesson.try(:media).present? %>
-								<video controls width="600" height="450" autoplay controlsList="nodownload"   oncontextmenu="return false;" crossorigin="anonymous" playsinline poster="<%= url_for(@lesson.try(:thumbail).variant(resize_to_fill: [600, 450])) %>">
+								<video data-lesson-id="<%= @lesson.try(:id) %>" id='video_<%= @lesson.try(:id) %>' controls width="600" height="450" autoplay controlsList="nodownload"   oncontextmenu="return false;" crossorigin="anonymous" playsinline poster="<%= url_for(@lesson.try(:thumbail).variant(resize_to_fill: [600, 450])) %>">
 									
 									<% if @courses.user_courses.find_by(user_id: current_user.id)%>
   										<source src="<%= url_for(@lesson.media) %>" type="video/mp4" size="720">
@@ -175,18 +175,7 @@
 																	<% end %>
 																	<% end %>
 
-																	<!-- Course lecture -->
-																	<%# <div class="p-2 bg-success bg-opacity-10 rounded-3">
-																		<div class="d-flex justify-content-between align-items-center">
-																			<div class="position-relative d-flex align-items-center">
-																				<a href="#" class="btn btn-success btn-round btn-sm mb-0 stretched-link position-static">
-																					<i class="fas fa-play me-0"></i>
-																				</a>
-																				<span class="d-inline-block text-truncate ms-2 mb-0 h6 fw-light w-200px"> What is Digital Marketing What is Digital Marketing</span>
-																			</div>
-																			<p class="mb-0 text-truncate">Playing</p>
-																		</div>
-																	</div> %>
+								
 
 																</div>
 															</div>
@@ -407,13 +396,13 @@
 											<button type="button" class="btn btn-success mb-2"data-toggle="modal" data-target="#PaidModel">Buy now</button>
 										<% end %>
 										<!-- Button trigger modal -->
-										<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#notesModel" data-backdrop="false" data-keyboard="false">
+										<button type="button" class="btn btn-primary" id="openNotesModal" data-toggle="modal" data-target="#notesModel" data-backdrop="false" data-keyboard="false">
 											Add Notes
 										</button>
 									<% else %>
 										<button type="button" class="btn btn-success mb-2"data-toggle="modal" data-target="#PaidModel"> Enroll</button>
 										<!-- Button trigger modal -->
-										<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#notesModel" data-backdrop="false" data-keyboard="false">
+										<button type="button" class="btn btn-primary" id="openNotesModal" data-toggle="modal" data-target="#notesModel" data-backdrop="false" data-keyboard="false">
 											Add Notes
 										</button>
 									<% end %>
@@ -535,6 +524,12 @@
           <input type="hidden" name="user_id" value="<%= current_user.try(:id) %>">
           <input type="hidden" name="event_id" value="<%= current_user.try(:current_event_id) %>">
           <input type="hidden" name="course_id" value="<%= @courses.try(:id) %>">
+		  <input type="hidden" name="lesson_id" value="<%= @lesson.try(:id) %>">
+
+		<div class="form-group">
+            <label for="videoTimestamp" class="col-form-label">videoTimestamp:</label>
+            <input type="text" class="form-control" name="timestamp" id="Timestamp">
+        </div>
           
           <div class="form-group">
             <label for="subject" class="col-form-label">Subject:</label>
@@ -591,13 +586,44 @@
 </div>
 
 <script>
-    var triggerTabList = [].slice.call(document.querySelectorAll('#course-pills-tab a'))
-        triggerTabList.forEach(function (triggerEl) {
-        var tabTrigger = new bootstrap.Tab(triggerEl)
+    // var triggerTabList = [].slice.call(document.querySelectorAll('#course-pills-tab a'))
+    //     triggerTabList.forEach(function (triggerEl) {
+    //     var tabTrigger = new bootstrap.Tab(triggerEl)
 
-        triggerEl.addEventListener('click', function (event) {
-            event.preventDefault()
-            tabTrigger.show()
-        })
-    })
+    //     triggerEl.addEventListener('click', function (event) {
+    //         event.preventDefault()
+    //         tabTrigger.show()
+    //     })
+    // })
+
+	function formatTime(seconds) {
+		const mins = Math.floor(seconds / 60);
+		const secs = Math.floor(seconds % 60).toString().padStart(2, '0');
+		return `${mins}:${secs}`;
+	}
+		document.getElementById('openNotesModal').addEventListener('click', () => {
+
+		const video = document.getElementById('video_<%= @lesson.try(:id) %>');
+		const lessonId = video?.dataset.lessonId;
+		if (video) {
+			const currentTime = formatTime(video.currentTime);
+			// console.log("Saved timestamp:", currentTime);
+			const display = document.getElementById("Timestamp");
+			display.value =  currentTime;
+			localStorage.setItem('videoTimestamp_<%= @lesson.try(:id) %>', currentTime);
+		}
+		});
+
+		window.addEventListener('load', () => {
+		const savedTime = localStorage.getItem('videoTimestamp_<%= @lesson.try(:id) %>');
+		const video = document.getElementById('video_<%= @lesson.try(:id) %>');
+			if (video && savedTime) {
+				video.addEventListener('loadedmetadata', () => {
+					video.currentTime = parseFloat(savedTime);
+					console.log(parseFloat(savedTime));
+					
+				});
+			}
+		});
+
 </script>

@@ -13,6 +13,6 @@ class UserNotesController < ApplicationController
   private
 
   def user_note_params
-    params.permit(:user_id, :event_id, :course_id, :subject, :description)
+    params.permit(:user_id, :event_id, :course_id, :subject, :description ,:timestamp ,:lesson_id)
   end
 end
