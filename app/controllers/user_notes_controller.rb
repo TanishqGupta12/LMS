@@ -10,6 +10,24 @@ class UserNotesController < ApplicationController
     end
   end
 
+  def destroy
+    @user_note = UserNote.find_by(user_id: params[:id], lesson_id: params[:lesson])
+
+    if @user_note.present?
+      @user_note.destroy
+      respond_to do |format|
+        format.html { redirect_to request.referer, notice: 'Note was successfully deleted.' }
+        format.json { head :no_content }
+      end
+    else
+      respond_to do |format|
+        format.html { redirect_to request.referer, alert: 'Note not found.' }
+        format.json { render json: { error: 'Note not found' }, status: :not_found }
+      end
+    end
+  end
+  
+
   private
 
   def user_note_params

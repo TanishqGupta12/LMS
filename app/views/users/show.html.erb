@@ -12,7 +12,7 @@ Page Banner END -->
 		<div class="row">
 			<%= render partial: "profile_side_bar" %>
 			<!-- Main content START -->
-			<% user_courses = UserCourse.where(user_id: @user.id) %>
+			<% user_courses =  @user_courses %>
 			<div class="col-xl-9">
 				<!-- Counter boxes START -->
 				<div class="row mb-4">

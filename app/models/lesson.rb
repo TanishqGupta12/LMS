@@ -1,7 +1,7 @@
 require 'streamio-ffmpeg'
 class Lesson < ApplicationRecord
   belongs_to :quiz_topic , optional: true
-
+  has_many :user_notes
   has_one_attached :media
 
   attribute :remove_media, :boolean

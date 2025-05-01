@@ -28,6 +28,7 @@ Rails.application.routes.draw do
       match "update_email", to: "users#update_email", as: "update_email", via: [:put]
       match "wishlist", to: "users#wishlist", as: "wishlist", via: [:get, :post]
       match "course_resume", to: "users#course_resume", as: "course_resume", via: [:get, :post]
+      match "user_notes", to: "users#user_notes", as: "user_notes", via: [:get, :post]
     end
   end
   

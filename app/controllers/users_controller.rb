@@ -15,6 +15,7 @@ class UsersController < ApplicationController
 
   def show
     @user = User.find_by(id: params[:id])
+    @user_courses = UserCourse.where(user_id: @user.id)
   end
   
   def edit
@@ -73,6 +74,11 @@ class UsersController < ApplicationController
     @user = User.find_by(id: params[:id])
     @favorited_course = @user.favorited_by_type('Course')
     # debugger
+  end
+
+  def user_notes
+    @user = User.find_by(id: params[:id])
+    @user_notes = UserNote.where(user_id: params[:id])
   end
   def course_resume
     @event = @event

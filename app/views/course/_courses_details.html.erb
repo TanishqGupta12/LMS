@@ -585,45 +585,66 @@
   </div>
 </div>
 
-<script>
+// <script>
     // var triggerTabList = [].slice.call(document.querySelectorAll('#course-pills-tab a'))
-    //     triggerTabList.forEach(function (triggerEl) {
-    //     var tabTrigger = new bootstrap.Tab(triggerEl)
+        // triggerTabList.forEach(function (triggerEl) {
+        // var tabTrigger = new bootstrap.Tab(triggerEl)
 
-    //     triggerEl.addEventListener('click', function (event) {
-    //         event.preventDefault()
-    //         tabTrigger.show()
-    //     })
+        // triggerEl.addEventListener('click', function (event) {
+            // event.preventDefault()
+            // tabTrigger.show()
+        // })
     // })
 
+// </script>
+
+<script>
 	function formatTime(seconds) {
 		const mins = Math.floor(seconds / 60);
 		const secs = Math.floor(seconds % 60).toString().padStart(2, '0');
 		return `${mins}:${secs}`;
 	}
-		document.getElementById('openNotesModal').addEventListener('click', () => {
 
-		const video = document.getElementById('video_<%= @lesson.try(:id) %>');
-		const lessonId = video?.dataset.lessonId;
-		if (video) {
-			const currentTime = formatTime(video.currentTime);
-			// console.log("Saved timestamp:", currentTime);
-			const display = document.getElementById("Timestamp");
-			display.value =  currentTime;
-			localStorage.setItem('videoTimestamp_<%= @lesson.try(:id) %>', currentTime);
-		}
-		});
+    function parseTime(timeStr) {
+    if (!timeStr) return 0;
+    if (timeStr.includes(':')) {
+      const [mins, secs] = timeStr.split(':').map(Number);
+      return mins * 60 + secs;
+    }
+    return parseFloat(timeStr); // fallback for raw seconds
+  }
 
-		window.addEventListener('load', () => {
-		const savedTime = localStorage.getItem('videoTimestamp_<%= @lesson.try(:id) %>');
-		const video = document.getElementById('video_<%= @lesson.try(:id) %>');
-			if (video && savedTime) {
-				video.addEventListener('loadedmetadata', () => {
-					video.currentTime = parseFloat(savedTime);
-					console.log(parseFloat(savedTime));
-					
-				});
-			}
-		});
+  document.addEventListener('DOMContentLoaded', function () {
+    const video = document.getElementById('video_<%= @lesson.try(:id) %>');
+    const openNotesBtn = document.getElementById('openNotesModal');
 
+    if (openNotesBtn && video) {
+      openNotesBtn.addEventListener('click', () => {
+        const currentSeconds = video.currentTime;
+        const formattedTime = formatTime(currentSeconds);
+
+        // Display mm:ss in the input
+        const display = document.getElementById("Timestamp");
+        if (display) {
+          display.value = formattedTime;
+        }
+
+        // Save raw time (seconds) in localStorage
+        localStorage.setItem('videoTimestamp_<%= @lesson.try(:id) %>', currentSeconds);
+      });
+    }
+  });
+
+    document.addEventListener('DOMContentLoaded', function () {
+    const video = document.getElementById('video_<%= @lesson.try(:id) %>');
+
+    const rawTime = "<%= params[:time].to_s %>";
+    const savedTime = parseTime(rawTime);
+
+    if (video && savedTime > 0) {
+      video.addEventListener('loadedmetadata', () => {
+        video.currentTime = savedTime;
+      });
+    }
+  });
 </script>
