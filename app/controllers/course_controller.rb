@@ -14,7 +14,8 @@ class CourseController < ApplicationController
     @lesson = Lesson.find(params[:lesson])
     render partial: "course/courses_details", locals: { courses: @courses, event: @event, lesson: @lesson, quiz_topic_size: @quiz_topic_size }
   else
-    @lesson = @courses.quiz_topics.first.lessons.order(:sequence).first
+    quiz_topic = @courses&.quiz_topics&.first
+    @lesson = quiz_topic&.lessons&.order(:sequence)&.first
   end
 
   respond_to do |format|
