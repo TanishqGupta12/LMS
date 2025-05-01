@@ -12,6 +12,11 @@ class Lesson < ApplicationRecord
   attribute :remove_thumbail, :boolean
   after_save -> { thumbail.purge }, if: :remove_thumbail
 
+  has_one_attached :caption
+
+  attribute :remove_caption, :boolean
+  after_save -> { caption.purge }, if: :remove_caption
+
   after_commit :extract_video_duration, on: [:create, :update], if: -> { media.attached? && media.video? }
 
   has_many :quiz_questions

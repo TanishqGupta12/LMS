@@ -25,7 +25,10 @@
 									<% end %>
 
 									<!-- Caption files -->
-									<track kind="captions" label="English" srclang="en" src="assets/images/videos/en.vtt" default>
+									<% if @lesson.caption%>
+										<track kind="captions" label="English" srclang="en" src="<%= ( @lesson.caption) %>" default>
+									<% else %>
+									<% end %>
 								</video>
 								<% else %>
 									
