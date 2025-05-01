@@ -40,7 +40,7 @@ export default class extends Controller {
         },
         success: (html) => {
           this.courseContainerTarget.innerHTML = html
-          toastr.success("Lesson clicked!");
+          // toastr.success("Lesson clicked!");
         },
         error: (xhr) => {
           alert("Error: " + xhr.responseText)

@@ -17,13 +17,15 @@
 						<div class="col-12 position-relative">
 							<div class="video-player rounded-3">
 								<% if @lesson.try(:media).present? %>
-								<video controls crossorigin="anonymous" playsinline poster="<%= url_for(@lesson.try(:thumbail).variant(resize_to_fill: [600, 450])) %>">
-									<%# <source src="assets/images/videos/360p.mp4" type="video/mp4" size="360"> %>
-									<source src="<%= url_for(@lesson.try(:media)) %>" type="video/mp4" size="720">
-									<%# <source src="assets/images/videos/1080p.mp4" type="video/mp4" size="1080"> %>
+								<video controls width="600" height="450" autoplay controlsList="nodownload"   oncontextmenu="return false;" crossorigin="anonymous" playsinline poster="<%= url_for(@lesson.try(:thumbail).variant(resize_to_fill: [600, 450])) %>">
+									
+									<% if @courses.user_courses.find_by(user_id: current_user.id)%>
+  										<source src="<%= url_for(@lesson.media) %>" type="video/mp4" size="720">
+									<% else %>
+									<% end %>
+
 									<!-- Caption files -->
-									<%# <track kind="captions" label="English" srclang="en" src="assets/images/videos/en.vtt" default>
-									<track kind="captions" label="French" srclang="fr" src="assets/images/videos/fr.vtt"> %>
+									<track kind="captions" label="English" srclang="en" src="assets/images/videos/en.vtt" default>
 								</video>
 								<% else %>
 									
