@@ -86,4 +86,11 @@ class UsersController < ApplicationController
 
     # debugger
   end
+
+  def user_note_details
+    @event = @event
+    @notes = UserNote.find_by(user_id: params[:id] ,lesson: params[:lesson])
+    render partial: "user_notes/notes", locals: { notes: @notes, event: @event }
+    # debugger
+  end
 end

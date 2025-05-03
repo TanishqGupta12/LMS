@@ -59,12 +59,14 @@
 										<td> <%= (user_course.try(:timestamp)) %></td>
 
 										<!-- Table data -->
-										<td>
-                                            <%= button_to user_note_path(lesson: user_course.try(:lesson).try(:id)), method: :delete,
+										<td data-controller="user-note">
+											<input data-user-note= "user" value=<%= params[:id]%> />
+                                            <a href="/<%= @event.try(:id)%>/course/<%= user_course.try(:course).try(:id)%>?time=<%= CGI.escape(user_course.try(:timestamp).to_s)%>" class="btn btn-sm btn-primary-soft me-1 mb-1 mb-md-0"><i class="bi bi-play-circle me-1"></i>video</a>
+                                            <a href="<%= user_note_detail_user_path(lesson: user_course.try(:lesson).try(:id))%>" class="btn btn-sm btn-primary-soft me-1 mb-1 mb-md-0"><i class="bi bi-play-circle me-1"></i>Show</a>
+											<%= button_to user_note_path(lesson: user_course.try(:lesson).try(:id)), method: :delete,
                                                 class: "btn btn-sm btn-primary-soft me-1 mb-1 mb-md-0" do %>
                                                 <i class="fa fa-solid fa-trash me-1"></i> Delete
                                             <% end %>
-                                            <a href="/<%= user_course.try(:event).try(:id)%>/course/<%= user_course.try(:course).try(:id)%>?time=<%= user_course.try(:timestamp)%>" class="btn btn-sm btn-primary-soft me-1 mb-1 mb-md-0"><i class="bi bi-play-circle me-1"></i>Show</a>
 										</td>
 									</tr>
 									<% end %>
@@ -81,6 +83,8 @@
 			</div>
 
 			<!-- Main content END -->
+		</div>
+		<div class="user_notes">
 		</div>
 	</div>	
 </div>

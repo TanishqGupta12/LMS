@@ -17,7 +17,7 @@
 						<div class="col-12 position-relative">
 							<div class="video-player rounded-3">
 								<% if @lesson.try(:media).present? %>
-								<video data-lesson-id="<%= @lesson.try(:id) %>" id='video_<%= @lesson.try(:id) %>' controls width="600" height="450" autoplay controlsList="nodownload"   oncontextmenu="return false;" crossorigin="anonymous" playsinline poster="<%= url_for(@lesson.try(:thumbail).variant(resize_to_fill: [600, 450])) %>">
+								<video data-lesson-id="<%= @lesson.try(:id) %>" data-start-time="<%= CGI.escapeHTML(params[:time].to_s) %>" id='video_<%= @lesson.try(:id) %>' controls width="600" height="450" autoplay controlsList="nodownload"   oncontextmenu="return false;" crossorigin="anonymous" playsinline poster="<%= url_for(@lesson.try(:thumbail).variant(resize_to_fill: [600, 450])) %>">
 									
 									<% if @courses.user_courses.find_by(user_id: current_user.id)%>
   										<source src="<%= url_for(@lesson.media) %>" type="video/mp4" size="720">
@@ -599,44 +599,40 @@
 // </script>
 
 <script>
-	function formatTime(seconds) {
-		const mins = Math.floor(seconds / 60);
-		const secs = Math.floor(seconds % 60).toString().padStart(2, '0');
-		return `${mins}:${secs}`;
-	}
+  function formatTime(seconds) {
+    const mins = Math.floor(seconds / 60);
+    const secs = Math.floor(seconds % 60).toString().padStart(2, '0');
+    return `${mins}:${secs}`;
+  }
 
-    function parseTime(timeStr) {
+  function parseTime(timeStr) {
     if (!timeStr) return 0;
     if (timeStr.includes(':')) {
       const [mins, secs] = timeStr.split(':').map(Number);
       return mins * 60 + secs;
     }
-    return parseFloat(timeStr); // fallback for raw seconds
+    return parseFloat(timeStr);
   }
 
-  document.addEventListener('DOMContentLoaded', function () {
+  $(document).ready(function () {
     const video = document.getElementById('video_<%= @lesson.try(:id) %>');
-    const openNotesBtn = document.getElementById('openNotesModal');
+    const $openNotesBtn = $('#openNotesModal');
 
-    if (openNotesBtn && video) {
-      openNotesBtn.addEventListener('click', () => {
+    if (video && $openNotesBtn.length) {
+      $openNotesBtn.on('click', function () {
         const currentSeconds = video.currentTime;
         const formattedTime = formatTime(currentSeconds);
 
         // Display mm:ss in the input
-        const display = document.getElementById("Timestamp");
-        if (display) {
-          display.value = formattedTime;
+        const $display = $('#Timestamp');
+        if ($display.length) {
+          $display.val(formattedTime);
         }
 
         // Save raw time (seconds) in localStorage
         localStorage.setItem('videoTimestamp_<%= @lesson.try(:id) %>', currentSeconds);
       });
     }
-  });
-
-    document.addEventListener('DOMContentLoaded', function () {
-    const video = document.getElementById('video_<%= @lesson.try(:id) %>');
 
     const rawTime = "<%= params[:time].to_s %>";
     const savedTime = parseTime(rawTime);

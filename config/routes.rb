@@ -29,6 +29,7 @@ Rails.application.routes.draw do
       match "wishlist", to: "users#wishlist", as: "wishlist", via: [:get, :post]
       match "course_resume", to: "users#course_resume", as: "course_resume", via: [:get, :post]
       match "user_notes", to: "users#user_notes", as: "user_notes", via: [:get, :post]
+      match "user_note_detail", to: "users#user_note_detail", as: "user_note_detail", via: [:get, :post]
     end
   end
   
