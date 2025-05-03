@@ -89,7 +89,7 @@ class UsersController < ApplicationController
 
   def note_detail
     @event = @event
-    @notes = UserNote.find_by(user_id: params[:id] ,lesson: params[:lesson])
+    @notes = UserNote.find_by(user_id: params[:id] ,course_id: params[:course] , timestamp:params[:timestamp])
 
     if @notes.present?
       # render partial: "user_notes/notes", locals: { notes: @notes, event: @event }

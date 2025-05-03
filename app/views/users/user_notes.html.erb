@@ -3,7 +3,7 @@
 <%= render partial: "user_header" , locals: { user: @user } %>
 
 <div class="section-main pt-0">
-	<div class="container" data-controller="user-note">
+	<div class="container">
 		<div class="row">
 			<%= render partial: "profile_side_bar" %>
 			<!-- Main content START -->
@@ -59,15 +59,17 @@
 										<td> <%= (user_course.try(:timestamp)) %></td>
 
 										<!-- Table data -->
-										<td>
+										<td data-controller="user-note">
 											<input data-user-note-target="user" type="hidden" value="<%= params[:id] %>" />
-											<input data-user-note-target="lesson" type="hidden" value="<%= user_course.try(:lesson).try(:id) %>" />
+											<input data-user-note-target="lesson" type="hidden" value="<%= user_course.try(:course).try(:id) %>" />
+											<input data-user-note-target="timestamp" type="hidden" value="<%= (user_course.try(:timestamp)) %>" />
+
 											<a href="/<%= @event.try(:id) %>/course/<%= user_course.try(:course).try(:id) %>?time=<%= CGI.escape(user_course.try(:timestamp).to_s) %>" class="btn btn-sm btn-primary-soft me-1 mb-1 mb-md-0">
 												<i class="bi bi-play-circle me-1"></i>video
 											</a>
-											<button data-action="user-note#submit" class="btn btn-sm btn-primary-soft me-1 mb-1 mb-md-0">
+											<a  href="#" data-action="user-note#submit" class="btn btn-sm btn-primary-soft me-1 mb-1 mb-md-0">
 												<i class="bi bi-play-circle me-1"></i>Show
-											</button>
+											</a>
 											<%= button_to user_note_path(lesson: user_course.try(:lesson).try(:id)), method: :delete, class: "btn btn-sm btn-primary-soft me-1 mb-1 mb-md-0" do %>
 												<i class="fa fa-solid fa-trash me-1"></i> Delete
 											<% end %>

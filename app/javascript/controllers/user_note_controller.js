@@ -1,7 +1,7 @@
 import { Controller } from "@hotwired/stimulus"
 
 export default class extends Controller {
-    static targets = ['user', 'lesson', 'container']
+    static targets = ['user', 'lesson', 'timestamp','container']
 
     connect() {
         console.log("use_note");
@@ -21,14 +21,17 @@ export default class extends Controller {
 
         const csrfToken = document.querySelector('meta[name="csrf-token"]').content;
         const userId = this.userTarget.value
-        const lesson = this.lessonTarget.value
+        const course = this.lessonTarget.value
+        const timestamp = this.timestampTarget.value
+
         $.ajax({
             url: `/users/${userId}/note_detail`,
             method: "POST",
             dataType: "json",
             data: {
                 id: userId,
-                lesson: lesson,
+                course: course,
+                timestamp: timestamp
             },
             headers: {
                 'X-CSRF-Token': csrfToken
@@ -37,7 +40,7 @@ export default class extends Controller {
               // console.log(response);
 
               // Assuming response contains the notes and event
-                toastr.success("User note updated successfully!");
+                toastr.success("User note fetch successfully!");
 
                 const formHTML = `
                 <div class="card mt-3 border p-3 col-9" style="margin-left: 25%;">
@@ -77,8 +80,8 @@ export default class extends Controller {
                 </div>
               `;
               
-
-              this.containerTarget.innerHTML = formHTML;
+              document.querySelector('.user_notes').innerHTML = formHTML;
+              // this.containerTarget.innerHTML = formHTML;
             },
             error: (xhr) => {
                 toastr.warning(xhr.responseText)
