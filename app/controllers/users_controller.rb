@@ -87,10 +87,22 @@ class UsersController < ApplicationController
     # debugger
   end
 
-  def user_note_details
+  def note_detail
     @event = @event
     @notes = UserNote.find_by(user_id: params[:id] ,lesson: params[:lesson])
-    render partial: "user_notes/notes", locals: { notes: @notes, event: @event }
-    # debugger
+
+    if @notes.present?
+      # render partial: "user_notes/notes", locals: { notes: @notes, event: @event }
+
+      respond_to do |format|
+        format.js { 
+          render json: { notes: @notes.as_json.merge({ lesson_title: @notes.lesson_title ,course_title: @notes.course_title  })}
+        }
+      end
+    else
+      flash[:alert] = "No notes found for this lesson."
+      # redirect_to   # Redirect to a fallback path if no notes are found
+    end
+   
   end
 end
