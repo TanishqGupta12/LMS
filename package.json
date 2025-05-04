@@ -2,6 +2,8 @@
   "dependencies": {
     "@fortawesome/fontawesome-free": "^6.7.2",
     "bootstrap-icons": "^1.11.3",
+    "chart.js": "^4.4.9",
+    "chartkick": "^5.0.1",
     "rails_admin": "3.3.0",
     "sass": "^1.86.0",
     "toastr": "^2.1.4"

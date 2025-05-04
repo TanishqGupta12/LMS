@@ -91,3 +91,4 @@ gem 'streamio-ffmpeg'
 gem "sidekiq", "~> 8.0"
 
 gem 'acts_as_shopping_cart'
+gem 'chartkick', '~> 5.1', '>= 5.1.4'

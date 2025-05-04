@@ -11,3 +11,6 @@ pin "toastr", to: "https://cdn.jsdelivr.net/npm/toastr@2.1.4/build/toastr.min.js
 pin "toastr_css", to: "https://cdn.jsdelivr.net/npm/toastr@2.1.4/build/toastr.min.css"
 
 pin "plye", to: "plye.js"
+
+pin "chartkick", to: "chartkick.js"
+pin "Chart.bundle", to: "Chart.bundle.js"
