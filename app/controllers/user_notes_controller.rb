@@ -10,6 +10,32 @@ class UserNotesController < ApplicationController
     end
   end
 
+  def update_notes
+    debugger
+    @user_note = UserNote.find_by(user_id: params[:id], lesson_id: params[:lesson_id])
+  
+    if @user_note
+      if @user_note.update(subject: params[:subject], description: params[:description])
+        # render json: { notice: 'success', message: 'Note updated successfully.' }
+        
+        respond_to do |format|
+          format.js { 
+            render json: { notes: @notes.as_json.merge({ lesson_title: @notes.lesson_title ,course_title: @notes.course_title  })}
+          }
+        end
+
+      else
+        render json: {
+          notice: 'error',
+          message: 'Failed to update note.',
+          errors: @user_note.errors.full_messages
+        }, status: :unprocessable_entity
+      end
+    else
+      render json: { notice: 'error', message: 'Note not found.' }, status: :not_found
+    end
+  end
+  
   def destroy
     @user_note = UserNote.find_by(user_id: params[:id], lesson_id: params[:lesson])
 

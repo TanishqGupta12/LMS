@@ -47,6 +47,8 @@ Rails.application.routes.draw do
     end
   end
   resources :user_notes
+  match "update_notes", to: "user_notes#update_notes", as: "update_notes", via: [:get, :put , :patch]
+
   resources :review
 
   resources :quiz do
