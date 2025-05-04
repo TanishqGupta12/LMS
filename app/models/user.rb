@@ -72,6 +72,13 @@ class User < ApplicationRecord
     false
   end
 
+  def custom?
+    if role.try(:name) == 'custom'
+      return true 
+    end
+    false
+  end
+
   def normal?
     if role.try(:name) == 'Normal'
       return true 

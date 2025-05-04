@@ -114,7 +114,8 @@ RailsAdmin.config do |config|
   end
 
   config.model 'UserCourse' do
-    navigation_label "More Link"
+    navigation_label "Topic"
+    label "My Students List"
     weight 1
     edit do
 
