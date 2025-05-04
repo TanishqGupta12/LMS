@@ -10,6 +10,8 @@ class CourseController < ApplicationController
   @courses = Course.includes(:quiz_topics).includes(:reviews).includes(:user_courses).find_by(id: params[:id])
   @quiz_topic_size = QuizTopic.where(course_id: params[:id]).size()
 
+  @user_notes = UserNote.where(user_id: current_user.try(:id) ,course_id:  params[:id])
+
   if params[:lesson].present?
     @lesson = Lesson.find(params[:lesson])
     render partial: "course/courses_details", locals: { courses: @courses, event: @event, lesson: @lesson, quiz_topic_size: @quiz_topic_size }

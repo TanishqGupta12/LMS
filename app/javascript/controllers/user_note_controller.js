@@ -73,7 +73,9 @@ export default class extends Controller {
 
                 <div class="form-group mb-3">
                   <label for="description">Description</label>
-                  <input class="form-control" type="text" name="description" id="description" value="${response.notes.description}" />
+                  <textarea class="form-control" type="text" name="description" id="description">
+                  ${response.notes.description}
+                  </textarea>
                 </div>
 
                 <input type="hidden" id="note_lesson_id" value="${response.notes.lesson_id}" />
