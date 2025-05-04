@@ -10,9 +10,10 @@ class UserNotesController < ApplicationController
     end
   end
 
-  def update_notes
-    debugger
-    @user_note = UserNote.find_by(user_id: params[:id], lesson_id: params[:lesson_id])
+  def update
+
+    # @user_note = UserNote.find_by(user_id: params[:id], lesson_id: params[:lesson_id])
+    @user_note = UserNote.find_by(id: params[:id])
   
     if @user_note
       if @user_note.update(subject: params[:subject], description: params[:description])
@@ -20,7 +21,7 @@ class UserNotesController < ApplicationController
         
         respond_to do |format|
           format.js { 
-            render json: { notes: @notes.as_json.merge({ lesson_title: @notes.lesson_title ,course_title: @notes.course_title  })}
+            render json: { notes: @user_note.as_json.merge({ lesson_title: @user_note.lesson_title ,course_title: @user_note.course_title  })}
           }
         end
 
