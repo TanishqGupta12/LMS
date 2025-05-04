@@ -1,64 +1,1187 @@
-<% if @abstract_models %>
-  <table class="table table-condensed table-striped table-hover">
-    <thead>
-      <tr>
-        <th class="shrink model-name">
-          <%= t "admin.table_headers.model_name" %>
-        </th>
-        <th class="shrink last-created">
-          <%= t "admin.table_headers.last_created" %>
-        </th>
-        <th class="records">
-          <%= t "admin.table_headers.records" %>
-        </th>
-        <th class="shrink controls"></th>
-      </tr>
-    </thead>
-    <tbody class="table-group-divider">
-      <% @abstract_models.each do |abstract_model| %>
-        <% if authorized? :index, abstract_model %>
-          <% index_path = index_path(model_name: abstract_model.to_param) %>
-          <% row_class = "#{cycle("odd", "even")}#{" link" if index_path} #{abstract_model.param_key}_links" %>
-          <tr class="<%= row_class %>" data-link="<%= index_path %>">
-            <% last_created = @most_recent_created[abstract_model.model.name] %>
-            <% active = last_created.try(:today?) %>
-            <td>
-              <span class="show">
-                <%= link_to abstract_model.config.label_plural, index_path %>
-              </span>
-            </td>
-            <td>
-              <% if last_created %>
-                <%= t "admin.misc.time_ago", time: time_ago_in_words(last_created), default: "#{time_ago_in_words(last_created)} #{t("admin.misc.ago")}" %>
-              <% end %>
-            </td>
-            <td>
-              <% count = @count[abstract_model.model.name] %>
-              <% percent = count > 0 ? (@max <= 1 ? count : ((Math.log(count+1) * 100.0) / Math.log(@max+1)).to_i) : -1 %>
-              <div class="<%= active ? 'active progress-bar-striped ' : '' %>progress" style="margin-bottom:0px">
-                <div class="bg-<%= get_indicator(percent) %> progress-bar animate-width-to" data-animate-length="<%= ([1.0, percent].max.to_i * 20) %>" data-animate-width-to="<%= [2.0, percent].max.to_i %>%" style="width:2%">
-                  <%= @count[abstract_model.model.name] %>
+<!-- ======================= Page content START -->
+<section class="pt-0">
+	<div class="container">
+
+    <!-- Main content START -->
+      <div class="col mt-5 mb-5">
+
+        <!-- Counter boxes START -->
+        <div class="row g-4">
+          <!-- Counter item -->
+          <div class="col-sm-6 col-lg-4">
+            <div class="d-flex justify-content-center align-items-center p-4">
+              <span class="display-6 text-warning mb-0"><i class="fas fa-tv fa-fw"></i></span>
+              <div class="ms-4">
+                <div class="d-flex">
+                  <h5 class="purecounter mb-0 fw-bold" data-purecounter-start="0" data-purecounter-end="25"	data-purecounter-delay="200">0</h5>
+                </div>
+                <span class="mb-0 h6 fw-light">Total Courses</span>
+              </div>
+            </div>
+          </div>
+          <!-- Counter item -->
+          <div class="col-sm-6 col-lg-4">
+            <div class="d-flex justify-content-center align-items-center p-4">
+              <span class="display-6 text-purple mb-0"><i class="fas fa-user-graduate fa-fw"></i></span>
+              <div class="ms-4">
+                <div class="d-flex">
+                  <h5 class="purecounter mb-0 fw-bold" data-purecounter-start="0" data-purecounter-end="25"	data-purecounter-delay="200">0</h5>
+                  <span class="mb-0 h5">K+</span>
+                </div>
+                <span class="mb-0 h6 fw-light">Total Students</span>
+              </div>
+            </div>
+          </div>
+          <!-- Counter item -->
+          <div class="col-sm-6 col-lg-4">
+            <div class="d-flex justify-content-center align-items-center p-4">
+              <span class="display-6 text-info mb-0"><i class="fas fa-gem fa-fw"></i></span>
+              <div class="ms-4">
+                <div class="d-flex">
+                  <h5 class="purecounter mb-0 fw-bold" data-purecounter-start="0" data-purecounter-end="12" data-purecounter-delay="300">0</h5>
+                  <span class="mb-0 h5">K</span>
+                </div>
+                <span class="mb-0 h6 fw-light">Enrolled Students</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- Counter boxes END -->
+
+        <!-- Chart START -->
+        <div class="row mt-5">
+          <div class="col-12">
+            <div class="card card-body bg-transparent border p-4 h-100">
+              <div class="row g-4">
+
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- Chart END -->
+
+        <!-- Course List table START -->
+        <div class="row">
+          <div class="col-12">
+            <div class="card border bg-transparent rounded-3 mt-5">
+              <!-- Card header START -->
+              <div class="card-header bg-transparent border-bottom">
+                <div class="d-sm-flex justify-content-sm-between align-items-center">
+                  <h3 class="mb-2 mb-sm-0">Most Selling Courses</h3>
                 </div>
               </div>
-            </td>
-            <td class="links">
-              <ul class="nav d-inline list-inline">
-                <%= menu_for :collection, abstract_model, nil, true %>
+              <!-- Card header END -->
+
+              <!-- Card body START -->
+              <div class="card-body">
+                <div class="table-responsive border-0 rounded-3">
+                  <!-- Table START -->
+                  <table class="table table-dark-gray align-middle p-4 mb-0">
+                    <!-- Table head -->
+                    <thead>
+                      <tr>
+                        <th scope="col" class="border-0 rounded-start">Course Name</th>
+                        <th scope="col" class="border-0">Selling</th>
+                        <th scope="col" class="border-0">Amount</th>
+                        <th scope="col" class="border-0">Period</th>
+                        <th scope="col" class="border-0 rounded-end">Action</th>
+                      </tr>
+                    </thead>
+                    <!-- Table body START -->
+                    <tbody>
+                      
+                      <!-- Table item -->
+                      <tr>
+                        <!-- Course item -->
+                        <td>
+                          <div class="d-flex align-items-center">
+                            <!-- Image -->
+                            <div class="w-60px">
+                              <img src="assets/images/courses/4by3/08.jpg" class="rounded" alt="">
+                            </div>
+                            <!-- Title -->
+                            <h6 class="mb-0 ms-2 table-responsive-title">	
+                              <a href="#">Building Scalable APIs with GraphQL</a>
+                            </h6>
+                          </div>
+                        </td>
+                        <!-- Selling item -->
+                        <td>34</td>
+                        <!-- Amount item -->
+                        <td>$1,25,478</td>
+                        <!-- Period item -->
+                        <td>
+                          <span class="badge bg-primary bg-opacity-10 text-primary">9 months</span>
+                        </td>
+                        <!-- Action item -->
+                        <td>
+                          <a href="#" class="btn btn-sm btn-success-soft btn-round me-1 mb-0"><i class="far fa-fw fa-edit"></i></a>
+                          <button class="btn btn-sm btn-danger-soft btn-round mb-0"><i class="fas fa-fw fa-times"></i></button>
+                        </td>
+                      </tr>
+
+                      <!-- Table item -->
+                      <tr>
+                        <!-- Course item -->
+                        <td>
+                          <div class="d-flex align-items-center">
+                            <!-- Image -->
+                            <div class="w-60px">
+                              <img src="assets/images/courses/4by3/10.jpg" class="rounded" alt="">
+                            </div>
+                            <!-- Title -->
+                            <h6 class="mb-0 ms-2 table-responsive-title">	
+                              <a href="#">Bootstrap 5 From Scratch</a>
+                            </h6>
+                          </div>
+                        </td>
+                        <!-- Selling item -->
+                        <td>45</td>
+                        <!-- Amount item -->
+                        <td>$2,85,478</td>
+                        <!-- Period item -->
+                        <td>
+                          <span class="badge bg-primary bg-opacity-10 text-primary">6 months</span>
+                        </td>
+                        <!-- Action item -->
+                        <td>
+                          <a href="#" class="btn btn-sm btn-success-soft btn-round me-1 mb-0"><i class="far fa-fw fa-edit"></i></a>
+                          <button class="btn btn-sm btn-danger-soft btn-round mb-0"><i class="fas fa-fw fa-times"></i></button>
+                        </td>
+                      </tr>
+
+                      <!-- Table item -->
+                      <tr>
+                        <!-- Course item -->
+                        <td>
+                          <div class="d-flex align-items-center">
+                            <!-- Image -->
+                            <div class="w-60px">
+                              <img src="assets/images/courses/4by3/02.jpg" class="rounded" alt="">
+                            </div>
+                            <!-- Title -->
+                            <h6 class="mb-0 ms-2 table-responsive-title">	
+                              <a href="#">Graphic Design Masterclass</a>
+                            </h6>
+                          </div>
+                        </td>
+                        <!-- Selling item -->
+                        <td>21</td>
+                        <!-- Amount item -->
+                        <td>$85,478</td>
+                        <!-- Period item -->
+                        <td>
+                          <span class="badge bg-primary bg-opacity-10 text-primary">4 months</span>
+                        </td>
+                        <!-- Action item -->
+                        <td>
+                          <a href="#" class="btn btn-sm btn-success-soft btn-round me-1 mb-0"><i class="far fa-fw fa-edit"></i></a>
+                          <button class="btn btn-sm btn-danger-soft btn-round mb-0"><i class="fas fa-fw fa-times"></i></button>
+                        </td>
+                      </tr>
+
+                      <!-- Table item -->
+                      <tr>
+                        <!-- Course item -->
+                        <td>
+                          <div class="d-flex align-items-center">
+                            <!-- Image -->
+                            <div class="w-60px">
+                              <img src="assets/images/courses/4by3/04.jpg" class="rounded" alt="">
+                            </div>
+                            <!-- Title -->
+                            <h6 class="mb-0 ms-2 table-responsive-title">	
+                              <a href="#">Learn Invision</a>
+                            </h6>
+                          </div>
+                        </td>
+                        <!-- Selling item -->
+                        <td>28</td>
+                        <!-- Amount item -->
+                        <td>$98,478</td>
+                        <!-- Period item -->
+                        <td>
+                          <span class="badge bg-primary bg-opacity-10 text-primary">8 months</span>
+                        </td>
+                        <!-- Action item -->
+                        <td>
+                          <a href="#" class="btn btn-sm btn-success-soft btn-round me-1 mb-0"><i class="far fa-fw fa-edit"></i></a>
+                          <button class="btn btn-sm btn-danger-soft btn-round mb-0"><i class="fas fa-fw fa-times"></i></button>
+                        </td>
+                      </tr>
+
+                      <!-- Table item -->
+                      <tr>
+                        <!-- Course item -->
+                        <td>
+                          <div class="d-flex align-items-center">
+                            <!-- Image -->
+                            <div class="w-60px">
+                              <img src="assets/images/courses/4by3/06.jpg" class="rounded" alt="">
+                            </div>
+                            <!-- Title -->
+                            <h6 class="mb-0 ms-2 table-responsive-title">	
+                              <a href="#">Angular – The Complete Guider</a>
+                            </h6>
+                          </div>
+                        </td>
+                        <!-- Selling item -->
+                        <td>38</td>
+                        <!-- Amount item -->
+                        <td>$1,02,478</td>
+                        <!-- Period item -->
+                        <td>
+                          <span class="badge bg-primary bg-opacity-10 text-primary">1 year</span>
+                        </td>
+                        <!-- Action item -->
+                        <td>
+                          <a href="#" class="btn btn-sm btn-success-soft btn-round me-1 mb-0"><i class="far fa-fw fa-edit"></i></a>
+                          <button class="btn btn-sm btn-danger-soft btn-round mb-0"><i class="fas fa-fw fa-times"></i></button>
+                        </td>
+                      </tr>
+                    </tbody>
+                    <!-- Table body END -->
+                  </table>
+                  <!-- Table END -->
+                </div>
+
+                <!-- Pagination -->
+                <div class="d-sm-flex justify-content-sm-between align-items-sm-center mt-3">
+                  <!-- Content -->
+                  <p class="mb-0 text-center text-sm-start">Showing 1 to 8 of 20 entries</p>
+                  <!-- Pagination -->
+                  <nav class="d-flex justify-content-center mb-0" aria-label="navigation">
+                    <ul class="pagination pagination-sm pagination-primary-soft d-inline-block d-md-flex rounded mb-0">
+                      <li class="page-item mb-0"><a class="page-link" href="#" tabindex="-1"><i class="fas fa-angle-left"></i></a></li>
+                      <li class="page-item mb-0"><a class="page-link" href="#">1</a></li>
+                      <li class="page-item mb-0 active"><a class="page-link" href="#">2</a></li>
+                      <li class="page-item mb-0"><a class="page-link" href="#">3</a></li>
+                      <li class="page-item mb-0"><a class="page-link" href="#"><i class="fas fa-angle-right"></i></a></li>
+                    </ul>
+                  </nav>
+                </div>
+              </div>
+              <!-- Card body START -->
+            </div>
+          </div>
+        </div>
+        <!-- Course List table END -->
+      </div>
+    <!-- Main content END -->
+
+    <!-- ======================= student content START -->
+    <div class="col mt-5 mb-5">
+      <!-- Card START -->
+      <div class="card border bg-transparent rounded-3">
+        <!-- Card header START -->
+        <div class="card-header bg-transparent border-bottom">
+          <h3 class="mb-0">My Students List</h3>
+        </div>
+        <!-- Card header END -->
+
+        <!-- Card body START -->
+        <div class="card-body">
+
+          <!-- Search and select START -->
+          <div class="row g-3 align-items-center justify-content-between mb-4">
+            <!-- Search -->
+            <div class="col-md-8">
+              <form class="rounded position-relative">
+                <input class="form-control pe-5 bg-transparent" type="search" placeholder="Search" aria-label="Search">
+                <button class="bg-transparent p-2 position-absolute top-50 end-0 translate-middle-y border-0 text-primary-hover text-reset" type="submit">
+              <i class="fas fa-search fs-6 "></i>
+            </button>
+              </form>
+            </div>
+
+            <!-- Select option -->
+            <div class="col-md-3">
+              <!-- Short by filter -->
+              <form>
+                <select class="form-select js-choice border-0 z-index-9 bg-transparent" aria-label=".form-select-sm">
+                  <option value="">Sort by</option>
+                  <option>Free</option>
+                  <option>Newest</option>
+                  <option>Oldest</option>
+                </select>
+              </form>
+            </div>
+          </div>
+          <!-- Search and select END -->
+
+          <!-- Student list table START -->
+          <div class="table-responsive border-0">
+            <table class="table table-dark-gray align-middle p-4 mb-0 table-hover">
+              <!-- Table head -->
+              <thead>
+                <tr>
+                  <th scope="col" class="border-0 rounded-start">Student name</th>
+                  <th scope="col" class="border-0">Progress</th>
+                  <th scope="col" class="border-0">Courses</th>
+                  <th scope="col" class="border-0">Enrolled date</th>
+                  <th scope="col" class="border-0 rounded-end">Action</th>
+                </tr>
+              </thead>
+
+              <!-- Table body START -->
+              <tbody>
+                <!-- Table item -->
+                <tr>
+                  <!-- Table data -->
+                  <td>
+                    <div class="d-flex align-items-center position-relative">
+                      <!-- Image -->
+                      <div class="avatar avatar-md mb-2 mb-md-0">
+                        <img src="assets/images/avatar/01.jpg" class="rounded" alt="">
+                      </div>
+                      <div class="mb-0 ms-2">
+                        <!-- Title -->
+                        <h6 class="mb-0"><a href="#" class="stretched-link">Lori Stevens</a></h6>
+                        <!-- Address -->
+                        <span class="text-body small"><i class="fas fa-fw fa-map-marker-alt me-1 mt-1"></i>Mumbai</span>
+                      </div>
+                    </div>
+                  </td>
+
+                  <!-- Table data -->
+                  <td class="text-center text-sm-start">
+                    <div class=" overflow-hidden">
+                      <h6 class="mb-0">85%</h6>
+                      <div class="progress progress-sm bg-primary bg-opacity-10">
+                        <div class="progress-bar bg-primary aos" role="progressbar" data-aos="slide-right" data-aos-delay="200" data-aos-duration="1000" data-aos-easing="ease-in-out" style="width: 85%" aria-valuenow="85" aria-valuemin="0" aria-valuemax="100">
+                        </div>
+                      </div>
+                    </div>
+                  </td>
+
+                  <!-- Table data -->
+                  <td>10</td>
+
+                  <!-- Table data -->
+                  <td>4/1/2023</td>
+
+                  <!-- Table data -->
+                  <td>
+                    <a href="#" class="btn btn-success-soft btn-round me-1 mb-0" data-bs-toggle="tooltip" data-bs-placement="top" title="Message"><i class="far fa-envelope"></i></a>
+                    <button class="btn btn-danger-soft btn-round mb-0" data-bs-toggle="tooltip" data-bs-placement="top" title="Block"><i class="fas fa-ban"></i></button>
+                  </td>
+                </tr>
+
+                <!-- Table item -->
+                <tr>
+                  <!-- Table data -->
+                  <td>
+                    <div class="d-flex align-items-center position-relative">
+                      <!-- Image -->
+                      <div class="avatar avatar-md mb-2 mb-md-0">
+                        <img src="assets/images/avatar/03.jpg" class="rounded" alt="">
+                      </div>
+                      <div class="mb-0 ms-2">
+                        <!-- Title -->
+                        <h6 class="mb-0"><a href="#" class="stretched-link">Dennis Barrett</a></h6>
+                        <!-- Address -->
+                        <span class="text-body small"><i class="fas fa-fw fa-map-marker-alt me-1 mt-1"></i>New york</span>
+                      </div>
+                    </div>
+                  </td>
+
+                  <!-- Table data -->
+                  <td class="text-center text-sm-start">
+                    <div class=" overflow-hidden">
+                      <h6 class="mb-0">40%</h6>
+                      <div class="progress progress-sm bg-primary bg-opacity-10">
+                        <div class="progress-bar bg-primary aos" role="progressbar" data-aos="slide-right" data-aos-delay="200" data-aos-duration="1000" data-aos-easing="ease-in-out" style="width: 40%" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100">
+                        </div>
+                      </div>
+                    </div>
+                  </td>
+
+                  <!-- Table data -->
+                  <td>12</td>
+
+                  <!-- Table data -->
+                  <td>9/1/2023</td>
+
+                  <!-- Table data -->
+                  <td>
+                    <a href="#" class="btn btn-success-soft btn-round me-1 mb-0" data-bs-toggle="tooltip" data-bs-placement="top" title="Message"><i class="far fa-envelope"></i></a>
+                    <button class="btn btn-danger btn-round mb-0" data-bs-toggle="tooltip" data-bs-placement="top" title="Unblock"><i class="fas fa-ban"></i></button>
+                  </td>
+                </tr>
+
+                <!-- Table item -->
+                <tr>
+                  <!-- Table data -->
+                  <td>
+                    <div class="d-flex align-items-center position-relative">
+                      <!-- Image -->
+                      <div class="avatar avatar-md mb-2 mb-md-0">
+                        <img src="assets/images/avatar/04.jpg" class="rounded" alt="">
+                      </div>
+                      <div class="mb-0 ms-2">
+                        <!-- Title -->
+                        <h6 class="mb-0"><a href="#" class="stretched-link">Billy Vasquez</a></h6>
+                        <!-- Address -->
+                        <span class="text-body small"><i class="fas fa-fw fa-map-marker-alt me-1 mt-1"></i>Paris</span>
+                      </div>
+                    </div>
+                  </td>
+
+                  <!-- Table data -->
+                  <td class="text-center text-sm-start">
+                    <div class=" overflow-hidden">
+                      <h6 class="mb-0">62%</h6>
+                      <div class="progress progress-sm bg-primary bg-opacity-10">
+                        <div class="progress-bar bg-primary aos" role="progressbar" data-aos="slide-right" data-aos-delay="200" data-aos-duration="1000" data-aos-easing="ease-in-out" style="width: 62%" aria-valuenow="62" aria-valuemin="0" aria-valuemax="100">
+                        </div>
+                      </div>
+                    </div>
+                  </td>
+
+                  <!-- Table data -->
+                  <td>08</td>
+
+                  <!-- Table data -->
+                  <td>10/1/2023</td>
+
+                  <!-- Table data -->
+                  <td>
+                    <a href="#" class="btn btn-success-soft btn-round me-1 mb-0" data-bs-toggle="tooltip" data-bs-placement="top" title="Message"><i class="far fa-envelope"></i></a>
+                    <button class="btn btn-danger-soft btn-round mb-0" data-bs-toggle="tooltip" data-bs-placement="top" title="Block"><i class="fas fa-ban"></i></button>
+                  </td>
+                </tr>
+
+                <!-- Table item -->
+                <tr>
+                  <!-- Table data -->
+                  <td>
+                    <div class="d-flex align-items-center position-relative">
+                      <!-- Image -->
+                      <div class="avatar avatar-md mb-2 mb-md-0">
+                        <img src="assets/images/avatar/09.jpg" class="rounded" alt="">
+                      </div>
+                      <div class="mb-0 ms-2">
+                        <!-- Title -->
+                        <h6 class="mb-0"><a href="#" class="stretched-link">Carolyn Ortiz</a></h6>
+                        <!-- Address -->
+                        <span class="text-body small"><i class="fas fa-fw fa-map-marker-alt me-1 mt-1"></i>Delhi</span>
+                      </div>
+                    </div>
+                  </td>
+
+                  <!-- Table data -->
+                  <td class="text-center text-sm-start">
+                    <div class=" overflow-hidden">
+                      <h6 class="mb-0">60%</h6>
+                      <div class="progress progress-sm bg-primary bg-opacity-10">
+                        <div class="progress-bar bg-primary aos" role="progressbar" data-aos="slide-right" data-aos-delay="200" data-aos-duration="1000" data-aos-easing="ease-in-out" style="width: 60%" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100">
+                        </div>
+                      </div>
+                    </div>
+                  </td>
+
+                  <!-- Table data -->
+                  <td>06</td>
+
+                  <!-- Table data -->
+                  <td>20/1/2023</td>
+
+                  <!-- Table data -->
+                  <td>
+                    <a href="#" class="btn btn-success-soft btn-round me-1 mb-0" data-bs-toggle="tooltip" data-bs-placement="top" title="Message"><i class="far fa-envelope"></i></a>
+                    <button class="btn btn-danger-soft btn-round mb-0" data-bs-toggle="tooltip" data-bs-placement="top" title="Block"><i class="fas fa-ban"></i></button>
+                  </td>
+                </tr>
+
+                <!-- Table item -->
+                <tr>
+                  <!-- Table data -->
+                  <td>
+                    <div class="d-flex align-items-center position-relative">
+                      <!-- Image -->
+                      <div class="avatar avatar-md mb-2 mb-md-0">
+                        <img src="assets/images/avatar/07.jpg" class="rounded" alt="">
+                      </div>
+                      <div class="mb-0 ms-2">
+                        <!-- Title -->
+                        <h6 class="mb-0"><a href="#" class="stretched-link">Larry Lawson</a></h6>
+                        <!-- Address -->
+                        <span class="text-body small"><i class="fas fa-fw fa-map-marker-alt me-1 mt-1"></i>London</span>
+                      </div>
+                    </div>
+                  </td>
+
+                  <!-- Table data -->
+                  <td class="text-center text-sm-start">
+                    <div class=" overflow-hidden">
+                      <h6 class="mb-0">35%</h6>
+                      <div class="progress progress-sm bg-primary bg-opacity-10">
+                        <div class="progress-bar bg-primary aos" role="progressbar" data-aos="slide-right" data-aos-delay="200" data-aos-duration="1000" data-aos-easing="ease-in-out" style="width: 35%" aria-valuenow="35" aria-valuemin="0" aria-valuemax="100">
+                        </div>
+                      </div>
+                    </div>
+                  </td>
+
+                  <!-- Table data -->
+                  <td>04</td>
+
+                  <!-- Table data -->
+                  <td>12/1/2023</td>
+
+                  <!-- Table data -->
+                  <td>
+                    <a href="#" class="btn btn-success-soft btn-round me-1 mb-0" data-bs-toggle="tooltip" data-bs-placement="top" title="Message"><i class="far fa-envelope"></i></a>
+                    <button class="btn btn-danger-soft btn-round mb-0" data-bs-toggle="tooltip" data-bs-placement="top" title="Block"><i class="fas fa-ban"></i></button>
+                  </td>
+                </tr>
+
+                <!-- Table item -->
+                <tr>
+                  <!-- Table data -->
+                  <td>
+                    <div class="d-flex align-items-center position-relative">
+                      <!-- Image -->
+                      <div class="avatar avatar-md mb-2 mb-md-0">
+                        <img src="assets/images/avatar/06.jpg" class="rounded" alt="">
+                      </div>
+                      <div class="mb-0 ms-2">
+                        <!-- Title -->
+                        <h6 class="mb-0"><a href="#" class="stretched-link">Frances Guerrero</a></h6>
+                        <!-- Address -->
+                        <span class="text-body small"><i class="fas fa-fw fa-map-marker-alt me-1 mt-1"></i>Pune</span>
+                      </div>
+                    </div>
+                  </td>
+
+                  <!-- Table data -->
+                  <td class="text-center text-sm-start">
+                    <div class=" overflow-hidden">
+                      <h6 class="mb-0">42%</h6>
+                      <div class="progress progress-sm bg-primary bg-opacity-10">
+                        <div class="progress-bar bg-primary aos" role="progressbar" data-aos="slide-right" data-aos-delay="200" data-aos-duration="1000" data-aos-easing="ease-in-out" style="width: 42%" aria-valuenow="42" aria-valuemin="0" aria-valuemax="100">
+                        </div>
+                      </div>
+                    </div>
+                  </td>
+
+                  <!-- Table data -->
+                  <td>14</td>
+
+                  <!-- Table data -->
+                  <td>8/1/2023</td>
+
+                  <!-- Table data -->
+                  <td>
+                    <a href="#" class="btn btn-success-soft btn-round me-1 mb-0" data-bs-toggle="tooltip" data-bs-placement="top" title="Message"><i class="far fa-envelope"></i></a>
+                    <button class="btn btn-danger-soft btn-round mb-0" data-bs-toggle="tooltip" data-bs-placement="top" title="Block"><i class="fas fa-ban"></i></button>
+                  </td>
+                </tr>
+              </tbody>
+              <!-- Table body END -->
+            </table>
+          </div>
+          <!-- Student list table END -->
+
+          <!-- Pagination START -->
+          <div class="d-sm-flex justify-content-sm-between align-items-sm-center mt-4 mt-sm-3">
+            <!-- Content -->
+            <p class="mb-0 text-center text-sm-start">Showing 1 to 8 of 20 entries</p>
+            <!-- Pagination -->
+            <nav class="d-flex justify-content-center mb-0" aria-label="navigation">
+              <ul class="pagination pagination-sm pagination-primary-soft d-inline-block d-md-flex rounded mb-0">
+                <li class="page-item mb-0"><a class="page-link" href="#" tabindex="-1"><i class="fas fa-angle-left"></i></a></li>
+                <li class="page-item mb-0"><a class="page-link" href="#">1</a></li>
+                <li class="page-item mb-0 active"><a class="page-link" href="#">2</a></li>
+                <li class="page-item mb-0"><a class="page-link" href="#">3</a></li>
+                <li class="page-item mb-0"><a class="page-link" href="#"><i class="fas fa-angle-right"></i></a></li>
               </ul>
-            </td>
-          </tr>
-        <% end %>
-      <% end %>
-    </tbody>
-  </table>
-<% end %>
-<% if @history && authorized?(:history_index) %>
-  <div class="block" id="block-tables">
-    <div class="content">
-      <h2>
-        <%= t("admin.actions.history_index.menu") %>
-      </h2>
-      <%= render partial: 'rails_admin/main/dashboard_history' %>
+            </nav>
+          </div>
+          <!-- Pagination END -->
+        </div>
+        <!-- Card body START -->
+      </div>
+      <!-- Card END -->
     </div>
-  </div>
-<% end %>
+    <!-- ======================= student content END -->
+
+
+    <!-- payout content START -->
+    <div class="col mt-5 mb-5">
+
+      <!-- Payout box START -->
+      <div class="row g-4 mb-4">
+        <!-- Box item -->
+        <div class="col-sm-6 col-md-4">
+          <div class="border p-3 rounded-3 h-100">
+            <div class="d-flex mb-1 justify-content-between align-items-center">
+              <h6 class="mb-0">Last month payout</h6>
+              <span class="badge bg-success bg-opacity-10 text-success ms-2 mb-0">Paid</span>
+            </div>
+            <h2 class="mb-2 mt-2">$12,825</h2>
+            <a href="#">View transaction</a>
+          </div>
+        </div>
+
+        <!-- Box item -->
+        <div class="col-sm-6 col-md-4">
+          <div class="border p-3 rounded-3 h-100">
+            <h6 class="mb-0">This month earning</h6>
+            <h2 class="mb-2 mt-2">$15,356</h2>
+            <p class="mb-0">Expected payout on 05/01/2023</p>
+          </div>
+        </div>
+
+        <!-- Box item -->
+        <div class="col-sm-6 col-md-4">
+          <div class="bg-primary bg-opacity-10 h-100 p-3 rounded-3">
+            <h6 class="mb-0">Balance</h6>
+            <h2 class="mb-2 mt-2">$8,485</h2>
+            <a href="#" class="btn btn-sm btn-primary mb-0">Withdraw Earning</a>
+          </div>
+        </div>
+      </div>
+      <!-- Payout box END -->
+
+      <div class="card bg-transparent border rounded-3">
+        <!-- Card header START -->
+        <div class="card-header bg-transparent border-bottom">
+          <h3 class="mb-0">Payouts</h3>
+        </div>
+        <!-- Card header END -->
+
+        <!-- Card body START -->
+        <div class="card-body">
+
+          <!-- Title and select START -->
+          <div class="row g-3 align-items-center justify-content-between mb-4">
+            <!-- Content -->
+            <div class="col-md-8">
+              <form class="rounded position-relative">
+                <input class="form-control pe-5 bg-transparent" type="search" placeholder="Search" aria-label="Search">
+                <button class="bg-transparent p-2 position-absolute top-50 end-0 translate-middle-y border-0 text-primary-hover text-reset" type="submit">
+              <i class="fas fa-search fs-6 "></i>
+            </button>
+              </form>
+            </div>
+
+            <!-- Select option -->
+            <div class="col-md-3">
+              <!-- Short by filter -->
+              <form>
+                <select class="form-select js-choice border-0 z-index-9 bg-transparent" aria-label=".form-select-sm">
+                  <option value="">Sort by</option>
+                  <option>Free</option>
+                  <option>Newest</option>
+                  <option>Oldest</option>
+                </select>
+              </form>
+            </div>
+          </div>
+          <!-- Title and select END -->
+
+          <!-- Payout list table START -->
+          <div class="table-responsive border-0">
+            <table class="table table-dark-gray align-middle p-4 mb-0 table-hover">
+              <!-- Table head -->
+              <thead>
+                <tr>
+                  <th scope="col" class="border-0 rounded-start">Payout</th>
+                  <th scope="col" class="border-0">Amount</th>
+                  <th scope="col" class="border-0">Status</th>
+                  <th scope="col" class="border-0 rounded-end">Date</th>
+                </tr>
+              </thead>
+              <!-- Table body START -->
+              <tbody>
+                <!-- Table item -->
+                <tr>
+                  <!-- Table data -->
+                  <td>
+                    <h6 class="mt-2 mt-lg-0 mb-0"><a href="#">Successful payout #102356</a></h6>
+                  </td>
+
+                  <!-- Table data -->
+                  <td>$3,999
+                    <!-- Drop down with id -->
+                    <a href="#" class="h6 mb-0" role="button" id="dropdownShare" data-bs-toggle="dropdown" aria-expanded="false">
+                      <i class="bi bi-info-circle-fill"></i>
+                    </a>
+                    <ul class="dropdown-menu dropdown-w-sm dropdown-menu-end min-w-auto shadow rounded" aria-labelledby="dropdownShare">
+                      <li>
+                        <div class="d-flex justify-content-between">
+                          <span class="small">Commission</span>
+                          <span class="h6 mb-0 small">$86</span>
+                        </div>
+                        <hr class="my-1">
+                      </li>
+                      <!-- Divider -->
+
+                      <li>
+                        <div class="d-flex justify-content-between">
+                          <span class="me-4 small">Us royalty withholding</span>
+                          <span class="text-danger small">-$0.00</span>
+                        </div>
+                        <hr class="my-1">
+                      </li>
+                      
+                      <li>
+                        <div class="d-flex justify-content-between">
+                          <span class="small">Earning</span>
+                          <span class="h6 mb-0 small">$86</span>
+                        </div>
+                      </li>
+                    </ul>
+                  </td>
+
+                  <!-- Table data -->
+                  <td class="text-center text-sm-start">
+                    <span class="badge bg-success bg-opacity-10 text-success">Paid</span>
+                  </td>
+
+                  <!-- Table data -->
+                  <td>18/1/2023</td>
+                </tr>
+
+                <!-- Table item -->
+                <tr>
+                  <!-- Table data -->
+                  <td>
+                    <!-- Title -->
+                    <h6 class="mt-2 mt-lg-0 mb-0"><a href="#">Successful payout #102589</a></h6>
+                  </td>
+
+                  <!-- Table data -->
+                  <td>$4,875
+                    <!-- Drop down with id -->
+                    <a href="#" class="h6 mb-0" role="button" id="dropdownShare1" data-bs-toggle="dropdown" aria-expanded="false">
+                      <i class="bi bi-info-circle-fill"></i>
+                    </a>
+                    <ul class="dropdown-menu dropdown-w-sm dropdown-menu-end min-w-auto shadow rounded" aria-labelledby="dropdownShare1">
+                      <li>
+                        <div class="d-flex justify-content-between">
+                          <span class="small">Commission</span>
+                          <span class="h6 mb-0 small">$86</span>
+                        </div>
+                        <hr class="my-1">
+                      </li>
+                      <!-- Divider -->
+
+                      <li>
+                        <div class="d-flex justify-content-between">
+                          <span class="me-4 small">Us royalty withholding</span>
+                          <span class="text-danger small">-$0.00</span>
+                        </div>
+                        <hr class="my-1">
+                      </li>
+                      
+                      <li>
+                        <div class="d-flex justify-content-between">
+                          <span class="small">Earning</span>
+                          <span class="h6 mb-0 small">$86</span>
+                        </div>
+                      </li>
+                    </ul>
+                  </td>
+
+                  <!-- Table data -->
+                  <td class="text-center text-sm-start">
+                    <span class="badge bg-success bg-opacity-10 text-success">Paid</span>
+                  </td>
+
+                  <!-- Table data -->
+                  <td>12/1/2023</td>
+                </tr>
+
+                <!-- Table item -->
+                <tr>
+                  <!-- Table data -->
+                  <td>
+                    <h6 class="mt-2 mt-lg-0 mb-0"><a href="#">Successful payout #108645</a></h6>
+                  </td>
+
+                  <!-- Table data -->
+                  <td>$1,800
+                    <!-- Drop down with id -->
+                    <a href="#" class="h6 mb-0" role="button" id="dropdownShare2" data-bs-toggle="dropdown" aria-expanded="false">
+                      <i class="bi bi-info-circle-fill"></i>
+                    </a>
+                    <ul class="dropdown-menu dropdown-w-sm dropdown-menu-end min-w-auto shadow rounded" aria-labelledby="dropdownShare2">
+                      <li>
+                        <div class="d-flex justify-content-between">
+                          <span class="small">Commission</span>
+                          <span class="h6 mb-0 small">$86</span>
+                        </div>
+                        <hr class="my-1">
+                      </li>
+                      <!-- Divider -->
+
+                      <li>
+                        <div class="d-flex justify-content-between">
+                          <span class="me-4 small">Us royalty withholding</span>
+                          <span class="text-danger small">-$0.00</span>
+                        </div>
+                        <hr class="my-1">
+                      </li>
+                      
+                      <li>
+                        <div class="d-flex justify-content-between">
+                          <span class="small">Earning</span>
+                          <span class="h6 mb-0 small">$86</span>
+                        </div>
+                      </li>
+                    </ul>
+                  </td>
+
+                  <!-- Table data -->
+                  <td class="text-center text-sm-start">
+                    <span class="badge bg-danger bg-opacity-10 text-danger">Cancelled </span>
+                  </td>
+
+                  <!-- Table data -->
+                  <td>22/1/2023</td>
+                </tr>
+
+                <!-- Table item -->
+                <tr>
+                  <!-- Table data -->
+                  <td>
+                    <h6 class="mt-2 mt-lg-0 mb-0"><a href="#">Successful payout #108645</a></h6>
+                  </td>
+
+                  <!-- Table data -->
+                  <td>$6,800
+                    <!-- Drop down with id -->
+                    <a href="#" class="h6 mb-0" role="button" id="dropdownShare3" data-bs-toggle="dropdown" aria-expanded="false">
+                      <i class="bi bi-info-circle-fill"></i>
+                    </a>
+                    <ul class="dropdown-menu dropdown-w-sm dropdown-menu-end min-w-auto shadow rounded" aria-labelledby="dropdownShare3">
+                      <li>
+                        <div class="d-flex justify-content-between">
+                          <span class="small">Commission</span>
+                          <span class="h6 mb-0 small">$86</span>
+                        </div>
+                        <hr class="my-1">
+                      </li>
+                      <!-- Divider -->
+
+                      <li>
+                        <div class="d-flex justify-content-between">
+                          <span class="me-4 small">Us royalty withholding</span>
+                          <span class="text-danger small">-$0.00</span>
+                        </div>
+                        <hr class="my-1">
+                      </li>
+                      
+                      <li>
+                        <div class="d-flex justify-content-between">
+                          <span class="small">Earning</span>
+                          <span class="h6 mb-0 small">$86</span>
+                        </div>
+                      </li>
+                    </ul>
+                  </td>
+
+                  <!-- Table data -->
+                  <td class="text-center text-sm-start">
+                    <span class="badge bg-success bg-opacity-10 text-success">Paid</span>
+                  </td>
+
+                  <!-- Table data -->
+                  <td>28/1/2023</td>
+                </tr>
+
+                <!-- Table item -->
+                <tr>
+                  <!-- Table data -->
+                  <td>
+                    <!-- Title -->
+                    <h6 class="mt-2 mt-lg-0 mb-0"><a href="#">Successful payout #108645</a></h6>
+                  </td>
+
+                  <!-- Table data -->
+                  <td>$3,576
+                    <!-- Drop down with id -->
+                    <a href="#" class="h6 mb-0" role="button" id="dropdownShare4" data-bs-toggle="dropdown" aria-expanded="false">
+                      <i class="bi bi-info-circle-fill"></i>
+                    </a>
+                    <ul class="dropdown-menu dropdown-w-sm dropdown-menu-end min-w-auto shadow rounded" aria-labelledby="dropdownShare4">
+                      <li>
+                        <div class="d-flex justify-content-between">
+                          <span class="small">Commission</span>
+                          <span class="h6 mb-0 small">$86</span>
+                        </div>
+                        <hr class="my-1">
+                      </li>
+                      <!-- Divider -->
+
+                      <li>
+                        <div class="d-flex justify-content-between">
+                          <span class="me-4 small">Us royalty withholding</span>
+                          <span class="text-danger small">-$0.00</span>
+                        </div>
+                        <hr class="my-1">
+                      </li>
+                      
+                      <li>
+                        <div class="d-flex justify-content-between">
+                          <span class="small">Earning</span>
+                          <span class="h6 mb-0 small">$86</span>
+                        </div>
+                      </li>
+                    </ul>
+                  </td>
+
+                  <!-- Table data -->
+                  <td class="text-center text-sm-start">
+                    <span class="badge bg-orange bg-opacity-10 text-orange">Pending</span>
+                  </td>
+
+                  <!-- Table data -->
+                  <td>12/1/2023</td>
+                </tr>
+              </tbody>
+              <!-- Table body END -->
+            </table>
+          </div>
+          <!-- Payout list table END -->
+
+          <!-- Pagination START -->
+          <div class="d-sm-flex justify-content-sm-between align-items-sm-center mt-4 mt-sm-3">
+            <!-- Content -->
+            <p class="mb-0 text-center text-sm-start">Showing 1 to 8 of 20 entries</p>
+            <!-- Pagination -->
+            <nav class="d-flex justify-content-center mb-0" aria-label="navigation">
+              <ul class="pagination pagination-sm pagination-primary-soft d-inline-block d-md-flex rounded mb-0">
+                <li class="page-item mb-0"><a class="page-link" href="#" tabindex="-1"><i class="fas fa-angle-left"></i></a></li>
+                <li class="page-item mb-0"><a class="page-link" href="#">1</a></li>
+                <li class="page-item mb-0 active"><a class="page-link" href="#">2</a></li>
+                <li class="page-item mb-0"><a class="page-link" href="#">3</a></li>
+                <li class="page-item mb-0"><a class="page-link" href="#"><i class="fas fa-angle-right"></i></a></li>
+              </ul>
+            </nav>
+          </div>
+          <!-- Pagination END -->
+        </div>
+        <!-- Card body START -->
+      </div>
+      <!-- Payout END -->
+    </div>
+		<!-- payout content END -->
+
+    <!-- Order List content START -->
+			<div class="col mt-5 mb-5 d-none">
+
+				<!-- Card START -->
+				<div class="card border bg-transparent rounded-3">
+					<!-- Card header START -->
+					<div class="card-header bg-transparent border-bottom">
+						<h3 class="mb-0">Order List</h3>
+					</div>
+					<!-- Card header END -->
+
+					<!-- Card body START -->
+					<div class="card-body">
+
+						<!-- Search and select START -->
+						<div class="row g-3 align-items-center justify-content-between mb-4">
+							<!-- Search -->
+							<div class="col-md-8">
+								<form class="rounded position-relative">
+									<input class="form-control pe-5 bg-transparent" type="search" placeholder="Search" aria-label="Search">
+									<button class="bg-transparent p-2 position-absolute top-50 end-0 translate-middle-y border-0 text-primary-hover text-reset" type="submit">
+								<i class="fas fa-search fs-6 "></i>
+							</button>
+								</form>
+							</div>
+
+							<!-- Select option -->
+							<div class="col-md-3">
+								<!-- Short by filter -->
+								<form>
+									<select class="form-select js-choice border-0 z-index-9 bg-transparent" aria-label=".form-select-sm">
+										<option value="">Sort by</option>
+										<option>Free</option>
+										<option>Newest</option>
+										<option>Oldest</option>
+									</select>
+								</form>
+							</div>
+						</div>
+						<!-- Search and select END -->
+
+						<!-- Order list table START -->
+						<div class="table-responsive border-0">
+							<!-- Table START -->
+							<table class="table table-dark-gray align-middle p-4 mb-0 table-hover">
+								<!-- Table head -->
+								<thead>
+									<tr>
+										<th scope="col" class="border-0 rounded-start">Course name</th>
+										<th scope="col" class="border-0">Order ID</th>
+										<th scope="col" class="border-0">Date</th>
+										<th scope="col" class="border-0">Amount</th>
+										<th scope="col" class="border-0 rounded-end">Payment</th>
+									</tr>
+								</thead>
+
+								<!-- Table body START -->
+								<tbody>
+									<!-- Table item -->
+									<tr>
+										<!-- Table data -->
+										<td>
+											<h6 class="table-responsive-title mt-2 mt-lg-0 mb-0"><a href="#">The complete Digital Marketing Course - 8 Course in 1</a></h6>
+										</td>
+
+										<!-- Table data -->
+										<td class="text-center text-sm-start text-primary-hover">
+											<a href="#" class="text-body"><u>#125489</u></a>
+										</td>
+
+										<!-- Table data -->
+										<td>18/1/2023</td>
+
+										<!-- Table data -->
+										<td>$356</td>
+
+										<!-- Table data -->
+										<td>Credit Card</td>
+									</tr>
+
+									<!-- Table item -->
+									<tr>
+										<!-- Table data -->
+										<td>
+											<h6 class="table-responsive-title mt-2 mt-lg-0 mb-0"><a href="#">Time Management Mastery: Do More, Stress Less</a></h6>
+										</td>
+										<!-- Table data -->
+										<td class="text-center text-sm-start text-primary-hover">
+											<a href="#" class="text-body"><u>#235486</u></a>
+										</td>
+
+										<!-- Table data -->
+										<td>25/1/2023</td>
+
+										<!-- Table data -->
+										<td>$186</td>
+
+										<!-- Table data -->
+										<td>Debit Card</td>
+									</tr>
+
+									<!-- Table item -->
+									<tr>
+										<!-- Table data -->
+										<td>
+											<h6 class="table-responsive-title mt-2 mt-lg-0 mb-0"><a href="#">Building Scalable APIs with GraphQL</a></h6>
+										</td>
+										<!-- Table data -->
+										<td class="text-center text-sm-start text-primary-hover">
+											<a href="#" class="text-body"><u>#0215789</u></a>
+										</td>
+
+										<!-- Table data -->
+										<td>4/9/2020</td>
+
+										<!-- Table data -->
+										<td>$450</td>
+
+										<!-- Table data -->
+										<td>Paypal</td>
+									</tr>
+
+									<!-- Table item -->
+									<tr>
+										<!-- Table data -->
+										<td>
+											<h6 class="table-responsive-title mt-2 mt-lg-0 mb-0"><a href="#">Sketch from A to Z: for app designer</a></h6>
+										</td>
+										<!-- Table data -->
+										<td class="text-center text-sm-start text-primary-hover">
+											<a href="#" class="text-body"><u>#0135689</u></a>
+										</td>
+
+										<!-- Table data -->
+										<td>5/1/2023</td>
+
+										<!-- Table data -->
+										<td>$0</td>
+
+										<!-- Table data -->
+										<td>Free</td>
+									</tr>
+
+									<!-- Table item -->
+									<tr>
+										<!-- Table data -->
+										<td>
+											<h6 class="table-responsive-title mt-2 mt-lg-0 mb-0"><a href="#">Build Responsive Websites with HTML</a></h6>
+										</td>
+										<!-- Table data -->
+										<td class="text-center text-sm-start text-primary-hover">
+											<a href="#" class="text-body"><u>#0587623</u></a>
+										</td>
+
+										<!-- Table data -->
+										<td>2/1/2023</td>
+
+										<!-- Table data -->
+										<td>$250</td>
+
+										<!-- Table data -->
+										<td>Credit Card</td>
+									</tr>
+
+									<!-- Table item -->
+									<tr>
+										<!-- Table data -->
+										<td>
+											<h6 class="table-responsive-title mt-2 mt-lg-0 mb-0"><a href="#">JavaScript: Full Understanding</a></h6>
+										</td>
+										<!-- Table data -->
+										<td class="text-center text-sm-start text-primary-hover">
+											<a href="#" class="text-body"><u>#0215789</u></a>
+										</td>
+
+										<!-- Table data -->
+										<td>14/1/2023</td>
+
+										<!-- Table data -->
+										<td>$325</td>
+
+										<!-- Table data -->
+										<td>Debit Card</td>
+									</tr>
+								</tbody>
+								<!-- Table body END -->
+							</table>
+							<!-- Table END -->
+						</div>
+						<!-- Order list table END -->
+
+						<!-- Pagination START -->
+						<div class="d-sm-flex justify-content-sm-between align-items-sm-center mt-4 mt-sm-3">
+							<!-- Content -->
+							<p class="mb-0 text-center text-sm-start">Showing 1 to 8 of 20 entries</p>
+							<!-- Pagination -->
+							<nav class="d-flex justify-content-center mb-0" aria-label="navigation">
+								<ul class="pagination pagination-sm pagination-primary-soft d-inline-block d-md-flex rounded mb-0">
+									<li class="page-item mb-0"><a class="page-link" href="#" tabindex="-1"><i class="fas fa-angle-left"></i></a></li>
+									<li class="page-item mb-0"><a class="page-link" href="#">1</a></li>
+									<li class="page-item mb-0 active"><a class="page-link" href="#">2</a></li>
+									<li class="page-item mb-0"><a class="page-link" href="#">3</a></li>
+									<li class="page-item mb-0"><a class="page-link" href="#"><i class="fas fa-angle-right"></i></a></li>
+								</ul>
+							</nav>
+						</div>
+						<!-- Pagination END -->
+					</div>
+					<!-- Card body START -->
+				</div>
+					<!--Card END  -->
+			</div>
+		<!-- Order List content END -->
+	</div>
+</section>
+<!-- ======================= Page content END -->

@@ -44,9 +44,12 @@ class ApplicationController < ActionController::Base
 
   def reload_rails_panel
     event_id = session[:event_id] # Store session value in a variable before config
-  
+    event = Event.find(event_id)
     RailsAdmin::Config.reset_model(User)
     RailsAdmin.config do |config| 
+      config.main_app_name = Proc.new {
+        [event.name, "Panel (#{event.time_zone})"]
+      }
       config.model 'User' do
         list do 
           field :image
