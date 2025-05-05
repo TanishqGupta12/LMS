@@ -6,5 +6,3 @@ import "toastr"
 
 import "chartkick"
 import "Chart.bundle"
-
-import "chartkick/chart.js"

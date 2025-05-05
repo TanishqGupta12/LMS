@@ -57,9 +57,9 @@ class StripeController < ApplicationController
   
     Stripe.api_key = @event.try(:secret_key)
 
-  
+    
     payment_methods = supported_payment_methods(@ticket.currency)
-    amount = params[:total_amount].present? ? params[:total_amount].to_i * 100  : @ticket.price_cents * 100
+    amount = params[:total_amount].present? ? params[:total_amount].to_i : @ticket.price.to_hash[:cents]
     # # Create a PaymentIntent
     payment_intent = Stripe::PaymentIntent.create(
       {

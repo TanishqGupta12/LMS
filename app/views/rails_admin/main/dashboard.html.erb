@@ -5,6 +5,9 @@
 <% @user_coures = UserCourse.where(teacher_id: @user.id) %>
 <% @coures = Course.where(teacher_id: @user.id) %>
 
+	<%= javascript_include_tag "Chart.bundle" %> 
+	<%= javascript_include_tag "chartkick" %>
+
 <section class="pt-0">
 	<div class="container">
 
@@ -157,22 +160,22 @@
         <!-- Earning boxes START -->
         <div class="row g-4 mt-2 ml-2 mr-2">
           <!-- Earning item -->
-          <div class="col-sm-6 col-lg-4">
+          <div class="col-sm-6 col-lg-4 ml-2">
             <div class="text-center p-4 bg-light rounded-3">
               <h6 class="text-body">Sales this month</h6>
-              <h2 class="mb-0 fs-1">$899.95</h2>
+              <h2 class="mb-0 fs-1"><%= @user_coures.where(created_at: Time.current.beginning_of_month..Time.current.end_of_month).sum(:payment_amount) %></h2>
             </div>
           </div>
 
           <!-- Earning item -->
           <div class="col-sm-6 col-lg-4">
             <div class="text-center p-4 bg-light rounded-3">
-              <h6 class="text-body">To be paid
+              <h6 class="text-body">Last Month
                 <a tabindex="0" class="h6 mb-0" role="button" data-bs-toggle="popover" data-bs-trigger="focus" data-bs-placement="top" data-bs-content="After US royalty withholding tax">
                   <i class="bi bi-info-circle-fill small"></i>
                 </a>
               </h6>
-              <h2 class="mb-0 fs-1">$750.35</h2>
+              <h2 class="mb-0 fs-1"><%= @user_coures.where(created_at: (Time.current.last_month.beginning_of_month..Time.current.last_month.end_of_month)).sum(:payment_amount) %></h2>
             </div>
           </div>
 
@@ -180,7 +183,7 @@
           <div class="col-sm-6 col-lg-4">
             <div class="text-center p-4 bg-light rounded-3">
               <h6 class="text-body">Lifetime Earnings</h6>
-              <h2 class="mb-0 fs-1">$4882.65</h2>
+              <h2 class="mb-0 fs-1"><%= @user_coures.sum(:payment_amount) %></h2>
             </div>
           </div>
         </div>
@@ -189,24 +192,12 @@
         <!-- Chart START -->
         <div class="card card-body bg-transparent rounded-top border overflow-hidden p-0 mt-5">
           <div class="row g-4 p-4">
-            <!-- Content -->
-            <div class="col-sm-6 col-md-4">
-              <span class="badge text-bg-dark">Current Month</span>
-              <h4 class="text-primary my-2">$35000</h4>
-              <p class="mb-0"><span class="text-success me-1">0.20%<i class="bi bi-arrow-up"></i></span>vs last month</p>
-            </div>
 
-            <!-- Content -->
-            <div class="col-sm-6 col-md-4">
-              <span class="badge text-bg-dark">Last Month</span>
-              <h4 class="my-2">$28000</h4>
-              <p class="mb-0"><span class="text-danger me-1">0.10%<i class="bi bi-arrow-down"></i></span>Then last month</p>
-            </div>
+          <% data = @user_coures.group_by_month(:created_at, format: "%b %d").sum("CAST(payment_amount AS UNSIGNED)") %>
+          <div id="ChartPayoutEarning">
+            <%= column_chart data, stacked: true ,xtitle: "Date/Month", ytitle: "Earnings" %>
           </div>
-
-          <!-- Apex chart -->
-          <div id="ChartPayoutEarning"></div>
-
+          
         </div>
         <!-- Chart END -->
 
@@ -220,21 +211,29 @@
           <div class="card-body">
             <div class="row g-4 g-md-5 align-items-center">
               <!-- Chart -->
-              <div class="col-md-6">
-                <div id="ChartPageViews"></div>
-              </div>
+              <% data = @user_coures.includes(:course).group(:course_id).count %>
+              <% chart_data = data.map { |id, count| [Course.find(id).title, count] }.to_h %>
 
-              <!-- Content -->
-              <div class="col-md-6">
-                <ul class="list-group list-group-borderless mb-3">
-                  <li class="list-group-item"><h6 class="mb-0">Course Name</h6></li>
-                  <li class="list-group-item"><i class="text-success fas fa-circle me-2"></i>The Complete Digital Marketing Course - 12 Courses in 1</li>
-                  <li class="list-group-item"><i class="text-warning fas fa-circle me-2"></i>Google Ads Training: Become a PPC Expert</li>
-                  <li class="list-group-item"><i class="text-danger fas fa-circle me-2"></i>Microsoft Excel - Excel from Beginner to Advanced</li>
-                  <li class="list-group-item"><i class="text-primary fas fa-circle me-2"></i>Create a Design System in Figma</li>
-                  <li class="list-group-item"><i class="text-secondary fas fa-circle me-2"></i>Deep Learning with React-Native</li>
-                </ul>
-              </div>
+              <% color_scheme = ['#28a745', '#ffc107', '#dc3545', '#0d6efd', '#6c757d'] %>
+
+              <div class="row">
+                <!-- Chart -->
+                <div class="col-md-6 mt-5">
+                  <%= pie_chart chart_data, donut: true, width: "500", height: "500", id: "ChartPageViews", colors: color_scheme %>
+                </div>
+
+                <!-- Content -->
+                <div class="col-md-6 mt-5">
+                  <ul class="list-group list-group-borderless mb-3">
+                    <li class="list-group-item"><h6 class="mb-0">Course Name</h6></li>
+                    <% chart_data.keys.each_with_index do |title, index| %>
+                      <li class="list-group-item">
+                        <i class="fas fa-circle me-2" style="color: <%= color_scheme[index % color_scheme.length] %>"></i>
+                        <%= title %>
+                      </li>
+                    <% end %>
+                  </ul>
+                </div>
             </div>
           </div>
         </div>

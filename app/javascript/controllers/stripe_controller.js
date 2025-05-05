@@ -5,7 +5,7 @@ export default class extends Controller {
   static targets = [ "ticket", "course", "user",'Discount',"discount_amount" ,'total_amount' ,'teacher']
 
   connect() {
-    // console.log("stripe");
+    console.log("stripe");
 
     toastr.options = {
         "closeButton": true,
