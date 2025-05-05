@@ -86,36 +86,48 @@
                   </thead>
                   <!-- Table body START -->
                   <tbody>
-                    
-                    <!-- Table item -->
+                    <% data = @user_coures.includes(:course).group(:course_id).count
+                        chart_data = data.map do |id, count|
+                          course = Course.find(id)
+                          {
+                            id: course.id,
+                            title: course.title,
+                            image: course.thumbail,  # Make sure `thumbnail` returns the image URL
+                            count: count,
+                            price: course.user_courses.last.payment_amount,
+                            created_at: course.user_courses.last.created_at,
+                          }
+                        end
+                      %>
+                    <% chart_data.each do |chart| %>
                     <tr>
                       <!-- Course item -->
                       <td>
                         <div class="d-flex align-items-center">
                           <!-- Image -->
                           <div class="w-60px">
-                            <img src="assets/images/courses/4by3/08.jpg" class="rounded" alt="">
                           </div>
                           <!-- Title -->
-                          <h6 class="mb-0 ms-2 table-responsive-title">	
-                            <a href="#">Building Scalable APIs with GraphQL</a>
+                          <h6 class="mb-0 ms-2 table-responsive-title">
+                            <a href="#"><%= chart[:title] %></a>
                           </h6>
                         </div>
                       </td>
                       <!-- Selling item -->
-                      <td>34</td>
+                      <td><%= chart[:count] %></td>
                       <!-- Amount item -->
-                      <td>$1,25,478</td>
+                      <td><%= chart[:price] %></td>
                       <!-- Period item -->
                       <td>
-                        <span class="badge bg-primary bg-opacity-10 text-primary">9 months</span>
+                        <span class="badge bg-primary bg-opacity-10 text-primary"><%= chart[:created_at].strftime("%Y-%m-%d ") %></span>
                       </td>
                       <!-- Action item -->
                       <td>
-                        <a href="#" class="btn btn-sm btn-success-soft btn-round me-1 mb-0"><i class="far fa-fw fa-edit"></i></a>
-                        <button class="btn btn-sm btn-danger-soft btn-round mb-0"><i class="fas fa-fw fa-times"></i></button>
+                        <a href="/admin/course/<%= chart[:id] %>/edit" class="btn btn-sm btn-success-soft btn-round me-1 mb-0"><i class="far fa-fw fa-edit"></i></a>
+                        <a href="/admin/course/<%= chart[:id] %>/delete" class="btn btn-sm btn-danger-soft btn-round mb-0"><i class="fas fa-fw fa-times"></i></a>
                       </td>
                     </tr>
+                    <% end %>
 
                   </tbody>
                   <!-- Table body END -->
@@ -131,8 +143,8 @@
                 <nav class="d-flex justify-content-center mb-0" aria-label="navigation">
                   <ul class="pagination pagination-sm pagination-primary-soft d-inline-block d-md-flex rounded mb-0">
                     <li class="page-item mb-0"><a class="page-link" href="#" tabindex="-1"><i class="fas fa-angle-left"></i></a></li>
-                    <li class="page-item mb-0"><a class="page-link" href="#">1</a></li>
-                    <li class="page-item mb-0 active"><a class="page-link" href="#">2</a></li>
+                    <li class="page-item mb-0 active"><a class="page-link" href="#">1</a></li>
+                    <li class="page-item mb-0 "><a class="page-link" href="#">2</a></li>
                     <li class="page-item mb-0"><a class="page-link" href="#">3</a></li>
                     <li class="page-item mb-0"><a class="page-link" href="#"><i class="fas fa-angle-right"></i></a></li>
                   </ul>
@@ -812,110 +824,6 @@
                   <td>Credit Card</td>
                 </tr>
 
-                <!-- Table item -->
-                <tr>
-                  <!-- Table data -->
-                  <td>
-                    <h6 class="table-responsive-title mt-2 mt-lg-0 mb-0"><a href="#">Time Management Mastery: Do More, Stress Less</a></h6>
-                  </td>
-                  <!-- Table data -->
-                  <td class="text-center text-sm-start text-primary-hover">
-                    <a href="#" class="text-body"><u>#235486</u></a>
-                  </td>
-
-                  <!-- Table data -->
-                  <td>25/1/2023</td>
-
-                  <!-- Table data -->
-                  <td>$186</td>
-
-                  <!-- Table data -->
-                  <td>Debit Card</td>
-                </tr>
-
-                <!-- Table item -->
-                <tr>
-                  <!-- Table data -->
-                  <td>
-                    <h6 class="table-responsive-title mt-2 mt-lg-0 mb-0"><a href="#">Building Scalable APIs with GraphQL</a></h6>
-                  </td>
-                  <!-- Table data -->
-                  <td class="text-center text-sm-start text-primary-hover">
-                    <a href="#" class="text-body"><u>#0215789</u></a>
-                  </td>
-
-                  <!-- Table data -->
-                  <td>4/9/2020</td>
-
-                  <!-- Table data -->
-                  <td>$450</td>
-
-                  <!-- Table data -->
-                  <td>Paypal</td>
-                </tr>
-
-                <!-- Table item -->
-                <tr>
-                  <!-- Table data -->
-                  <td>
-                    <h6 class="table-responsive-title mt-2 mt-lg-0 mb-0"><a href="#">Sketch from A to Z: for app designer</a></h6>
-                  </td>
-                  <!-- Table data -->
-                  <td class="text-center text-sm-start text-primary-hover">
-                    <a href="#" class="text-body"><u>#0135689</u></a>
-                  </td>
-
-                  <!-- Table data -->
-                  <td>5/1/2023</td>
-
-                  <!-- Table data -->
-                  <td>$0</td>
-
-                  <!-- Table data -->
-                  <td>Free</td>
-                </tr>
-
-                <!-- Table item -->
-                <tr>
-                  <!-- Table data -->
-                  <td>
-                    <h6 class="table-responsive-title mt-2 mt-lg-0 mb-0"><a href="#">Build Responsive Websites with HTML</a></h6>
-                  </td>
-                  <!-- Table data -->
-                  <td class="text-center text-sm-start text-primary-hover">
-                    <a href="#" class="text-body"><u>#0587623</u></a>
-                  </td>
-
-                  <!-- Table data -->
-                  <td>2/1/2023</td>
-
-                  <!-- Table data -->
-                  <td>$250</td>
-
-                  <!-- Table data -->
-                  <td>Credit Card</td>
-                </tr>
-
-                <!-- Table item -->
-                <tr>
-                  <!-- Table data -->
-                  <td>
-                    <h6 class="table-responsive-title mt-2 mt-lg-0 mb-0"><a href="#">JavaScript: Full Understanding</a></h6>
-                  </td>
-                  <!-- Table data -->
-                  <td class="text-center text-sm-start text-primary-hover">
-                    <a href="#" class="text-body"><u>#0215789</u></a>
-                  </td>
-
-                  <!-- Table data -->
-                  <td>14/1/2023</td>
-
-                  <!-- Table data -->
-                  <td>$325</td>
-
-                  <!-- Table data -->
-                  <td>Debit Card</td>
-                </tr>
               </tbody>
               <!-- Table body END -->
             </table>
