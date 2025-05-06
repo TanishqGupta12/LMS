@@ -95,7 +95,7 @@
                             image: course.thumbail,  # Make sure `thumbnail` returns the image URL
                             count: count,
                             price: course.user_courses.last.payment_amount,
-                            created_at: course.user_courses.last.created_at,
+                            created_at: course.user_courses.first.updated_at,
                           }
                         end
                       %>
@@ -803,27 +803,28 @@
               <!-- Table body START -->
               <tbody>
                 <!-- Table item -->
+                <% @user_coures.each do |user_coure| %>
                 <tr>
                   <!-- Table data -->
                   <td>
-                    <h6 class="table-responsive-title mt-2 mt-lg-0 mb-0"><a href="#">The complete Digital Marketing Course - 8 Course in 1</a></h6>
+                    <h6 class="table-responsive-title mt-2 mt-lg-0 mb-0"><a href="#"><%= user_coure.try(:course).title %></a></h6>
                   </td>
 
                   <!-- Table data -->
                   <td class="text-center text-sm-start text-primary-hover">
-                    <a href="#" class="text-body"><u>#125489</u></a>
+                    <a href="#" class="text-body"><u>#<%= user_coure.try(:course).id %></u></a>
                   </td>
 
                   <!-- Table data -->
-                  <td>18/1/2023</td>
+                  <td><%= user_coure.try(:course).id %></td>
 
                   <!-- Table data -->
-                  <td>$356</td>
+                  <td>><%= user_coure.try(:updated_at) %> </td>
 
                   <!-- Table data -->
                   <td>Credit Card</td>
                 </tr>
-
+                <% end %>
               </tbody>
               <!-- Table body END -->
             </table>
