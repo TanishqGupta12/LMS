@@ -745,7 +745,7 @@
     <!-- ======================= student content END -->
 
     <!-- ======================= Order List content START -->
-    <div class="col mt-5 mb-5 d-none">
+    <div class="col mt-5 mb-5">
 
       <!-- Card START -->
       <div class="card border bg-transparent rounded-3">
@@ -761,7 +761,7 @@
           <!-- Search and select START -->
           <div class="row g-3 align-items-center justify-content-between mb-4">
             <!-- Search -->
-            <div class="col-md-8">
+            <div class="col-md-8 d-none">
               <form class="rounded position-relative">
                 <input class="form-control pe-5 bg-transparent" type="search" placeholder="Search" aria-label="Search">
                 <button class="bg-transparent p-2 position-absolute top-50 end-0 translate-middle-y border-0 text-primary-hover text-reset" type="submit">
@@ -805,6 +805,7 @@
                 <!-- Table item -->
                 <% @user_coures.each do |user_coure| %>
                 <tr>
+                  <% details = (user_coure.try(:payment_details)) %>
                   <!-- Table data -->
                   <td>
                     <h6 class="table-responsive-title mt-2 mt-lg-0 mb-0"><a href="#"><%= user_coure.try(:course).title %></a></h6>
@@ -812,17 +813,17 @@
 
                   <!-- Table data -->
                   <td class="text-center text-sm-start text-primary-hover">
-                    <a href="#" class="text-body"><u>#<%= user_coure.try(:course).id %></u></a>
+                    <a href="#" class="text-body"><u><%= (details["id"].presence || ["N/A"]) %></u></a>
                   </td>
 
                   <!-- Table data -->
-                  <td><%= user_coure.try(:course).id %></td>
+                  <td><%= user_coure.try(:updated_at).strftime('%-d %B %Y') %></td>
 
                   <!-- Table data -->
-                  <td>><%= user_coure.try(:updated_at) %> </td>
+                  <td><%= user_coure.try(:payment_amount) %> </td>
 
                   <!-- Table data -->
-                  <td>Credit Card</td>
+                  <td><%= (details["payment_method_types"].presence || ["N/A"]).join(", ") %></td>
                 </tr>
                 <% end %>
               </tbody>
