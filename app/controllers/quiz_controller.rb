@@ -56,6 +56,17 @@ class QuizController < ApplicationController
   end
 
   def course_url
+
+    pdf = WickedPdf.new.pdf_from_string(
+      render_to_string(
+        template: 'events/agenda_notes',
+        encoding: 'UTF-8',
+        layout: false,
+        locals: {agenda_notes: @agenda_notes},
+        formats: [:pdf] # Add this line to specify the format
+      )
+    )
+    send_data pdf, :filename => "#{@event_agenda.try(:title)}.pdf", :type => "application/pdf", :disposition => "attachment", :encoding => "utf8_general_ci"
     # if content.present?
       cache [params[:token], Time::now.to_s] do
         respond_to do |format|
