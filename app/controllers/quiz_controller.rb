@@ -47,12 +47,17 @@ class QuizController < ApplicationController
     redirect_to quiz_index_path(quiz_topic: params[:quiz_topic]  ,lesson: params[:lesson] , review: 'true' )
   end
   def full_submit
+    course = Course.find(params[:course])
     result =  QuizResult.new
     result.user_id = current_user.id
     result.quiz_attempt_id = params[:quiz_attempts]
     result.is_pass = true
     result.save!
-    redirect_to session[:course_url]
+    if course.last_topic == true
+      
+    else
+      redirect_to session[:course_url]
+    end
   end
 
   def course_url
