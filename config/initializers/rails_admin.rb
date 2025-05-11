@@ -284,6 +284,17 @@ RailsAdmin.config do |config|
         help "Course passing points Percentage"
       end
 
+      field :certification do
+        html_attributes do
+          {:class => 'form-control tinymce'}
+        end
+      end
+      field :has_download_certificate do
+        
+      end
+      field :has_pass_fail_page do
+         
+      end
       field :total_marks do
         # read_only true
         html_attributes do
@@ -297,7 +308,7 @@ RailsAdmin.config do |config|
         associated_collection_cache_all false
       end
       include_all_fields
-      exclude_fields :favorited ,:favorited_ids ,:comment_ids ,:comments
+      exclude_fields :favorited ,:favorited_ids ,:comment_ids ,:comments ,:has_download_certificate ,:has_pass_fail_page
     end
   end
 

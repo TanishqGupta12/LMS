@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2025_05_01_125020) do
+ActiveRecord::Schema[7.2].define(version: 2025_05_11_153224) do
   create_table "active_storage_attachments", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
@@ -116,6 +116,7 @@ ActiveRecord::Schema[7.2].define(version: 2025_05_01_125020) do
     t.text "overview"
     t.string "level"
     t.string "language"
+    t.text "certification"
     t.index ["category_id"], name: "index_courses_on_category_id"
     t.index ["event_id"], name: "index_courses_on_event_id"
     t.index ["teacher_id"], name: "index_courses_on_teacher_id"
@@ -297,10 +298,12 @@ ActiveRecord::Schema[7.2].define(version: 2025_05_01_125020) do
   create_table "quiz_attempts", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.bigint "user_id", null: false
     t.float "marks_gained"
-    t.bigint "quiz_attempt_result_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["quiz_attempt_result_id"], name: "index_quiz_attempts_on_quiz_attempt_result_id"
+    t.bigint "quiz_topic_id"
+    t.bigint "lesson_id"
+    t.index ["lesson_id"], name: "index_quiz_attempts_on_lesson_id"
+    t.index ["quiz_topic_id"], name: "index_quiz_attempts_on_quiz_topic_id"
     t.index ["user_id"], name: "index_quiz_attempts_on_user_id"
   end
 
@@ -563,7 +566,8 @@ ActiveRecord::Schema[7.2].define(version: 2025_05_01_125020) do
   add_foreign_key "quiz_attempt_results", "quiz_questions"
   add_foreign_key "quiz_attempt_results", "quiz_topics"
   add_foreign_key "quiz_attempt_results", "users"
-  add_foreign_key "quiz_attempts", "quiz_attempt_results"
+  add_foreign_key "quiz_attempts", "lessons"
+  add_foreign_key "quiz_attempts", "quiz_topics"
   add_foreign_key "quiz_attempts", "users"
   add_foreign_key "quiz_question_options", "quiz_questions"
   add_foreign_key "quiz_questions", "lessons", on_delete: :nullify

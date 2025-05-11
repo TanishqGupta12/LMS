@@ -1,11 +1,14 @@
 class QuizController < ApplicationController
 
   def index
+    @course = QuizTopic.find_by(id: params[:quiz_topic]).course
     @questions = QuizQuestion.includes(:quiz_question_options).where(lesson_id: params[:lesson]).order(:sequence)
+    @quiz_attempts =  QuizAttempt.find_by(user_id:current_user.id ,quiz_topic_id: params[:quiz_topic] ,lesson_id: params[:lesson] )
   end
 
   def review
-
+    quiz_attempts =  QuizAttempt.find_or_create_by(user_id:current_user.id ,quiz_topic_id: params[:quiz_topic] ,lesson_id: params[:lesson] )
+    marks_gained = 0 
     answers_params = params.require(:answers).permit!
     answers_params.each do |question_id, answer_data|
 
@@ -25,6 +28,7 @@ class QuizController < ApplicationController
       if option.is_right == true
         attempt.is_right = 1
         attempt.is_wrong = 0
+        marks_gained = marks_gained + question.try(:marks)
       else
         attempt.is_wrong = 1
         attempt.is_right = 0
@@ -33,6 +37,9 @@ class QuizController < ApplicationController
       attempt.save!
      
     end
+
+    quiz_attempts.marks_gained = marks_gained
+    quiz_attempts.save!
 
     redirect_to quiz_index_path(quiz_topic: params[:quiz_topic]  ,lesson: params[:lesson] , review: 'true' )
   end
