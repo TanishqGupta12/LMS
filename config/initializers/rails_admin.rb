@@ -280,7 +280,16 @@ RailsAdmin.config do |config|
         help "Separate with commas, e.g. ruby, rails, backend"
       end
 
+      field :passing_points do
+        help "Course passing points Percentage"
+      end
 
+      field :total_marks do
+        # read_only true
+        html_attributes do
+          { disabled: true }  # This visually disables the field (grayed out)
+        end
+      end
       field :event do
         associated_collection_cache_all false
       end

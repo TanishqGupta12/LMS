@@ -35,4 +35,16 @@ class Course < ApplicationRecord
   # def set_event
   #   self.event_id = event.try(:id)
   # end
+  
+  def calculate_total_marks
+    quiz_topics.includes(lessons: :quiz_questions).flat_map do |topic|
+      topic.lessons.flat_map do |lesson|
+        lesson.quiz_questions.map(&:marks)
+      end
+    end.compact.sum
+  end
+
+  def update_total_marks!
+    update(total_marks: calculate_total_marks)
+  end
 end
