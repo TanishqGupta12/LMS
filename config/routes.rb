@@ -52,6 +52,7 @@ Rails.application.routes.draw do
 
   resources :quiz do
     match "/review", to: "quiz#review", as: "review", via: [:get, :post]
+    match "/full_submit", to: "quiz#full_submit", as: "full_submit", via: [:get, :post]
   end
 
   match "discount/amount", to: "stripe#discount_amount", as: "discount_amount", via: [:get, :post]

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2025_05_11_153224) do
+ActiveRecord::Schema[7.2].define(version: 2025_05_11_162516) do
   create_table "active_storage_attachments", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
@@ -117,6 +117,7 @@ ActiveRecord::Schema[7.2].define(version: 2025_05_11_153224) do
     t.string "level"
     t.string "language"
     t.text "certification"
+    t.boolean "last_topic", default: false
     t.index ["category_id"], name: "index_courses_on_category_id"
     t.index ["event_id"], name: "index_courses_on_event_id"
     t.index ["teacher_id"], name: "index_courses_on_teacher_id"
@@ -273,6 +274,7 @@ ActiveRecord::Schema[7.2].define(version: 2025_05_11_153224) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.boolean "practise_quiz"
+    t.float "percentage"
     t.index ["quiz_topic_id"], name: "index_lessons_on_quiz_topic_id"
   end
 
@@ -339,10 +341,8 @@ ActiveRecord::Schema[7.2].define(version: 2025_05_11_153224) do
     t.boolean "is_pass"
     t.bigint "quiz_attempt_id", null: false
     t.float "points"
-    t.bigint "course_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["course_id"], name: "index_quiz_results_on_course_id"
     t.index ["quiz_attempt_id"], name: "index_quiz_results_on_quiz_attempt_id"
     t.index ["user_id"], name: "index_quiz_results_on_user_id"
   end
@@ -572,7 +572,6 @@ ActiveRecord::Schema[7.2].define(version: 2025_05_11_153224) do
   add_foreign_key "quiz_question_options", "quiz_questions"
   add_foreign_key "quiz_questions", "lessons", on_delete: :nullify
   add_foreign_key "quiz_questions", "quiz_topics", on_delete: :cascade
-  add_foreign_key "quiz_results", "courses"
   add_foreign_key "quiz_results", "quiz_attempts"
   add_foreign_key "quiz_results", "users"
   add_foreign_key "quiz_topics", "categories", column: "catgory_id"

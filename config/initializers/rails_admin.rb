@@ -320,12 +320,12 @@ RailsAdmin.config do |config|
     edit do
     
       include_all_fields
-      exclude_fields :content
+      exclude_fields :content ,:percentage
     end
     list do
 
       include_all_fields
-      exclude_fields :content
+      exclude_fields :content ,:percentage
     end
   end
 
