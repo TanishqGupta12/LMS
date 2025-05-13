@@ -43,4 +43,8 @@ class CourseController < ApplicationController
     render partial: "course/favorite_button", locals: { course: @courses, event: @event } , formats: :html
   end
 
+  def completed_course
+    
+  end
+
 end

@@ -54,7 +54,7 @@ class QuizController < ApplicationController
     result.is_pass = true
     result.save!
     if course.last_topic == true
-      
+      redirect_to completed_course_event_course_path(@event , course.try(:id))
     else
       redirect_to session[:course_url]
     end
@@ -73,15 +73,15 @@ class QuizController < ApplicationController
     )
     send_data pdf, :filename => "#{@event_agenda.try(:title)}.pdf", :type => "application/pdf", :disposition => "attachment", :encoding => "utf8_general_ci"
     # if content.present?
-      cache [params[:token], Time::now.to_s] do
-        respond_to do |format|
-            format.html
-            format.pdf do
-              puts 'hello'
-              render :pdf => "report", margin:  {   top: 3,bottom: 0,left: 1,right: 1, }, template: "layouts/user_details_after_scan", :formats => [:html], :encoding => "UTF-8", :page_height => access_point.try(:height_in_mm), :page_width => access_point.try(:width_in_mm), :locals => { :user => user, :content => content }
-            end
-        end and return
-      end
+      # cache [params[:token], Time::now.to_s] do
+      #   respond_to do |format|
+      #       format.html
+      #       format.pdf do
+      #         puts 'hello'
+      #         render :pdf => "report", margin:  {   top: 3,bottom: 0,left: 1,right: 1, }, template: "layouts/user_details_after_scan", :formats => [:html], :encoding => "UTF-8", :page_height => access_point.try(:height_in_mm), :page_width => access_point.try(:width_in_mm), :locals => { :user => user, :content => content }
+      #       end
+      #   end and return
+      # end
     # end
   end
 end
