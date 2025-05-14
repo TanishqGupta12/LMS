@@ -1,60 +1,60 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <style>
-    body {
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      background-color: #f4f3f7;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
-      margin: 0;
-    }
+<div class="containers">
+    <div class="completion-card">
+        <h1>🎉 Congratulations!</h1>
+        <p>You have successfully completed the course.</p>
+        <a href="/users/<%= current_user.id%>">Go to Profile</a>
+        <a href="/<%= @event.id %>/course/<%= @course.id %>/course_url">Certificatee</a>
+    </div>
+</div>
+<style>
+  .containers {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    /* background-color: #f4f3f7; */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 80vh; /* Assumes parent container provides full height */
+    padding: 20px;
+    box-sizing: border-box;
+    margin: 0;
+}
 
-    .completion-card {
-      background-color: white;
-      padding: 40px;
-      border-radius: 12px;
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-      text-align: center;
-      max-width: 400px;
-    }
+.completion-card {
+    background-color: white;
+    padding: 40px;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+    text-align: center;
+    max-width: 400px;
+    width: 100%;
+}
 
-    .completion-card h1 {
-      color: #FF6600;
-      font-size: 2rem;
-      margin-bottom: 10px;
-    }
+.completion-card h1 {
+    color: #FF6600;
+    font-size: 2rem;
+    margin-bottom: 15px;
+    font-weight: 600;
+}
 
-    .completion-card p {
-      font-size: 1rem;
-      color: #555;
-      margin-bottom: 20px;
-    }
+.completion-card p {
+    font-size: 1rem;
+    color: #555;
+    margin-bottom: 25px;
+}
 
-    .completion-card a {
-      display: inline-block;
-      padding: 10px 20px;
-      background-color: #FF6600;
-      color: white;
-      text-decoration: none;
-      border-radius: 6px;
-      transition: background-color 0.3s ease;
-    }
+.completion-card a {
+    display: inline-block;
+    padding: 12px 30px;
+    background-color: #FF6600;
+    color: white;
+    text-decoration: none;
+    border-radius: 6px;
+    font-size: 1rem;
+    font-weight: 500;
+    transition: background-color 0.3s ease;
+}
 
-    .completion-card a:hover {
-      background-color: #FF6600;
-    }
-  </style>
-</head>
-<body>
-  <div class="completion-card">
-    <h1>🎉 Congratulations!</h1>
-    <p>You have successfully completed the course.</p>
-    <%# <a href="/certificate">View Certificate</a> %>
-  </div>
-</body>
-</html>
+.completion-card a:hover {
+    background-color: #cc5200;
+}
+</style>

@@ -381,7 +381,7 @@
 													<% @user_notes.each do |user_course| %> <!-- Loop START -->
 													<tr>
 														<td><h6><%= user_course.course.title %></h6></td>
-														<td><%= user_course.lesson.title %></td>
+														<td><%= user_course.try(:lesson).try(:title) %></td>
 														<td><%= user_course.timestamp %></td>
 														<td>
 															<a href="/<%= @event.try(:id) %>/course/<%= user_course.course_id %>?time=<%= CGI.escape(user_course.timestamp.to_s) %>" class="btn btn-sm btn-primary-soft me-1 mb-1 mb-md-0">

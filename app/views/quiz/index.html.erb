@@ -41,7 +41,7 @@
             <input type="hidden"  name="quiz_topic" value="<%= params[:quiz_topic] %>"/>
             <input type="hidden"  name="lesson" value="<%= params[:lesson] %>"/> 
             <input type="hidden"  name="course" value="<%= @course.id %>"/> 
-              <input type="hidden"  name="quiz_attempts" value="<%= @quiz_attempts.id %>"/>
+              <input type="hidden"  name="quiz_attempts" value="<%= @quiz_attempts.try(:id) %>"/>
         
         <% @questions.each do |question|%>
           <div class="formbold-mb-5">

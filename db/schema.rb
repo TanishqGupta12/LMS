@@ -117,7 +117,6 @@ ActiveRecord::Schema[7.2].define(version: 2025_05_11_162516) do
     t.string "level"
     t.string "language"
     t.text "certification"
-    t.boolean "last_topic", default: false
     t.index ["category_id"], name: "index_courses_on_category_id"
     t.index ["event_id"], name: "index_courses_on_event_id"
     t.index ["teacher_id"], name: "index_courses_on_teacher_id"
@@ -274,6 +273,7 @@ ActiveRecord::Schema[7.2].define(version: 2025_05_11_162516) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.boolean "practise_quiz"
+    t.boolean "last_topic", default: false
     t.float "percentage"
     t.index ["quiz_topic_id"], name: "index_lessons_on_quiz_topic_id"
   end

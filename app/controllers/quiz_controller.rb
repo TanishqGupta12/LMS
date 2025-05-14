@@ -5,7 +5,7 @@ class QuizController < ApplicationController
     @course = QuizTopic.find_by(id: params[:quiz_topic]).course
     @questions = QuizQuestion.includes(:quiz_question_options).where(lesson_id: params[:lesson]).order(:sequence)
     @quiz_attempts =  QuizAttempt.find_by(user_id:current_user.id ,quiz_topic_id: params[:quiz_topic] ,lesson_id: params[:lesson] )
-    @result =  QuizResult.find_by(user_id:current_user.id ,quiz_attempt_id: @quiz_attempts.id)
+    @result =  QuizResult.find_by(user_id:current_user.id ,quiz_attempt_id: @quiz_attempts.try(:id))
     session[:course_url] = request.referer
   end
 
@@ -48,40 +48,17 @@ class QuizController < ApplicationController
   end
   def full_submit
     course = Course.find(params[:course])
+    lesson = Lesson.find(params[:lesson])
     result =  QuizResult.new
     result.user_id = current_user.id
     result.quiz_attempt_id = params[:quiz_attempts]
     result.is_pass = true
     result.save!
-    if course.last_topic == true
-      redirect_to completed_course_event_course_path(@event , course.try(:id))
+    if lesson.last_topic == true
+      redirect_to completed_course_event_course_path(@event , lesson.try(:id) , course: course.id)
     else
       redirect_to session[:course_url]
     end
   end
 
-  def course_url
-
-    pdf = WickedPdf.new.pdf_from_string(
-      render_to_string(
-        template: 'events/agenda_notes',
-        encoding: 'UTF-8',
-        layout: false,
-        locals: {agenda_notes: @agenda_notes},
-        formats: [:pdf] # Add this line to specify the format
-      )
-    )
-    send_data pdf, :filename => "#{@event_agenda.try(:title)}.pdf", :type => "application/pdf", :disposition => "attachment", :encoding => "utf8_general_ci"
-    # if content.present?
-      # cache [params[:token], Time::now.to_s] do
-      #   respond_to do |format|
-      #       format.html
-      #       format.pdf do
-      #         puts 'hello'
-      #         render :pdf => "report", margin:  {   top: 3,bottom: 0,left: 1,right: 1, }, template: "layouts/user_details_after_scan", :formats => [:html], :encoding => "UTF-8", :page_height => access_point.try(:height_in_mm), :page_width => access_point.try(:width_in_mm), :locals => { :user => user, :content => content }
-      #       end
-      #   end and return
-      # end
-    # end
-  end
 end

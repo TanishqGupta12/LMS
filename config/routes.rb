@@ -40,6 +40,8 @@ Rails.application.routes.draw do
       member do
         match "course_favoritor", to: "course#course_favoritor", as: "course_favoritor", via: [:get, :post]
         match "/completed_course", to: "course#completed_course", as: "completed_course", via: [:get, :post]
+        match "/course_url", to: "course#course_url", as: "course_url", via: [:get, :post]
+
       end
       resources :comments, only: [:create, :destroy]
     end
