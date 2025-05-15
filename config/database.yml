@@ -8,6 +8,7 @@ default: &default
   adapter: mysql2
   pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
   timeout: 5000
+  socket: /var/run/mysqld/mysqld.sock
 
 development:
   primary:
@@ -15,8 +16,8 @@ development:
     adapter: mysql2   # Use the mysql2 adapter for MySQL
     host: localhost  # Default to localhost if DB_HOST is not provided
     port: 3306  # Default MySQL port
-    username: <%= ENV.fetch('DB_USER', 'root') %>   # Default to 'root' if DB_USER is not provided
-    password: <%= ENV.fetch('DB_PASSWORD', 'root@123') %>   # Default to empty if DB_PASSWORD is not provided
+    username: <%= ENV.fetch('DB_USER', 'admin') %>   # Default to 'root' if DB_USER is not provided
+    password: <%= ENV.fetch('DB_PASSWORD', 'admin@123') %>   # Default to empty if DB_PASSWORD is not provided
     database: <%= ENV.fetch('DB_NAME', 'site') %>
 
 # Warning: The database defined as "test" will be erased and
