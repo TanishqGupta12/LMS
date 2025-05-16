@@ -4,4 +4,8 @@ class RegistrationsController < Devise::RegistrationsController
     redirect_to sign_up_url(event_id: params[:event_id]) and return
   end
 
+  def create
+    
+  end
+
 end
