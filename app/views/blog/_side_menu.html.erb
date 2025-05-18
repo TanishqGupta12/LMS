@@ -24,7 +24,9 @@
                         <h3 class="text-uppercase mb-4" style="letter-spacing: 5px;">Recent Post</h3>
                         <% blogs_recenlty.present? && blogs_recenlty.each do |blog| %>
                             <a class="d-flex align-items-center text-decoration-none mb-3" href="<%= event_blog_path(blog.event, blog)%>">
-                                <img class="img-fluid rounded" src="<%= url_for(blog.image.variant(resize_to_limit: [80, 80]))%>" alt="<%= blog.try(:title)%>">
+                                <% if blog.image.attached? %>
+                                    <%= image_tag blog.image.variant(), class: "img-fluid rounded", alt: blog.try(:title) %>
+                                <% end %>
                                 <div class="pl-3">
                                     <h6 class="m-1"><%= blog.try(:title)%></h6>
                                     <small><%= blog.try(:created_at).strftime("%Y-%m-%d") %></small>

@@ -2,6 +2,10 @@ class Blog < ApplicationRecord
 
   has_one_attached :image
 
+  has_one_attached :image do |attachable|
+    attachable.variant :thumb, resize_to_limit: [80, 80]
+  end
+
   attribute :remove_image, :boolean
   after_save -> { image.purge }, if: :remove_image
 
