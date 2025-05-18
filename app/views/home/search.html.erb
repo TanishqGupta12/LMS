@@ -1,4 +1,43 @@
+<style>
+  .container {
+    height: 30vh;
+  }
 
-  <div id="search-results" data-search-target="results">
-    <%= render partial: "results", locals: { results: @results } %>
+  .search-golabnl {
+    display: block;
+    position: absolute;
+    top: 20%;
+    left: 25%;
+    right: 10%;
+    z-index: 15;
+  }
+
+  input[type=search] {
+    border: solid 1px #44425A !important;
+    box-sizing: border-box;
+    font-size: 2em;
+    height: 2em;
+    outline: solid #888 0;
+    transition: all 2s ease-in;
+    padding: 0.5em;
+    width: 50vw;
+    
+  }
+
+  input[type=search]:focus {
+    border: solid 3px #09f;
+    outline: solid #888 2000px;
+  }
+</style>
+
+<div class="container">
+  <div class="search-golabnl">
+    <div class="col-lg" data-controller="search">
+      <div class="form-outline" data-mdb-input-init>
+        <input data-search-target="input" type="search" id="form1" class="form-control"
+               placeholder="Type query" aria-label="Search"
+               data-action="input->search#search" />
+      </div>
+    </div>
   </div>
+</div>
