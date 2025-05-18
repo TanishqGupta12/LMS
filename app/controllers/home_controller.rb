@@ -45,10 +45,25 @@ class HomeController < ApplicationController
   def search
     if params[:search].present?
 
-      redirect_to search_path()
+    @event =  load_events #Event.find_by(id: params[:event_id])
+    query = "%#{params[:search].to_s.downcase}%"
+
+    blog = Blog.where("LOWER(title) LIKE :query OR LOWER(content) LIKE :query", query: query)
+
+    courses = Course.where("is_active = true AND (LOWER(title) LIKE :query OR LOWER(tags) LIKE :query OR LOWER(overview) LIKE :query OR LOWER(language) LIKE :query)", query: query)
+
+    teacher = User.where("LOWER(CONCAT(first_name, ' ', last_name)) LIKE :query OR LOWER(first_name) LIKE :query OR LOWER(last_name) LIKE :query", query: query)
+
+      tabs = {
+        courses:  { label: "Courses",   data: courses },
+        teachers: { label: "Teachers",  data: teacher },
+        blogs:    { label: "Blogs",     data: blog }
+      }
+
+      render partial: "home/search_global", locals: { tabs: tabs, event: @event }
       
-    elsif params[:search] == '' && params[:search].nil?
-      redirect_back fallback_location: root_path
+    # else params[:search] == '' && params[:search].nil?
+    #   redirect_back fallback_location: root_path
     end
   end
 

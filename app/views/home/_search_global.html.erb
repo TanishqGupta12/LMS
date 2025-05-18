@@ -1,0 +1,19 @@
+
+<%
+  @event =  event
+%>
+
+      <% if @event.try(:hide_courses) == true%>
+      <% else %>
+        <%= render partial: "course/courses", locals: { courses_data: tabs[:courses][:data] } %>
+      <% end %> 
+
+      <% if @event.try(:hide_teacher_page) == true %>
+      <% else %>
+          <%= render partial: "teacher/teacher", locals: { teacher_data: tabs[:teachers][:data] } %>
+      <% end %> 
+
+      <% if @event.try(:hide_teacher_page) == true %>
+      <% else %>
+          <%= render partial: "blog/blog", locals: { blog_data: tabs[:blogs][:data] } %>
+      <% end %> 

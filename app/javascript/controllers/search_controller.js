@@ -6,35 +6,33 @@ export default class extends Controller {
 
   connect() {
     this.timeout = null
+    console.log("search connected")
   }
 
-    search() {
+  search() {
+    clearTimeout(this.timeout)
+    this.timeout = setTimeout(() => {
+      const query = this.inputTarget.value.trim()
+      if (!query) {
+        this.resultsTarget.innerHTML = ""
+        return
+      }
 
-        // if (!window.location.href.includes("/search")) {
-        //     setTimeout(() => {
-        //         window.location.href = 'http://127.0.0.1:3000/search';
-        //       });
-        // }
-        clearTimeout(this.timeout)
-    
-        this.timeout = setTimeout(() => {
-        const query = this.inputTarget.value.trim()
-        if (!query) return
-    
-        const url = `${this.urlValue}?search=${encodeURIComponent(query)}`
-    
-        fetch(url, {
-            headers: { "Accept": "text/html" }
+      const url = `${this.urlValue}?search=${encodeURIComponent(query)}`
+
+      fetch(url, {
+        headers: { "Accept": "text/html" }
+      })
+        .then(response => {
+          if (!response.ok) throw new Error("Network response was not ok")
+          return response.text()
         })
-            .then(response => response.text())
-            .then(html => {
-            this.resultsTarget.innerHTML = html
-            })
-        }, 300)
-    }
-
-    // redirected() {
-        
-
-    // }
+        .then(html => {
+          this.resultsTarget.innerHTML = html
+        })
+        .catch(() => {
+          this.resultsTarget.innerHTML = "<p>Error loading results</p>"
+        })
+    }, 300)
+  }
 }

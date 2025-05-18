@@ -40,10 +40,18 @@
     <%= javascript_include_tag "https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js" %>
   </head>
     <style>
+      *,
+    *::before,
+    *::after {
+      -webkit-box-sizing: border-box;
+              box-sizing: border-box;
+    }
       <%= @event.try(:custom_css).try(:html_safe) %>
     </style>
   <body>
-    <%= render partial: "layouts/navbar", locals: { event: @event } %>
+    <div id="nav_box">
+      <%= render partial: "layouts/navbar", locals: { event: @event } %>
+    </div>
       <% if notice.present?%>
         <p class="alert alert-success messaage_alert"><%= notice %></p>
       <% end%>
@@ -51,8 +59,10 @@
         <p class="alert alert-danger messaage_alert"><%= alert %></p>
       <% end%>
 
-    <%= yield %>
-    <%= render partial: "layouts/footer", locals: { event: @event } %>
+    <%= yield %>\
+    <div id="Footer_box">
+      <%= render partial: "layouts/footer", locals: { event: @event } %>
+    </div>
 
     <%= javascript_include_tag "custom" , "type": "module" %> 
 
