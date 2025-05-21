@@ -78,5 +78,10 @@
     <p class="message">
       Not registered? <%= link_to "Create an account", new_user_registration_path(event_id: @event.id ) %>
     </p>
+    <p class="message">
+      Not registered as Teacher? 
+      <%= link_to "Create an account as Teacher", new_user_registration_path(event_id: @event.id, teacher: true) %>
+    </p>
+
   </div>
 </div>

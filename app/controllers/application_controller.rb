@@ -4,6 +4,15 @@ class ApplicationController < ActionController::Base
   before_action :load_events # Ensures @event is always set
   before_action :reload_rails_panel
   # after_action :reload_rails_panel
+  before_action :configure_permitted_parameters, if: :devise_controller?
+
+  def configure_permitted_parameters
+    added_attrs = [:first_name, :last_name, :dob, :mobile]
+    devise_parameter_sanitizer.permit(:sign_up, keys: added_attrs)
+    devise_parameter_sanitizer.permit(:account_update, keys: added_attrs)
+  end
+
+
 
   def layout_by_resource
     if devise_controller?

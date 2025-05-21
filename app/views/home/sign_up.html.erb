@@ -1,23 +1,122 @@
-<div class="container">
-  <p><%= @form&.description %></p>
-</div>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+</head>
+<body>
 
-<section class="vh-auto">
-  <div class="container py-5 h-100 w-100">
-    <div class="row justify-content-center align-items-center h-100">
-      <div class="col-lg-12 card" style="border-radius: 15px;">
-        <h4 class="ml-4 mt-3 pb-2 pb-md-0"><%= @form&.caption %></h4>
-        <div class="card-body p-4 p-md-5">
-          <%= render partial: "forms/tab_headers", locals: { form_sections: @form.form_sections.where(is_active: true).order(:sequence) } %>
-          <%= render partial: "forms/tab_sections", locals: { form_sections: @form.form_sections.where(is_active: true).order(:sequence) } %>
+  
+  <% if params[:teacher] == "true" %>
+    <div class="container mt-5">
+      <h2 class="mb-4">Teacher Registration</h2>
+      <form action="/users" method="post">
+        <!-- Personal Information -->
+        <fieldset class="border p-4 mb-4">
+          <legend class="w-auto px-2">Personal Information</legend>
+
+          <div class="alert alert-info" role="alert">
+              Please note: A payment of <strong>₹500</strong> is required for teacher registration.
+          </div>
+          <div class="mb-3">
+            <label for="fullName" class="form-label">first</label>
+            <input type="text" class="form-control" id="first" name="first" required>
+          </div>
+
+          <div class="mb-3">
+            <label for="fullName" class="form-label">last Name</label>
+            <input type="text" class="form-control" id="last" name="last" required>
+          </div>
+
+          <div class="mb-3">
+            <label for="dob" class="form-label">Date of Birth</label>
+            <input type="date" class="form-control" id="dob" name="dob">
+          </div>
+          <div class="mb-3">
+            <label for="phone" class="form-label">Phone Number</label>
+            <input type="tel" class="form-control" id="phone" name="phone">
+          </div>
+          <div class="mb-3">
+            <label for="position" class="form-label">position</label>
+            <input type="text" class="form-control" id="position" name="position">
+          </div>
+        </fieldset>
+
+        <!-- Account Information -->
+        <fieldset class="border p-4 mb-4">
+          <legend class="w-auto px-2">Account Information</legend>
+          <div class="mb-3">
+            <label for="email" class="form-label">Email address</label>
+            <input type="email" class="form-control" id="email"  name="email" required>
+          </div>
+
+          <div class="mb-3">
+            <label for="password" class="form-label">Password</label>
+            <input type="password" class="form-control" id="password" name="password" required>
+          </div>
+        </fieldset>
+
+        <div class="mb-3 form-check">
+          <input type="checkbox" class="form-check-input" id="terms" required>
+          <label class="form-check-label" for="terms">I agree to the terms and conditions</label>
         </div>
-      </div>
-    </div>
-  </div>
-</section>
 
-<script>
-  $(function () {
-    $('#myTab li:first-child a').tab('show');
-  });
-</script>
+        <button type="submit" class="btn btn-primary">Register</button>
+      </form>
+    </div>
+    <% else %>
+      <div class="container mt-5">
+        <h2 class="mb-4">User Registration</h2>
+        <form action="/users" method="post">
+          <!-- Personal Information -->
+          <fieldset class="border p-4 mb-4">
+            <legend class="w-auto px-2">Personal Information</legend>
+            <div class="mb-3">
+              <label for="fullName" class="form-label">first</label>
+              <input type="text" class="form-control" id="first" name="first" required>
+            </div>
+
+            <div class="mb-3">
+              <label for="fullName" class="form-label">last Name</label>
+              <input type="text" class="form-control" id="last" name="last" required>
+            </div>
+
+            <div class="mb-3">
+              <label for="dob" class="form-label">Date of Birth</label>
+              <input type="date" class="form-control" id="dob" name="dob">
+            </div>
+            <div class="mb-3">
+              <label for="phone" class="form-label">Phone Number</label>
+              <input type="tel" class="form-control" id="phone" name="phone">
+            </div>
+          </fieldset>
+
+          <!-- Account Information -->
+          <fieldset class="border p-4 mb-4">
+            <legend class="w-auto px-2">Account Information</legend>
+            <div class="mb-3">
+              <label for="email" class="form-label">Email address</label>
+              <input type="email" class="form-control" id="email"  name="email" required>
+            </div>
+
+            <div class="mb-3">
+              <label for="password" class="form-label">Password</label>
+              <input type="password" class="form-control" id="password" name="password" required>
+            </div>
+          </fieldset>
+
+          <div class="mb-3 form-check">
+            <input type="checkbox" class="form-check-input" id="terms" required>
+            <label class="form-check-label" for="terms">I agree to the terms and conditions</label>
+          </div>
+
+          <button type="submit" class="btn btn-primary">Register</button>
+        </form>
+      </div>
+  <% end %>
+  
+
+
+
+
+</body>
+</html>
