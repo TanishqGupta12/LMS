@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2025_05_11_162516) do
+ActiveRecord::Schema[7.2].define(version: 2025_05_21_170529) do
   create_table "active_storage_attachments", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
@@ -512,9 +512,10 @@ ActiveRecord::Schema[7.2].define(version: 2025_05_11_162516) do
     t.string "f11"
     t.string "f12"
     t.string "f13"
-    t.string "f14"
+    t.text "f14"
     t.string "f15"
     t.bigint "role_id"
+    t.boolean "banned", default: true
     t.index ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
     t.index ["role_id"], name: "index_users_on_role_id"

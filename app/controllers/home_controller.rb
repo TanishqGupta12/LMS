@@ -72,4 +72,13 @@ class HomeController < ApplicationController
   #   @blogs = Blog.where(event_id:  @event.try(:id) ).order(:created_at)
   # end
 
+  def cancel
+    
+  end
+
+
+  def success
+    
+  end
+  
 end

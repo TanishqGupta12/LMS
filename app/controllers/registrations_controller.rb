@@ -24,16 +24,19 @@ def create
   if params[:teacher] == "true"
     @user.role_id = Role.find_by(name: "Teacher").try(:id)
     @user.position = params[:position]
-     
   else
     @user.role_id = Role.find_by(name: "Normal").try(:id)
 
   end
   if @user.save
-    # sign_up(@user)
-    sign_in(@user,:bypass => true)
-    session[:user_id] = @user.id  # Log the user in after signup
-    redirect_to root_path, notice: "Successfully registered and logged in."
+    debugger
+    if params[:teacher] == "true"
+      redirect_to stripe_user_path(@user.try(:id))
+    else
+      session[:user_id] = @user.id  # Log the user in after signup
+      sign_in(@user,:bypass => true)
+      redirect_to root_path, notice: "Successfully registered and logged in."
+    end
   else
     render :new, status: :unprocessable_entity
   end

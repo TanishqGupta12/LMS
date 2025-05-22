@@ -859,3 +859,35 @@
 </section>
 <!-- ======================= Page content END -->
 <% end %>
+
+<%
+ @users =  User.where(current_event_id: current_user.current_event_id, role_id: 2)
+%>
+<%  if current_user.admin? ||  current_user.superadmin? %>
+
+
+<div class="container">
+  <table class="table table-success table-striped-columns">
+    <thead>
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">full name</th>
+        <th scope="col">Email</th>
+        <th scope="col">Status</th>
+        <th scope="col">Handle</th>
+      </tr>
+    </thead>
+    <tbody class="table-group-divider">
+    <% @users.each do |user| %>
+      <tr>
+        <td><%= user.id %></td>
+        <td><%= user.name %></td>
+        <td><%= user.email %></td>
+        <td><%= user.banned? ? "Banned" : "Active" %></td>
+        <td>  <a href="/users/<%= user.id %>/approve" class="btn btn-sm btn-success"> Handle </a></td> 
+      </tr>
+    <% end %>
+    </tbody>
+  </table>
+<div>
+<%  end %>

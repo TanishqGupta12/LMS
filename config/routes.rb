@@ -22,14 +22,23 @@ Rails.application.routes.draw do
   match "/:event_id/privacy", to: "home#privacy", as: "privacy", via: [:get, :post]
   match "/:event_id/category", to: "home#category", as: "category", via: [:get, :post]
 
+  resources :home do
+    member do
+      match "cancel", to: "home#cancel", as: "cancel", via: [:get, :post]
+      match "success", to: "home#success", as: "success", via: [:get, :post]
+    end
+  end
+
   resources :users do
     member do
+      match "stripe", to: "users#stripe", as: "stripe", via: [:get, :post]
       match "user_payment_info", to: "users#user_payment_info", as: "payment_info", via: [:get, :post]
       match "update_email", to: "users#update_email", as: "update_email", via: [:put]
       match "wishlist", to: "users#wishlist", as: "wishlist", via: [:get, :post]
       match "course_resume", to: "users#course_resume", as: "course_resume", via: [:get, :post]
       match "user_notes", to: "users#user_notes", as: "user_notes", via: [:get, :post]
       match "note_detail", to: "users#note_detail", as: "note_detail", via: [:get, :post]
+      match "approve", to: "users#approve", as: "approve", via: [:get, :post]
     end
   end
   

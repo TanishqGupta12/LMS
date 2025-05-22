@@ -1,5 +1,34 @@
 class UsersController < ApplicationController
-  before_action :authenticate_user!
+  before_action :authenticate_user!, except: [:stripe]
+
+  def stripe
+
+    Stripe.api_key = @event.try(:secret_key)
+
+    @user = User.find(params[:id])
+    session = Stripe::Checkout::Session.create(
+      payment_method_types: ['card'],
+      customer_email: @user.try(:email),
+      client_reference_id: @user.try(:authentication_token),
+      line_items: [{
+        price_data: {
+          currency: "USD",
+          product_data: {
+            name: "Teacher Registration",
+          },
+          unit_amount: 500 * 100 ,
+        },
+        quantity: 1,
+      }],
+      mode: 'payment',
+      success_url: success_home_url(params[:id]),
+      cancel_url: cancel_home_url(params[:id])
+    )
+    @user.f14 = session
+    @user.save!
+    redirect_to session.url, allow_other_host: true
+  end
+
   def index
     
   end
@@ -105,5 +134,13 @@ class UsersController < ApplicationController
       # redirect_to   # Redirect to a fallback path if no notes are found
     end
    
+  end
+
+  def approve
+    @user = User.find(params[:id])
+    @user.banned = !@user.banned
+    @user.save!    
+    flash[:success] = @user.banned ? "User has been approved successfully." : "User approval has been revoked."
+    redirect_to request.referer
   end
 end
