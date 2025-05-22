@@ -52,7 +52,7 @@ class HomeController < ApplicationController
 
     courses = Course.where("is_active = true AND (LOWER(title) LIKE :query OR LOWER(tags) LIKE :query OR LOWER(overview) LIKE :query OR LOWER(language) LIKE :query)", query: query)
 
-    teacher = User.where("LOWER(CONCAT(first_name, ' ', last_name)) LIKE :query OR LOWER(first_name) LIKE :query OR LOWER(last_name) LIKE :query", query: query)
+    teacher = User.includes(:role).where("LOWER(CONCAT(first_name, ' ', last_name)) LIKE :query OR LOWER(first_name) LIKE :query OR LOWER(last_name) LIKE :query", query: query).where(roles: { name: 'teacher' })
 
       tabs = {
         courses:  { label: "Courses",   data: courses },
@@ -73,12 +73,16 @@ class HomeController < ApplicationController
   # end
 
   def cancel
-    
+      @user = User.find(params[:id])
+      @user.f13 = "unPaid"
+      @user.save
   end
 
 
   def success
-    
+    @user = User.find(params[:id])
+    @user.f13 = "Paid"
+    @use.save
   end
   
 end

@@ -29,7 +29,6 @@ def create
 
   end
   if @user.save
-    debugger
     if params[:teacher] == "true"
       redirect_to stripe_user_path(@user.try(:id))
     else

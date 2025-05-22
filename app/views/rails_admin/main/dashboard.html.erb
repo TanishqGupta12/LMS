@@ -874,6 +874,7 @@
         <th scope="col">full name</th>
         <th scope="col">Email</th>
         <th scope="col">Status</th>
+        <th scope="col">payment</th>
         <th scope="col">Handle</th>
       </tr>
     </thead>
@@ -884,6 +885,7 @@
         <td><%= user.name %></td>
         <td><%= user.email %></td>
         <td><%= user.banned? ? "Banned" : "Active" %></td>
+        <td><%= user.f13 %></td>
         <td>  <a href="/users/<%= user.id %>/approve" class="btn btn-sm btn-success"> Handle </a></td> 
       </tr>
     <% end %>
