@@ -1,6 +1,7 @@
 <!-- ======================= Page content START -->
 <% if current_user.teacher? || current_user.custom? %>
 <% @student = User.where(current_event_id: current_user.current_event_id)  %>
+<% debugger %>
 <% @user = current_user.teacher? ? current_user : current_user %>
 <% @user_coures = UserCourse.where(teacher_id: @user.id) %>
 <% @coures = Course.where(teacher_id: @user.id) %>

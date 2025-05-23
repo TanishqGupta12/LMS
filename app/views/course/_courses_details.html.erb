@@ -32,13 +32,16 @@
 								</video>
 								<% else %>
 									
-									<% if @lesson.try(:video_url) %>
-										<video controls crossorigin="anonymous" playsinline poster="<%= url_for(@lesson.try(:thumbail)) %>">
-											<source src="<%= @lesson.try(:video_url) %>" type="video/mp4" size="720">
-										</video>
-									<% else %>
-									<p>  </p>
-									<% end %>
+								<% if @lesson.try(:video_url) &&  @courses.user_courses.find_by(user_id: current_user.id)%>
+									<iframe width="560" height="315" src="<%= @lesson.try(:video_url) %>" 
+											title="YouTube video player" frameborder="0" 
+											allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+											allowfullscreen>
+									</iframe>
+								<% else %>
+								<video controls crossorigin="anonymous" playsinline poster="<%= url_for(@lesson.try(:thumbail)) %>">
+								</video>
+								<% end %>
 
 									
 								<% end  %>
