@@ -90,24 +90,24 @@
 
     <h1>Certificate of Completion</h1>
     <p class="subtitle">This is proudly presented to</p>
-    <h2>[Recipient Name]</h2>
+    <h2></h2>
     <p>for successfully completing the</p>
-    <h3 class="highlight">[Course Name]</h3>
-    <p class="mt-3">Date: <span class="highlight">[Date]</span></p>
+    <h3 class="highlight"><%= course.try(:title) %></h3>
+    <p class="mt-3">Date: <span class="highlight"><%=  Time.now() %> </span></p>
 
     <div class="line"></div>
 
     <div class="footer">
       <div class="signature-box">
-        <p>_______________________</p>
+        <p><%= course.try(:teacher).try(:name) %></p>
         <p>Instructor</p>
       </div>
-      <div class="logo">
+      <div class="logo d-none">
         <img src="logo.png" alt="Logo">
       </div>
       <div class="signature-box">
-        <p>_______________________</p>
-        <p>Director</p>
+        <p><%= current_user.try(:name) %></p>
+        <p>Trainee</p>
       </div>
     </div>
   </div>
