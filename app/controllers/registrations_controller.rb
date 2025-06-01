@@ -50,10 +50,11 @@ class RegistrationsController < Devise::RegistrationsController
           cancel_url: cancel_home_url(@user.id)
         )
 
-        @user.f14 = stripe_session.id
+        @user.f14 = stripe_session
         @user.save!
         
-      redirect_to stripe_session.url, allow_other_host: true
+      # redirect_to stripe_session.url, allow_other_host: true
+        redirect_to( sign_up_url(event_id: @event&.id, teacher: 'true', user_id: @user.id), notice: "Successfully registered and logged in." ) and return      
       else
         sign_in(@user, bypass: true)
         redirect_to root_path, notice: "Successfully registered and logged in."

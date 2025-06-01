@@ -1,5 +1,5 @@
 class HomeController < ApplicationController
-
+  require 'json'
   def index
     @event = Event.includes(:banners).find_by(location: get_host)
     @caraousel_data = @event.try(:banners)
@@ -17,7 +17,10 @@ class HomeController < ApplicationController
   end
 
   def sign_up
-    
+    if params[:teacher] == 'true' &&  params[:user_id].present?
+      @user =  User.find(params[:user_id])
+      @user_stripe = JSON.parse(@user.f14)['url']
+    end
     @form = Form.includes(form_sections: { form_section_fields: :form_field_choices }).find_by(event_id: params[:event_id])
 
   end
