@@ -1,17 +1,17 @@
 <style>
-  .cancel {
+  .success {
     height: 30vh;
   }
 </style>
 
-<div class="cancel">
+<div class="success">
   <div class="container">
-    <div class="alert alert-danger mt-4 text-center" role="alert">
-      <h4 class="alert-heading">Payment Cancelled</h4>
-      <p>Your payment process was cancelled. No charges were made.</p>
+    <div class="alert alert-success mt-4 text-center" role="alert">
+      <h4 class="alert-heading">Payment Successful</h4>
+      <p>Your payment has been completed successfully. You are now registered as a teacher.</p>
       <hr>
-      <p class="mb-0">You can retry payment or return to the homepage.</p>
-      <a href="<%= root_path %>" class="btn btn-danger mt-3">Go to Homepage</a>
+      <p class="mb-0">Thank you for joining us!</p>
+      <a href="<%= root_path %>" class="btn btn-success mt-3">Go to Homepage</a>
     </div>
   </div>
 </div>

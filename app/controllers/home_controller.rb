@@ -82,7 +82,7 @@ class HomeController < ApplicationController
   def success
     @user = User.find(params[:id])
     @user.f13 = "Paid"
-    @use.save
+    @user.save
   end
   
 end

@@ -122,3 +122,9 @@
 
 </body>
 </html>
+
+<script>
+  <% if  params[:teacher] == "true"  && @user_stripe.present? %>
+    window.open("<%= @user_stripe %>", "_blank");
+  <% end %>
+</script>
