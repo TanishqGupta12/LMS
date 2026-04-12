@@ -13,11 +13,13 @@ development:
   primary:
     <<: *default
     adapter: mysql2   # Use the mysql2 adapter for MySQL
-    host: localhost  # Default to localhost if DB_HOST is not provided
-    port: 3306  # Default MySQL port
-    username: <%= ENV.fetch('DB_USER', 'root') %>   # Default to 'root' if DB_USER is not provided
-    password: <%= ENV.fetch('DB_PASSWORD', 'root@123') %>   # Default to empty if DB_PASSWORD is not provided
+    host: <%= ENV.fetch('DB_HOST', 'localhost') %>
+    port: <%= ENV.fetch('DB_PORT', '3306').to_i %>
+    username: <%= ENV.fetch('DB_USER', 'root') %>
+    password: <%= ENV.fetch('DB_PASSWORD', 'root@123') %>
     database: <%= ENV.fetch('DB_NAME', 'myapp_development') %>
+    encoding: utf8mb4
+    charset: utf8mb4
 
 # Warning: The database defined as "test" will be erased and
 # re-generated from your development database when you run "rake".
@@ -26,6 +28,14 @@ development:
 #   <<: *default
 #   database: storage/test.sqlite3
 
-# production:
-#   <<: *default
-#   database: storage/production.sqlite3
+production:
+  primary:
+    <<: *default
+    adapter: mysql2
+    host: <%= ENV.fetch('DB_HOST', 'localhost') %>
+    port: <%= ENV.fetch('DB_PORT', '3306').to_i %>
+    username: <%= ENV.fetch('DB_USER', 'root') %>
+    password: <%= ENV.fetch('DB_PASSWORD', '') %>
+    database: <%= ENV.fetch('DB_NAME', 'lms_production') %>
+    encoding: utf8mb4
+    charset: utf8mb4
