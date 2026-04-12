@@ -3,29 +3,17 @@ version: 0.2
 phases:
   pre_build:
     commands:
-      - echo Logging in to Amazon ECR...
       - AWS_REGION=ap-south-1
       - AWS_ACCOUNT_ID=$(aws sts get-caller-identity --query account --output text)
       - REPOSITORY_URI=$AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com/lms-app
       - aws ecr get-login-password --region $AWS_REGION | docker login --username AWS --password-stdin $REPOSITORY_URI
-      - echo "Login successful"
 
   build:
     commands:
-      - echo Build started on `date`
-      - echo Building Docker image...
       - docker build -t lms-app .
       - docker tag lms-app:latest $REPOSITORY_URI:latest
 
   post_build:
     commands:
-      - echo Build completed on `date`
-      - echo Pushing Docker image...
       - docker push $REPOSITORY_URI:latest
-      - echo "Image pushed to ECR successfully"
-      - echo Writing image definitions file...
-      - printf '[{"name":"lms-app","imageUri":"%s"}]' $REPOSITORY_URI:latest > imagedefinitions.json
-
-artifacts:
-  files:
-    - imagedefinitions.json
+      - echo "IMAGE PUSHED SUCCESSFULLY"
