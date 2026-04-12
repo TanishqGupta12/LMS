@@ -18,12 +18,21 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
+      # Fails fast with a clear message if no key secret is configured.
+      - name: Check SSH secrets
+        if: ${{ secrets.EC2_SSH_KEY == '' && secrets.EC2_KEY == '' }}
+        run: |
+          echo 'Add a repository secret: EC2_SSH_KEY (or EC2_KEY) = full private key PEM.'
+          echo 'Repo → Settings → Secrets and variables → Actions → New repository secret.'
+          exit 1
+
       - name: Deploy over SSH
         uses: appleboy/ssh-action@v1.2.0
         with:
           host: ${{ secrets.EC2_HOST }}
           username: ${{ vars.EC2_USERNAME || 'ubuntu' }}
-          key: ${{ secrets.EC2_SSH_KEY }}
+          # Use EC2_SSH_KEY, or EC2_KEY if you followed guides that use that name.
+          key: ${{ secrets.EC2_SSH_KEY || secrets.EC2_KEY }}
           script_stop: true
           script: |
             set -euo pipefail
