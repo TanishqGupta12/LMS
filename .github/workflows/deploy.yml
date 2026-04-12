@@ -32,7 +32,15 @@ jobs:
           script: |
             set -euo pipefail
 
-            cd ${{ vars.EC2_APP_DIR }}
+            APP_DIR=${{ vars.EC2_APP_DIR }}
+
+            if [ ! -d "$APP_DIR/.git" ]; then
+              echo "Repo not found. Cloning..."
+              rm -rf "$APP_DIR"
+              git clone https://github.com/TanishqGupta12/LMS.git "$APP_DIR"
+            fi
+
+            cd "$APP_DIR"
 
             git pull origin main
 
