@@ -18,7 +18,10 @@ ENV RAILS_ENV="production" \
 FROM base as build
 
 # System deps + Node (cssbundling-rails / sass) + MySQL client headers for mysql2
-RUN apt-get update -qq && \
+# Apt retries/timeouts mitigate transient mirror errors (e.g. connection reset by peer).
+RUN printf 'Acquire::Retries "5";\nAcquire::http::Timeout "120";\nAcquire::https::Timeout "120";\n' \
+      > /etc/apt/apt.conf.d/99retry && \
+    apt-get update -qq && \
     apt-get install --no-install-recommends -y curl ca-certificates && \
     curl -fsSL https://deb.nodesource.com/setup_20.x | bash - && \
     apt-get install -y --no-install-recommends \
@@ -55,7 +58,9 @@ RUN SECRET_KEY_BASE_DUMMY=1 ./bin/rails assets:precompile
 FROM base
 
 # Install packages needed for deployment
-RUN apt-get update -qq && \
+RUN printf 'Acquire::Retries "5";\nAcquire::http::Timeout "120";\nAcquire::https::Timeout "120";\n' \
+      > /etc/apt/apt.conf.d/99retry && \
+    apt-get update -qq && \
     apt-get install --no-install-recommends -y curl libmariadb3 libvips && \
     rm -rf /var/lib/apt/lists /var/cache/apt/archives
 
