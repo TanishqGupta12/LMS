@@ -1,0 +1,34 @@
+# Deploy to EC2 over SSH: pull latest code, rebuild images, restart Compose.
+# Prerequisites on the server: Docker + Docker Compose v2 (`docker compose`),
+# repo cloned to EC2_APP_DIR, git remote usable (deploy key or HTTPS), and
+# a `.env` (or env files) with production secrets — not stored in GitHub.
+
+name: Deploy to EC2
+
+on:
+  push:
+    branches:
+      - main
+
+concurrency:
+  group: deploy-ec2
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Deploy over SSH
+        uses: appleboy/ssh-action@v1.2.0
+        with:
+          host: ${{ secrets.EC2_HOST }}
+          username: ${{ vars.EC2_USERNAME || 'ubuntu' }}
+          key: ${{ secrets.EC2_SSH_KEY }}
+          script_stop: true
+          script: |
+            set -euo pipefail
+            cd '${{ vars.EC2_APP_DIR || '/home/ubuntu/app' }}'
+            git fetch origin
+            git checkout main
+            git pull origin main
+            docker compose -f docker-compose.yaml up -d --build --remove-orphans
