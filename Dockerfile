@@ -36,15 +36,13 @@ RUN printf 'Acquire::Retries "5";\nAcquire::http::Timeout "120";\nAcquire::https
 
 # Install application gems
 COPY Gemfile Gemfile.lock ./
-RUN --mount=type=cache,target=/usr/local/bundle/cache \
-    bundle install && \
-    rm -rf ~/.bundle/ "${BUNDLE_PATH}"/ruby/*/bundler/gems/*/.git && \
+RUN bundle install && \
+    rm -rf ~/.bundle/ "${BUNDLE_PATH}"/ruby/*/cache "${BUNDLE_PATH}"/ruby/*/bundler/gems/*/.git && \
     bundle exec bootsnap precompile --gemfile
 
 # JavaScript dependencies for cssbundling (sass, etc.)
 COPY package.json package-lock.json ./
-RUN --mount=type=cache,target=/root/.npm \
-    npm ci
+RUN npm ci
 
 # Copy application code
 COPY . .
