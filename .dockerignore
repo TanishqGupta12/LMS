@@ -35,3 +35,18 @@
 /app/assets/builds/*
 !/app/assets/builds/.keep
 /public/assets
+
+# Ignore docs and keys
+/docs/
+*.pem
+/y
+/y.pub
+/github_actions_key
+/github_actions_key.pub
+
+# Ignore test/spec files
+/spec/
+/test/
+
+# Ignore CI config
+/.github/
