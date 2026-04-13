@@ -2,7 +2,7 @@
 
 # Make sure RUBY_VERSION matches the Ruby version in .ruby-version and Gemfile
 ARG RUBY_VERSION=3.2.0
-FROM registry.docker.com/library/ruby:$RUBY_VERSION-slim as base
+FROM registry.docker.com/library/ruby:$RUBY_VERSION-slim AS base
 
 # Rails app lives here
 WORKDIR /rails
@@ -15,15 +15,16 @@ ENV RAILS_ENV="production" \
 
 
 # Throw-away build stage to reduce size of final image
-FROM base as build
+FROM base AS build
 
 # System deps + Node (cssbundling-rails / sass) + MySQL client headers for mysql2
 # Apt retries/timeouts mitigate transient mirror errors (e.g. connection reset by peer).
 RUN printf 'Acquire::Retries "5";\nAcquire::http::Timeout "120";\nAcquire::https::Timeout "120";\n' \
       > /etc/apt/apt.conf.d/99retry && \
     apt-get update -qq && \
-    apt-get install --no-install-recommends -y curl ca-certificates && \
+    apt-get install --no-install-recommends -y curl ca-certificates gnupg && \
     curl -fsSL https://deb.nodesource.com/setup_20.x | bash - && \
+    apt-get update -qq && \
     apt-get install -y --no-install-recommends \
       nodejs \
       build-essential \
