@@ -1,3 +1,5 @@
+# syntax=docker/dockerfile:1
+
 # Make sure RUBY_VERSION matches the Ruby version in .ruby-version and Gemfile
 ARG RUBY_VERSION=3.2.0
 FROM registry.docker.com/library/ruby:$RUBY_VERSION-slim as base
@@ -34,13 +36,15 @@ RUN printf 'Acquire::Retries "5";\nAcquire::http::Timeout "120";\nAcquire::https
 
 # Install application gems
 COPY Gemfile Gemfile.lock ./
-RUN bundle install && \
-    rm -rf ~/.bundle/ "${BUNDLE_PATH}"/ruby/*/cache "${BUNDLE_PATH}"/ruby/*/bundler/gems/*/.git && \
+RUN --mount=type=cache,target=/usr/local/bundle/cache \
+    bundle install && \
+    rm -rf ~/.bundle/ "${BUNDLE_PATH}"/ruby/*/bundler/gems/*/.git && \
     bundle exec bootsnap precompile --gemfile
 
 # JavaScript dependencies for cssbundling (sass, etc.)
 COPY package.json package-lock.json ./
-RUN npm ci
+RUN --mount=type=cache,target=/root/.npm \
+    npm ci
 
 # Copy application code
 COPY . .
