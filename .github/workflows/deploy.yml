@@ -18,8 +18,23 @@ jobs:
           key: ${{ secrets.EC2_SSH_KEY }}
           command_timeout: 30m
           script: |
-            docker system prune -f
-            cd /home/ubuntu/LMS
-            git pull origin main
-            docker-compose down
-            DOCKER_BUILDKIT=1 COMPOSE_DOCKER_CLI_BUILD=1 docker-compose up -d --build
+            set -e
+
+            echo "🧹 Cleaning Docker (free space)"
+            docker system prune -af || true
+            docker volume prune -f || true
+
+            echo "📂 Navigate to app"
+            cd /home/ubuntu/LMS || exit 1
+
+            echo "📥 Pull latest code"
+            git pull origin main || exit 1
+
+            echo "🛑 Stop old containers"
+            docker compose down || true
+
+            echo "🚀 Build & start containers"
+            DOCKER_BUILDKIT=1 docker compose up -d --build --remove-orphans
+
+            echo "🧹 Final cleanup"
+            docker image prune -af || true
