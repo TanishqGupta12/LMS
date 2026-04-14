@@ -24,7 +24,7 @@ services:
       - "${WEB_PORT:-3000}:3000"
     environment:
       RAILS_ENV: production
-      FORCE_SSL: ${FORCE_SSL:-false}
+      FORCE_SSL: "${FORCE_SSL:-false}"
       DB_HOST: db
       DB_PORT: "3306"
       DB_USER: root
