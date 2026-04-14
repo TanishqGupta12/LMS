@@ -19,6 +19,8 @@ jobs:
           command_timeout: 30m
           script: |
             set -e
+            echo "🔄 Setting up Git safe directory"
+            git config --global --add safe.directory /home/ubuntu/LMS
 
             echo "🧹 Cleaning Docker (free space)"
             docker system prune -af || true
@@ -26,7 +28,7 @@ jobs:
 
             echo "📂 Navigate to app"
             cd /home/ubuntu/LMS || exit 1
-
+      
             echo "📥 Pull latest code"
             git pull origin main || exit 1
 
