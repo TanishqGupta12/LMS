@@ -19,7 +19,13 @@ jobs:
           command_timeout: 30m
           script: |
             set -e
-            
+
+            echo "🔐 Trust GitHub SSH host keys"
+            mkdir -p ~/.ssh
+            chmod 700 ~/.ssh
+            ssh-keyscan -t rsa,ecdsa,ed25519 github.com >> ~/.ssh/known_hosts 2>/dev/null
+            chmod 600 ~/.ssh/known_hosts
+
             echo "🔄 Setting up Git config"
             sudo chown -R ubuntu:ubuntu /home/ubuntu/LMS
 
