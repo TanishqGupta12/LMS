@@ -13,7 +13,6 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      # Push code from the runner (GITHUB_TOKEN) so EC2 never needs git@github.com credentials
       - name: Rsync to EC2
         env:
           EC2_HOST: ${{ secrets.EC2_HOST }}
@@ -22,12 +21,12 @@ jobs:
         run: |
           set -e
           mkdir -p ~/.ssh
-          printf '%s\n' "$SSH_KEY" > ~/.ssh/ec2_deploy
+          echo "$SSH_KEY" > ~/.ssh/ec2_deploy
           chmod 600 ~/.ssh/ec2_deploy
           ssh-keyscan -t rsa,ecdsa,ed25519 "$EC2_HOST" >> ~/.ssh/known_hosts
           chmod 600 ~/.ssh/known_hosts
           rsync -avz --delete \
-            -e "ssh -i ~/.ssh/ec2_deploy -o IdentitiesOnly=yes" \
+            -e "ssh -i ~/.ssh/ec2_deploy -o IdentitiesOnly=yes -o StrictHostKeyChecking=no" \
             --exclude '.git/' \
             --exclude 'node_modules/' \
             --exclude 'log/' \
@@ -38,30 +37,6 @@ jobs:
             --exclude 'config/master.key' \
             --exclude 'config/credentials/*.key' \
             ./ "${EC2_USER}@${EC2_HOST}:/home/ubuntu/LMS/"
-      
-      - name: nginx config
-        env:
-          EC2_HOST: ${{ secrets.EC2_HOST }}
-          EC2_USER: ${{ secrets.EC2_USER }}
-          SSH_KEY: ${{ secrets.EC2_SSH_KEY }}
-        run: |
-          sudo apt install -y nginx
-          sudo cp /home/ubuntu/LMS/deploy/nginx-lms.conf /etc/nginx/sites-available/lms
-          sudo ln -sf /etc/nginx/sites-available/lms /etc/nginx/sites-enabled/
-          sudo rm -f /etc/nginx/sites-enabled/default
-          sudo nginx -t && sudo systemctl enable --now nginx
-
-
-          echo "🧹 Cleaning Docker (free space)"
-          docker system prune -af || true
-          docker volume prune -f || true
-
-          docker system prune -a -f
-          sudo apt clean
-          sudo apt autoremove -y
-          sudo journalctl --vacuum-time=2d
-
-          echo "🧹 Cleaning up"
 
       - name: Deploy via SSH
         uses: appleboy/ssh-action@v1.2.0
@@ -76,6 +51,20 @@ jobs:
             echo "🔄 Ensure app directory ownership"
             sudo chown -R ubuntu:ubuntu /home/ubuntu/LMS
 
+            echo "🌐 Setup nginx"
+            sudo apt-get install -y nginx
+            sudo cp /home/ubuntu/LMS/deploy/nginx-lms.conf /etc/nginx/sites-available/lms
+            sudo ln -sf /etc/nginx/sites-available/lms /etc/nginx/sites-enabled/
+            sudo rm -f /etc/nginx/sites-enabled/default
+            sudo nginx -t && sudo systemctl enable --now nginx
+
+            echo "🧹 Clean up disk space"
+            docker system prune -af || true
+            docker volume prune -f || true
+            sudo apt-get clean
+            sudo apt-get autoremove -y
+            sudo journalctl --vacuum-time=2d || true
+
             echo "📂 Navigate to app"
             cd /home/ubuntu/LMS || exit 1
 
@@ -85,5 +74,5 @@ jobs:
             echo "🚀 Build & start containers"
             DOCKER_BUILDKIT=1 docker compose up -d --build --remove-orphans
 
-            echo "🧹 Final cleanup"
+            echo "🧹 Final image cleanup"
             docker image prune -af || true
