@@ -10,6 +10,35 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      # Push code from the runner (GITHUB_TOKEN) so EC2 never needs git@github.com credentials
+      - name: Rsync to EC2
+        env:
+          EC2_HOST: ${{ secrets.EC2_HOST }}
+          EC2_USER: ${{ secrets.EC2_USER }}
+          SSH_KEY: ${{ secrets.EC2_SSH_KEY }}
+        run: |
+          set -e
+          mkdir -p ~/.ssh
+          printf '%s\n' "$SSH_KEY" > ~/.ssh/ec2_deploy
+          chmod 600 ~/.ssh/ec2_deploy
+          ssh-keyscan -t rsa,ecdsa,ed25519 "$EC2_HOST" >> ~/.ssh/known_hosts
+          chmod 600 ~/.ssh/known_hosts
+          rsync -avz --delete \
+            -e "ssh -i ~/.ssh/ec2_deploy -o IdentitiesOnly=yes" \
+            --exclude '.git/' \
+            --exclude 'node_modules/' \
+            --exclude 'log/' \
+            --exclude 'tmp/' \
+            --exclude '.bundle/' \
+            --exclude '.env' \
+            --exclude '.env.*' \
+            --exclude 'config/master.key' \
+            --exclude 'config/credentials/*.key' \
+            ./ "${EC2_USER}@${EC2_HOST}:/home/ubuntu/LMS/"
+
       - name: Deploy via SSH
         uses: appleboy/ssh-action@v1.2.0
         with:
@@ -20,17 +49,8 @@ jobs:
           script: |
             set -e
 
-            echo "🔐 Trust GitHub SSH host keys"
-            mkdir -p ~/.ssh
-            chmod 700 ~/.ssh
-            ssh-keyscan -t rsa,ecdsa,ed25519 github.com >> ~/.ssh/known_hosts 2>/dev/null
-            chmod 600 ~/.ssh/known_hosts
-
-            echo "🔄 Setting up Git config"
+            echo "🔄 Ensure app directory ownership"
             sudo chown -R ubuntu:ubuntu /home/ubuntu/LMS
-
-            echo "🔄 Setting up Git safe directory"
-            git config --global --add safe.directory /home/ubuntu/LMS
 
             echo "🧹 Cleaning Docker (free space)"
             docker system prune -af || true
@@ -38,9 +58,6 @@ jobs:
 
             echo "📂 Navigate to app"
             cd /home/ubuntu/LMS || exit 1
-      
-            echo "📥 Pull latest code"
-            git pull origin main || exit 1
 
             echo "🛑 Stop old containers"
             docker compose down || true
