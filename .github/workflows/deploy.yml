@@ -80,6 +80,22 @@ jobs:
             else
               echo "Docker already installed: $(docker --version)"
             fi
+
+      - name: Clear package lists and system prune on EC2
+        uses: appleboy/ssh-action@v1.2.0
+        with:
+          host: ${{ secrets.EC2_HOST }}
+          username: ${{ secrets.EC2_USER }}
+          key: ${{ secrets.EC2_SSH_KEY }}
+          command_timeout: 10m
+          script: |
+            set -e
+
+            echo "🧹 Cleaning up..."
+            sudo apt clean && sudo apt autoremove -y
+            sudo journalctl --vacuum-time=2d
+            sudo rm -rf /tmp/*
+            docker system prune -a -f
       
       - name: Deploy via SSH
         uses: appleboy/ssh-action@v1.2.0
