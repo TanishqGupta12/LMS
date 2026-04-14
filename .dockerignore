@@ -50,3 +50,10 @@
 
 # Ignore CI config
 /.github/
+
+node_modules/
+.git/
+log/
+tmp/
+storage/
+*.md
