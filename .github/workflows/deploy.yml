@@ -55,6 +55,27 @@ jobs:
             --exclude 'config/credentials/*.key' \
             ./ "${EC2_USER}@${EC2_HOST}:/home/ubuntu/LMS/"
 
+      - name: install dependencies
+        env:
+          EC2_HOST: ${{ secrets.EC2_HOST }}
+          EC2_USER: ${{ secrets.EC2_USER }}
+          SSH_KEY: ${{ secrets.EC2_SSH_KEY }}
+        run: |
+          set -e
+
+          echo "🔄 Install dependencies"
+          sudo apt update
+          sudo apt install docker.io -y
+          sudo systemctl start docker
+          sudo systemctl enable docker
+          docker --version
+          sudo usermod -aG docker ${EC2_USER}
+          newgrp docker
+
+          if ! command -v docker-compose &> /dev/null; then
+            sudo apt install docker-compose -y
+          fi
+      
       - name: Deploy via SSH
         uses: appleboy/ssh-action@v1.2.0
         with:
