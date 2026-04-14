@@ -23,11 +23,23 @@ jobs:
           script: |
             set -e
 
-            echo "🧹 Cleaning up..."
-            sudo apt clean && sudo apt autoremove -y
-            sudo journalctl --vacuum-time=2d
-            sudo rm -rf /tmp/*
-            docker system prune -a -f
+            USAGE=$(df / | awk 'NR==2 {print $5}' | sed 's/%//')
+
+            echo "Disk usage: $USAGE%"
+
+            # Check if usage >= 70%
+            if [ "$USAGE" -ge 70 ]; then
+              echo "🧹 Disk usage above 70% — starting cleanup..."
+
+              sudo apt clean && sudo apt autoremove -y
+              sudo journalctl --vacuum-time=2d
+              sudo rm -rf /tmp/*
+              docker system prune -a -f
+
+              echo "✅ Cleanup completed!"
+            else
+              echo "✅ Disk usage is under control — no cleanup needed."
+            fi
 
       - name: Rsync to EC2
         env:
