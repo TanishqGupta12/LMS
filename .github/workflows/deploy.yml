@@ -20,11 +20,24 @@ jobs:
           SSH_KEY: ${{ secrets.EC2_SSH_KEY }}
         run: |
           set -e
+
+          echo "🔑 Writing SSH key..."
           mkdir -p ~/.ssh
           echo "$SSH_KEY" > ~/.ssh/ec2_deploy
           chmod 600 ~/.ssh/ec2_deploy
+
+          echo "🔍 Validate key format..."
+          ssh-keygen -y -f ~/.ssh/ec2_deploy > /dev/null && echo "Key OK" || { echo "Key is INVALID"; exit 1; }
+
+          echo "🌐 Scanning host keys for $EC2_HOST..."
           ssh-keyscan -t rsa,ecdsa,ed25519 "$EC2_HOST" >> ~/.ssh/known_hosts
           chmod 600 ~/.ssh/known_hosts
+
+          echo "🔗 Test SSH connection..."
+          ssh -i ~/.ssh/ec2_deploy -o IdentitiesOnly=yes -o StrictHostKeyChecking=no \
+            "${EC2_USER}@${EC2_HOST}" "echo SSH OK"
+
+          echo "📦 Rsyncing files..."
           rsync -avz --delete \
             -e "ssh -i ~/.ssh/ec2_deploy -o IdentitiesOnly=yes -o StrictHostKeyChecking=no" \
             --exclude '.git/' \
