@@ -1,0 +1,122 @@
+  <%= stylesheet_link_tag 'custom_style'%>
+
+<%= render partial: "user_header" , locals: { user: @user } %>
+
+<section class="pt-0">
+	<div class="container">
+		<div class="row">
+			<%= render partial: "profile_side_bar" %>
+
+			<!-- Main content START -->
+			<div class="col-xl-9 mb-5">
+
+				<!-- Billing history START -->
+				<div class="card bg-transparent border rounded-3">
+					<!-- Card header START -->
+					<div class="card-header bg-transparent border-bottom">
+						<h3 class="mb-0">Billing history</h3>
+					</div>
+					<!-- Card header END -->
+
+					<!-- Card body START -->
+					<div class="card-body">
+
+						<!-- Title and select START -->
+						<div class="row g-3 align-items-center justify-content-between mb-4 d-none">
+							<!-- Content -->
+							<div class="col-md-8">
+								<form class="rounded position-relative">
+									<input class="form-control pe-5 bg-transparent" type="search" placeholder="Search" aria-label="Search">
+									<button class="bg-transparent p-2 position-absolute top-50 end-0 translate-middle-y border-0 text-primary-hover text-reset" type="submit">
+								<i class="fas fa-search fs-6 "></i>
+							</button>
+								</form>
+							</div>
+
+							<!-- Select option -->
+							<div class="col-md-3">
+								<!-- Short by filter -->
+								<form>
+									<select class="form-select js-choice border-0 z-index-9 bg-transparent" aria-label=".form-select-sm">
+										<option value="">Sort by</option>
+										<option>Newest</option>
+										<option>Oldest</option>
+									</select>
+								</form>
+							</div>
+						</div>
+						<!-- Title and select END -->
+
+						<!-- Student list table START -->
+						<div class="table-responsive border-0">
+							<table class="table table-dark-gray align-middle p-4 mb-0 table-hover">
+								<!-- Table head -->
+								<thead>
+									<tr>
+										<th scope="col" class="border-0 rounded-start">Date</th>
+										<th scope="col" class="border-0">Course name</th>
+										<th scope="col" class="border-0 d-none">Payment method</th>
+										<th scope="col" class="border-0">Status</th>
+										<th scope="col" class="border-0">Total</th>
+										<th scope="col" class="border-0 rounded-end d-none">Action</th>
+									</tr>
+								</thead>
+								<!-- Table body -->
+								<tbody>
+
+									<!-- Table item -->
+									<% @user_courses.each do |user_course| %>
+									<tr>
+										<!-- Date item -->
+										<td><%= user_course.try(:created_at).strftime("%d %b %Y") %></td>
+
+										<!-- Title item -->
+										<td>
+											<h6 class="mt-2 mt-lg-0 mb-0"><a href="<%= event_course_path(@event.try(:id) , user_course.course_id)%>"><%= user_course.try(:course).try(:title) %></a></h6>
+										</td>
+
+										<!-- Payment method item -->
+										<td class="d-none"><img src="assets/images/client/mastercard.svg" class="h-40px" alt=""><span class="ms-2">****2588</span></td>
+
+										<!-- Status item -->
+										<td>
+											<% if user_course.try(:payment_status) == "Payment complete"  %>
+												<span class="badge bg-success bg-opacity-10 text-success">Paid</span>
+											<% elsif  user_course.try(:payment_status) ==  "Free access" %>
+												<span class="badge bg-success bg-opacity-10 text-success">Free</span>
+											<% elsif   user_course.try(:payment_status) == "Payment incomplete" %>
+												<span class="badge bg-orange bg-opacity-10 text-orange">Pending</span>
+											<% else %>
+												<span class="badge bg-danger bg-opacity-10 text-danger">Cancel</span>
+											<% end %>
+
+										</td>
+										
+										<!-- total item -->
+										<td><%= user_course.try(:payment_amount) %></td>
+
+										<!-- Action item -->
+										<td class="d-none">
+											<a href="#" class="btn btn-primary-soft btn-round me-1 mb-1 mb-md-0" data-bs-toggle="tooltip" data-bs-placement="top" title="Download"><i class="bi bi-download"></i></a>
+										</td>
+									</tr>
+									<% end %>
+
+								</tbody>
+							</table>
+						</div>
+						<!-- Student list table END -->
+
+
+					</div>
+					<!-- Card body START -->
+				</div>
+				<!-- Billing history END -->
+				
+			
+			</div>
+			<!-- Main content END -->
+
+        </div>
+	</div>	
+</section>

@@ -1,0 +1,19 @@
+<style>
+    .bag{
+        padding: 2%;
+        padding-bottom: 1px;
+    }
+</style>
+<% if level_alert.try(:level).present? %>
+  <% alert_class, text_class = case level_alert.level
+    when "All Level" then ["alert-dark", "alert-link"]
+    when "Beginner" then ["alert-success", "alert-link"]
+    when "Intermediate" then ["alert-info", "alert-link"]
+    when "Advanced" then ["alert-warning", "alert-link"]
+    when "Expert" then ["alert-danger", "alert-link"]
+  end %>
+
+  <div class="bag alert <%= alert_class %>">
+    <h6 class="mb-2 <%= text_class %>"><%= level_alert.level %></h6>
+  </div>
+<% end %>

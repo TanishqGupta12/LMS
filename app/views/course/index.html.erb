@@ -1,0 +1,10 @@
+
+
+    <!-- Courses Start -->
+
+    <%= render partial: "courses", locals: { courses_data: @courses } %>
+
+    <!-- Courses End -->
+    <div class="container py-5">
+        <%= paginate @courses, remote: true %>
+    </div>

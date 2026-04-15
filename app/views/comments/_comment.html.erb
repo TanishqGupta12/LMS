@@ -1,0 +1,33 @@
+<div class="media mb-4">
+    <img src="<%= comment.user&.image.present? ? url_for(comment.user.image) : "http://127.0.0.1:3000/user.png" %>" 
+        alt="User Image" class="img-fluid rounded-circle mr-3 mt-1" style="width: 45px;">
+    <div class="media-body">
+        <h6><%= comment.user&.name %> <small><i><%= comment.created_at.strftime("%d %b %Y at %I:%M%p") %></i></small></h6>
+        <p><%= comment.content %></p>
+
+        <!-- Reply Form -->
+        <div class="d-block m-5">
+            <div class="input-group input-group_reply">
+                <%= form_with model: Comment.new, url: (comment.blog_id ? event_blog_comments_path(params[:event_id], comment.blog_id) : event_course_comments_path(params[:event_id], comment.course_id)), local: true do |f| %>
+                    <div class="form-floating w-100">
+                        <%= f.text_area :content, placeholder: "Reply to this comment..." , class: "form-control", rows: 3 %>
+                    </div>
+                    <%= f.hidden_field :parent_id, value: comment.id %>
+                    <% if comment.blog_id %>
+                        <%= f.hidden_field :blog_id, value: comment.blog_id %>
+                    <% else %>
+                        <%= f.hidden_field :course_id, value: comment.course_id %>
+                    <% end %>
+                    <%= f.submit "Reply", class: "btn btn-primary ms-2 mt-2" %>
+                <% end %>
+            </div>
+        </div>
+
+        <!-- Render Replies Recursively -->
+        <% comment.replies.each do |reply| %>
+            <div class="media mt-4 ml-5  mb-4">
+                <%= render 'comments/comment', comment: reply %>
+            </div>
+        <% end %>
+    </div>
+</div>

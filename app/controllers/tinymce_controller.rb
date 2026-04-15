@@ -1,7 +1,7 @@
 class TinymceController < ApplicationController
   skip_before_action :verify_authenticity_token
   def create
-    # debugger
+    debugger
   
     blob = ActiveStorage::Blob.create_and_upload!(
       io: params[:file],

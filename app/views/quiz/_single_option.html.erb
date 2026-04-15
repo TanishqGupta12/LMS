@@ -1,0 +1,27 @@
+  <div class="formbold-radio-flex">
+    <% question.try(:quiz_question_options).each do | quiz_question_option|%>
+    <div class="formbold-radio-group">
+      <label class="formbold-radio-label">
+        <input class="formbold-input-radio" 
+        value=<%= quiz_question_option.id%> 
+        type="radio" 
+        name="answers[<%= question.id %>][option_id]" 
+        id="qus_<%= question.id %>"  
+        <% if question.is_required == true%> required <% end %>  
+        <% if params[:review] == 'true' && quiz_question_option.id ==  QuizAttemptResult.find_by(quiz_question_option_id: quiz_question_option.id).try(:quiz_question_option_id) %> checked <% end %>
+        <% if params[:review] == 'true' %> disabled <% end %>
+        />
+        <%= quiz_question_option.try(:title)%>
+        <span class="formbold-radio-checkmark"></span>
+      </label>
+    </div>
+    <% end %>
+  </div>
+  
+<% if params[:review] == 'true' && question.enable_correct_answer%>
+    <div class="alert alert-success" role="alert">
+    <p class="font-weight-bold">
+        <%= question.correct_answer_explanation %>
+    </p>
+    </div>
+<% end %>

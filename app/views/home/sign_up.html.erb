@@ -1,83 +1,130 @@
-<div class="container">
-  <p><%= @form&.description %></p>
-</div>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+</head>
+<body>
 
-<section class="vh-auto gradient-custom">
-  <div class="container py-5 h-100 w-100">
-    <div class="row justify-content-center align-items-center h-100">
-      <div class="col-12 col-lg-12 col-xl-8">
-        <div class="card shadow-2-strong card-registration" style="border-radius: 15px;">
-          <h4 class="ml-4 mt-3 pb-2 pb-md-0"><%= @form&.caption %></h4>
-          <div class="card-body p-4 p-md-5">
-            <%= form_with  method: :post, html: { class: "d-flex flex-wrap" } do |f| %>
-              <%  @section_fields.present? && @section_fields.each_with_index do |item, index| %>
-                <% unless item.onlyReady %>
-                  <div style="width: <%= item.is_single_column ? '100%' : '50%' %>;">
-                    
-                    <% if item.data_field == "email" %>
-                      <div class="col-md-12 mb-4">
-                        <div class="form-outline">
-                          <%= f.label item.field_type, item.caption, class: "form-label" %>
-                          <%= f.email_field item.field_type, class: "form-control form-control-lg", placeholder: item.placeholder, required: item.is_required %>
-                          <small class="form-text text-muted d-block mt-1">Hint: <%= item.field_hint %></small>
-                        </div>
-                      </div>
-                    <% end %>
+  
+  <% if params[:teacher] == "true" %>
+    <div class="container mt-5">
+      <h2 class="mb-4">Teacher Registration</h2>
+      <form action="/users" method="post">
+        <input type="hidden" class="form-control" id="teacher" name="teacher" value="true">
 
-                    <% if item.data_field == "password" %>
-                      <div class="col-md-12 mb-4">
-                        <div class="form-outline">
-                          <%= f.label item.field_type, item.caption, class: "form-label" %>
-                          <%= f.password_field item.field_type, class: "form-control form-control-lg", placeholder: item.placeholder, required: item.is_required %>
-                          <small class="form-text text-muted d-block mt-1">Hint: <%= item.field_hint %></small>
-                        </div>
-                      </div>
-                    <% end %>
+        <!-- Personal Information -->
+        <fieldset class="border p-4 mb-4">
+          <legend class="w-auto px-2">Personal Information</legend>
 
-                    <% if item.data_field == "number" %>
-                      <div class="col-md-12 mb-4">
-                        <div class="form-outline">
-                          <%= f.label item.field_type, item.caption, class: "form-label" %>
-                          <%= f.number_field item.field_type, class: "form-control form-control-lg", placeholder: item.placeholder, required: item.is_required %>
-                          <small class="form-text text-muted d-block mt-1">Hint: <%= item.field_hint %></small>
-                        </div>
-                      </div>
-                    <% end %>
-
-                    <% if item.data_field == "radio" %>
-                      <div class="col-md-12 mb-4">
-                        <div class="form-outline">
-                          <label class="form-label d-block"><%= item.caption %>:</label>
-                          <% item.form_field_choices.present? && item.form_field_choices.each_with_index do |choice, idx| %>
-                            <div class="form-check form-check-inline">
-                              <%= f.radio_button item.field_type, choice.caption, id: "#{item.data_field}-#{index}-#{idx}", class: "form-check-input", checked: idx == 0, required: item.is_required %>
-                              <%= f.label "#{item.data_field}-#{index}-#{idx}", choice.caption, class: "form-check-label fw-bold text-primary" %>
-                            </div>
-                          <% end %>
-                          <small class="form-text text-muted d-block mt-1">Hint: <%= item.field_hint %></small>
-                        </div>
-                      </div>
-                    <% end %>
-
-                    <% if item.data_field == "hidden" %>
-                      <%= f.hidden_field item.field_type, value: item.value %>
-                    <% end %>
-
-                  </div>
-                <% end %>
-              <% end %>
-
-              <small class="message ml-3"><a href="/<%= params[:event_id]  %>/login">Already User?</a></small>
-
-              <div class="mt-auto pt-2 text-center">
-                <%= f.hidden_field :current_event_id, value: params[:event_id] %>
-                <%= f.submit "Submit", class: "btn btn-primary btn-lg px-4 py-2 fw-semibold shadow-sm mt-5", disabled: @loading %>
-              </div>
-
-            <% end %>
+          <div class="alert alert-info" role="alert">
+              Please note: A payment of <strong>₹500</strong> is required for teacher registration.
           </div>
+          <div class="mb-3">
+            <label for="fullName" class="form-label">first</label>
+            <input type="text" class="form-control" id="first" name="first" required>
+          </div>
+
+          <div class="mb-3">
+            <label for="fullName" class="form-label">last Name</label>
+            <input type="text" class="form-control" id="last" name="last" required>
+          </div>
+
+          <div class="mb-3">
+            <label for="dob" class="form-label">Date of Birth</label>
+            <input type="date" class="form-control" id="dob" name="dob">
+          </div>
+          <div class="mb-3">
+            <label for="phone" class="form-label">Phone Number</label>
+            <input type="tel" class="form-control" id="phone" name="phone">
+          </div>
+          <div class="mb-3">
+            <label for="position" class="form-label">position</label>
+            <input type="text" class="form-control" id="position" name="position">
+          </div>
+        </fieldset>
+
+        <!-- Account Information -->
+        <fieldset class="border p-4 mb-4">
+          <legend class="w-auto px-2">Account Information</legend>
+          <div class="mb-3">
+            <label for="email" class="form-label">Email address</label>
+            <input type="email" class="form-control" id="email"  name="email" required>
+          </div>
+
+          <div class="mb-3">
+            <label for="password" class="form-label">Password</label>
+            <input type="password" class="form-control" id="password" name="password" required>
+          </div>
+        </fieldset>
+
+        <div class="mb-3 form-check">
+          <input type="checkbox" class="form-check-input" id="terms" required>
+          <label class="form-check-label" for="terms">I agree to the terms and conditions</label>
         </div>
-      </div>
+
+        <button type="submit" class="btn btn-primary">Register</button>
+      </form>
     </div>
-  </div>
-</section>
+    <% else %>
+      <div class="container mt-5">
+        <h2 class="mb-4">User Registration</h2>
+        <form action="/users" method="post">
+          <!-- Personal Information -->
+          <fieldset class="border p-4 mb-4">
+            <legend class="w-auto px-2">Personal Information</legend>
+            <div class="mb-3">
+              <label for="fullName" class="form-label">first</label>
+              <input type="text" class="form-control" id="first" name="first" required>
+            </div>
+
+            <div class="mb-3">
+              <label for="fullName" class="form-label">last Name</label>
+              <input type="text" class="form-control" id="last" name="last" required>
+            </div>
+
+            <div class="mb-3">
+              <label for="dob" class="form-label">Date of Birth</label>
+              <input type="date" class="form-control" id="dob" name="dob">
+            </div>
+            <div class="mb-3">
+              <label for="phone" class="form-label">Phone Number</label>
+              <input type="tel" class="form-control" id="phone" name="phone">
+            </div>
+          </fieldset>
+
+          <!-- Account Information -->
+          <fieldset class="border p-4 mb-4">
+            <legend class="w-auto px-2">Account Information</legend>
+            <div class="mb-3">
+              <label for="email" class="form-label">Email address</label>
+              <input type="email" class="form-control" id="email"  name="email" required>
+            </div>
+
+            <div class="mb-3">
+              <label for="password" class="form-label">Password</label>
+              <input type="password" class="form-control" id="password" name="password" required>
+            </div>
+          </fieldset>
+
+          <div class="mb-3 form-check">
+            <input type="checkbox" class="form-check-input" id="terms" required>
+            <label class="form-check-label" for="terms">I agree to the terms and conditions</label>
+          </div>
+
+          <button type="submit" class="btn btn-primary">Register</button>
+        </form>
+      </div>
+  <% end %>
+  
+
+
+
+
+</body>
+</html>
+
+<script>
+  <% if  params[:teacher] == "true"  && @user_stripe.present? %>
+    window.open("<%= @user_stripe %>", "_blank");
+  <% end %>
+</script>

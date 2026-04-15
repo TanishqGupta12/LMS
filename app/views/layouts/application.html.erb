@@ -1,22 +1,23 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>SiteApp</title>
+
+    <title><%= @event.try(:name) %></title>
+    <meta charset="utf-8">
+    <meta content="<%= @event.try(:name) %>" name="keywords">
+    <meta content="<%= @event.try(:description) %>" name="description">
     <meta name="viewport" content="width=device-width,initial-scale=1">
+
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
 
     <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
+
     <%= javascript_importmap_tags %>
 
-    <meta charset="utf-8">
-    <title>ECOURSES - Online Courses HTML Template</title>
-    <meta content="width=device-width, initial-scale=1.0" name="viewport">
-    <meta content="Free HTML Templates" name="keywords">
-    <meta content="Free HTML Templates" name="description">
 
     <!-- Favicon -->
-    <link href="img/favicon.ico" rel="icon">
+    <link href="<%= @event.try(:icon)%>" rel="icon">
 
     <!-- Google Web Fonts -->
     <link rel="preconnect" href="https://fonts.gstatic.com">
@@ -27,19 +28,30 @@
 
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <!-- Google Font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com/">
+    <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;700&amp;family=Roboto:wght@400;500;700&amp;display=swap">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+    <%= stylesheet_link_tag "https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" %>
+    <%= javascript_include_tag "https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js" %>
   </head>
     <style>
+      *,
+    *::before,
+    *::after {
+      -webkit-box-sizing: border-box;
+              box-sizing: border-box;
+    }
       <%= @event.try(:custom_css).try(:html_safe) %>
-      .messaage_alert{
-          padding: 1rem;
-          color: white;
-          font-size: larger;
-          font-family: "Sofia", sans-serif;
-          font-weight: 400;
-        }
     </style>
   <body>
-    <%= render partial: "navbar", locals: { event: @event } %>
+    <div id="nav_box">
+      <%= render partial: "layouts/navbar", locals: { event: @event } %>
+    </div>
       <% if notice.present?%>
         <p class="alert alert-success messaage_alert"><%= notice %></p>
       <% end%>
@@ -48,10 +60,11 @@
       <% end%>
 
     <%= yield %>
-    <%= render partial: "footer", locals: { event: @event } %>
+    <div id="Footer_box">
+      <%= render partial: "layouts/footer", locals: { event: @event } %>
+    </div>
 
-    <%= javascript_include_tag "application" %>  <!-- Automatically included by Importmaps -->
-    <%= javascript_include_tag "custom" %> 
+    <%= javascript_include_tag "custom" , "type": "module" %> 
 
         <!-- JavaScript Libraries -->
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>

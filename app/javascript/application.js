@@ -2,3 +2,7 @@
 import "@hotwired/turbo-rails"
 import "controllers"
 import "jquery"
+import "toastr"
+
+import "chartkick"
+import "Chart.bundle"

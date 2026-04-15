@@ -1,0 +1,66 @@
+<%= stylesheet_link_tag 'custom_style'%>
+<%= render partial: "user_header", locals: { user: @user } %>
+
+<div class="section-main pt-0" data-controller="user-note">
+  <div class="container">
+    <div class="row">
+      <%= render partial: "profile_side_bar" %>
+
+      <div class="col-xl-9">
+        <div class="card bg-transparent border rounded-3">
+          <div class="card-header bg-transparent border-bottom">
+            <h3 class="mb-0">My Notes</h3>
+          </div>
+
+          <div class="card-body">
+            <div class="table-responsive border-0">
+              <table class="table table-dark-gray align-middle p-4 mb-0 table-hover">
+                <thead>
+                  <tr>
+                    <th>Course Title</th>
+                    <th>Lectures</th>
+                    <th>Timestamp</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+
+                <tbody>
+                  <% @user_notes.each do |user_course| %>
+                    <tr>
+                      <td>
+                        <h6><%= user_course.try(:course).try(:title) %></h6>
+                      </td>
+                      <td><%= user_course.try(:lesson).try(:title) %></td>
+                      <td><%= user_course.try(:timestamp) %></td>
+                      <td>
+                        <a href="/<%= @event.try(:id) %>/course/<%= user_course.course_id %>?time=<%= CGI.escape(user_course.timestamp.to_s) %>" class="btn btn-sm btn-primary-soft me-1 mb-1 mb-md-0">
+                          <i class="bi bi-play-circle me-1"></i>Video
+                        </a>
+
+						<a href="#"
+							data-action="user-note#submit"
+							data-notes-id="<%= user_course.try(:id) %>"
+							data-user-id="<%= params[:id] %>"
+							data-lesson-id="<%= user_course.course_id %>"
+							data-timestamp="<%= user_course.timestamp %>"
+							class="btn btn-sm btn-primary-soft me-1 mb-1 mb-md-0">
+							<i class="bi bi-info-circle me-1"></i>Show
+						</a>
+
+                        <%= button_to user_note_path(lesson: user_course.try(:lesson).try(:id)), method: :delete, class: "btn btn-sm btn-primary-soft me-1 mb-1 mb-md-0" do %>
+                          <i class="fa fa-solid fa-trash me-1"></i>Delete
+                        <% end %>
+                      </td>
+                    </tr>
+                  <% end %>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="user_notes mt-4" data-user-note-target="container"></div>
+    </div>
+  </div>
+</div>

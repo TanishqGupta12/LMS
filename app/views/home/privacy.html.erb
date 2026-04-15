@@ -1,0 +1,14 @@
+        <div class="container-fluid py-5">
+        <div class="container py-5">
+            <div class="row align-items-center">
+                <div class="text-left mb-4">
+                    <h5 class="text-primary text-uppercase mb-3" style="letter-spacing: 5px;">Privacy Page Content</h5>
+                </div>
+                <div class="col-lg-13">
+                    <div class="d-flex justify-content-sm-between">
+                        <%= (@event.try(:page_content)).to_s.gsub(/\s*border="1"/, "").html_safe %>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>

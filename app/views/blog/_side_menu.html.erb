@@ -1,0 +1,56 @@
+                <div class="col-lg-4 mt-5 mt-lg-0">
+    
+    
+                    <!-- Category List -->
+                    <div class="mb-5">
+                        <h3 class="text-uppercase mb-4" style="letter-spacing: 5px;">Categories</h3>
+                        <ul class="list-group list-group-flush">
+
+                                <li class="list-group-item d-flex justify-content-between align-items-center px-0">
+                                    <a href="<%= event_blog_index_path(category_id: "All")%>" class="text-decoration-none h6 m-0">All</a>
+                                    <span class="badge badge-primary badge-pill"><%= categorys.present? &&  categorys.sum { |category| category.blogs.size } %> </span>
+                                </li>
+                            <% categorys.present? && categorys.each do |category| %>
+                                <li class="list-group-item d-flex justify-content-between align-items-center px-0">
+                                    <a href="<%= event_blog_index_path(category_id: category.try(:id))%>" class="text-decoration-none h6 m-0"><%= category.try(:title) %></a>
+                                    <span class="badge badge-primary badge-pill"><%= category.try(:blogs).size %></span>
+                                </li>
+                            <% end %>
+                        </ul>
+                    </div>
+    
+                    <!-- Recent Post -->
+                    <div class="mb-5">
+                        <h3 class="text-uppercase mb-4" style="letter-spacing: 5px;">Recent Post</h3>
+                        <% blogs_recenlty.present? && blogs_recenlty.each do |blog| %>
+                            <a class="d-flex align-items-center text-decoration-none mb-3" href="<%= event_blog_path(blog.event, blog)%>">
+                                <% if blog.image.attached? %>
+                                    <%= image_tag url_for(blog.image), class: "img-fluid rounded", alt: blog.try(:title),width: 80, height: 80 %>
+                                <% end %>
+                                <div class="pl-3">
+                                    <h6 class="m-1"><%= blog.try(:title)%></h6>
+                                    <small><%= blog.try(:created_at).strftime("%Y-%m-%d") %></small>
+                                </div>
+                            </a>
+                        <%end %>
+                    </div>
+    
+                    <!-- Tag Cloud -->
+                    <%
+                        all_courses = categorys.map(&:courses).flatten
+                        all_tags = all_courses.flat_map do |course|
+                            course.tags.to_s.split(',').map(&:strip)
+                        end.uniq
+                    %>
+                    <div class="mb-5">
+                        <h3 class="text-uppercase mb-4" style="letter-spacing: 5px;">
+                            Tag Cloud
+                        </h3>
+                        <div class="d-flex flex-wrap m-n1">
+                            <a href="<%= event_blog_index_path(tags: "All")%>" class="btn btn-outline-primary m-1">All</a>
+                            <% all_tags.each do |tag| %>
+                                <a href="<%= event_blog_index_path(tags: tag)%>" class="btn btn-outline-primary m-1"><%= tag %></a>
+                            <% end %>
+                        </div>
+                    </div>
+                </div>

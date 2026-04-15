@@ -1,0 +1,46 @@
+<div class="container-fluid py-5">
+  <div class="container py-5">
+    <div class="text-center mb-5">
+      <h5 class="text-primary text-uppercase mb-3" style="letter-spacing: 5px;">Courses</h5>
+
+    </div>
+    <div class="row">
+      <% courses_data.present? && courses_data.each do |course| %>
+
+        <div class="col-lg-4 col-md-6 mb-4">
+          <div class=" shadow-lg bg-white rounded overflow-hidden mb-2">
+            <img class="img-fluid" src="<%= url_for(course.try(:thumbail)) %>" alt="Course: <%= course.title %>" />
+            <div class="p-4">
+              <div class= "d-flex justify-content-between mb-3 ">
+                  <%= render partial: "course/alert", locals: { level_alert: course} %>
+              </div>
+              <div class="d-flex justify-content-between mb-3">
+                <small class="m-0">
+                  <i class="fa fa-users text-primary mr-2"></i> Students
+                </small>
+                <small class="m-0">
+                  <i class="far fa-clock text-primary mr-2"></i><%= course.duration %>
+                </small>
+              </div>
+              <a class="h5" href="<%= event_course_path(course.try(:event_id) ,course.try(:id))%>"><%= course.title %></a>
+              <div class="border-top mt-4 pt-4">
+                <div class="d-flex justify-content-between">
+                  <% average_rating = course.reviews.average(:rating)&.round(1) || 0 %>
+
+                  <% if average_rating.present? &&  average_rating != 0 %>
+                  <h6 class="m-0">
+                    <i class="fa fa-star text-primary mr-2"></i> <small><%= average_rating %> / 5</small>
+                  </h6>
+                  <% end %>
+                    <h5 class="m-0">
+                      <%= course.try(:ticket).present? ? "#{course.try(:ticket).price.to_hash[:cents] } #{course.try(:ticket).price.to_hash[:currency_iso] }" : "Free" %>
+                    </h5>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>

@@ -4,56 +4,36 @@ class Ability
   include CanCan::Ability
 
   def initialize(user)
-
-    cannot :import, :all
-    can :import, [User]
+    return unless user # Ensure `user` is present
 
     can :dashboard, :all
     can :access, :rails_admin
     can :history, :all
-    can :access, :rails_admin 
     can :read, :dashboard
+    can :import, User
 
-
-    if user && user.superadmin?
-
-      can :manage, :all
-      can :import, :all
-
-      can :manage, Role
-
+    if user.superadmin?
+      can :manage, :all 
+      can :import, :all # Overrides previous restriction
+      can :manage, Category , event_id: user.current_event_id.to_i
     elsif user.admin?
       can :manage, :all
+      cannot :manage, Role # Restrict role management for admins
+    elsif user.teacher?
+      can :read, User
+      can :read, Category , event_id: user.current_event_id.to_i
       
-      can :import, :all
-      cannot :manage, Role
-    # elsif user.teacher?
-
+      can :manage ,Blog ,user_id: user.id , event_id: user.current_event_id.to_i
+      can :manage, Ticket ,user_id: user.id , event_id: user.current_event_id.to_i
+      # Allow teacher to manage courses where teacher_id and event_id match
+      can :manage, Course, teacher_id: user.id, event_id: user.current_event_id.to_i
+      can :manage, UserCourse, teacher_id: user.id
+      can :manage, QuizTopic, course: { teacher_id: user.id, event_id: user.current_event_id.to_i }
+      can :manage, Lesson, quiz_topic: { course: { teacher_id: user.id, event_id: user.current_event_id.to_i } }
+      can :manage, QuizQuestion, lesson: { quiz_topic: { course: { teacher_id: user.id, event_id: user.current_event_id.to_i } }}
+      can :manage, QuizQuestionOption , quiz_question: { lesson: { quiz_topic: { course: { teacher_id: user.id, event_id: user.current_event_id.to_i } }}}
+      can :manage, Faq, user_id: user.id
+      can :manage, Discount, tickets: { user_id: user.id} 
     end
-
-    # Define abilities for the user here. For example:
-    #
-    #   return unless user.present?
-    #   can :read, :all
-    #   return unless user.admin?
-    #   can :manage, :all
-    #
-    # The first argument to `can` is the action you are giving the user
-    # permission to do.
-    # If you pass :manage it will apply to every action. Other common actions
-    # here are :read, :create, :update and :destroy.
-    #
-    # The second argument is the resource the user can perform the action on.
-    # If you pass :all it will apply to every resource. Otherwise pass a Ruby
-    # class of the resource.
-    #
-    # The third argument is an optional hash of conditions to further filter the
-    # objects.
-    # For example, here the user can only update published articles.
-    #
-    #   can :update, Article, published: true
-    #
-    # See the wiki for details:
-    # https://github.com/CanCanCommunity/cancancan/blob/develop/docs/define_check_abilities.md
   end
 end

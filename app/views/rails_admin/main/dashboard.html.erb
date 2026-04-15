@@ -1,64 +1,896 @@
-<% if @abstract_models %>
-  <table class="table table-condensed table-striped table-hover">
+<!-- ======================= Page content START -->
+<% if current_user.teacher? || current_user.custom? %>
+<% @student = User.where(current_event_id: current_user.current_event_id)  %>
+
+<% @user = current_user.teacher? ? current_user : current_user %>
+<% @user_coures = UserCourse.where(teacher_id: @user.id) %>
+<% @coures = Course.where(teacher_id: @user.id) %>
+
+	<%= javascript_include_tag "Chart.bundle" %> 
+	<%= javascript_include_tag "chartkick" %>
+
+<section class="pt-0">
+	<div class="container">
+
+    <!-- =======================  Main content START -->
+    <div class="col mt-5 mb-5">
+
+      <!-- Counter boxes START -->
+      <div class="row g-4">
+        <!-- Counter item -->
+        <div class="col-sm-6 col-lg-4">
+          <div class="d-flex justify-content-center align-items-center p-4">
+            <span class="display-6 text-warning mb-0"><i class="fas fa-tv fa-fw"></i></span>
+            <div class="ms-4">
+              <div class="d-flex">
+                <h5 class="purecounter mb-0 fw-bold" data-purecounter-start="0" data-purecounter-end="25"	data-purecounter-delay="200"><%= @coures.count %></h5>
+              </div>
+              <span class="mb-0 h6 fw-light">Total Courses</span>
+            </div>
+          </div>
+        </div>
+        <!-- Counter item -->
+        <div class="col-sm-6 col-lg-4">
+          <div class="d-flex justify-content-center align-items-center p-4">
+            <span class="display-6 text-purple mb-0"><i class="fas fa-user-graduate fa-fw"></i></span>
+            <div class="ms-4">
+              <div class="d-flex">
+                <h5 class="purecounter mb-0 fw-bold" data-purecounter-start="0" data-purecounter-end="25"	data-purecounter-delay="200"><%= @student.count %></h5>
+                <%# <span class="mb-0 h5">K+</span> %>
+              </div>
+              <span class="mb-0 h6 fw-light">Total Students</span>
+            </div>
+          </div>
+        </div>
+        <!-- Counter item -->
+        <div class="col-sm-6 col-lg-4">
+          <div class="d-flex justify-content-center align-items-center p-4">
+            <span class="display-6 text-info mb-0"><i class="fas fa-gem fa-fw"></i></span>
+            <div class="ms-4">
+              <div class="d-flex">
+                <h5 class="purecounter mb-0 fw-bold" data-purecounter-start="0" data-purecounter-end="12" data-purecounter-delay="300"><%= @user_coures.count %></h5>
+                <%# <span class="mb-0 h5">K</span> %>
+              </div>
+              <span class="mb-0 h6 fw-light">Enrolled Students</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Counter boxes END -->
+
+      <!-- Course List table START -->
+      <div class="row">
+        <div class="col-12">
+          <div class="card border bg-transparent rounded-3 mt-5">
+            <!-- Card header START -->
+            <div class="card-header bg-transparent border-bottom">
+              <div class="d-sm-flex justify-content-sm-between align-items-center">
+                <h3 class="mb-2 mb-sm-0">Most Selling Courses</h3>
+              </div>
+            </div>
+            <!-- Card header END -->
+
+            <!-- Card body START -->
+            <div class="card-body">
+              <div class="table-responsive border-0 rounded-3">
+                <!-- Table START -->
+                <table class="table table-dark-gray align-middle p-4 mb-0">
+                  <!-- Table head -->
+                  <thead>
+                    <tr>
+                      <th scope="col" class="border-0 rounded-start">Course Name</th>
+                      <th scope="col" class="border-0">Selling</th>
+                      <th scope="col" class="border-0">Amount</th>
+                      <th scope="col" class="border-0">Period</th>
+                      <th scope="col" class="border-0 rounded-end">Action</th>
+                    </tr>
+                  </thead>
+                  <!-- Table body START -->
+                  <tbody>
+                    <% data = @user_coures.includes(:course).group(:course_id).count
+                        chart_data = data.map do |id, count|
+                          course = Course.find(id)
+                          {
+                            id: course.id,
+                            title: course.title,
+                            image: course.thumbail,  # Make sure `thumbnail` returns the image URL
+                            count: count,
+                            price: course.user_courses.last.payment_amount,
+                            created_at: course.user_courses.first.updated_at,
+                          }
+                        end
+                      %>
+                    <% chart_data.each do |chart| %>
+                    <tr>
+                      <!-- Course item -->
+                      <td>
+                        <div class="d-flex align-items-center">
+                          <!-- Image -->
+                          <div class="w-60px">
+                          </div>
+                          <!-- Title -->
+                          <h6 class="mb-0 ms-2 table-responsive-title">
+                            <a href="#"><%= chart[:title] %></a>
+                          </h6>
+                        </div>
+                      </td>
+                      <!-- Selling item -->
+                      <td><%= chart[:count] %></td>
+                      <!-- Amount item -->
+                      <td><%= chart[:price] %></td>
+                      <!-- Period item -->
+                      <td>
+                        <span class="badge bg-primary bg-opacity-10 text-primary"><%= chart[:created_at].strftime("%Y-%m-%d ") %></span>
+                      </td>
+                      <!-- Action item -->
+                      <td>
+                        <a href="/admin/course/<%= chart[:id] %>/edit" class="btn btn-sm btn-success-soft btn-round me-1 mb-0"><i class="far fa-fw fa-edit"></i></a>
+                        <a href="/admin/course/<%= chart[:id] %>/delete" class="btn btn-sm btn-danger-soft btn-round mb-0"><i class="fas fa-fw fa-times"></i></a>
+                      </td>
+                    </tr>
+                    <% end %>
+
+                  </tbody>
+                  <!-- Table body END -->
+                </table>
+                <!-- Table END -->
+              </div>
+
+              <!-- Pagination -->
+              <div class="d-sm-flex justify-content-sm-between align-items-sm-center mt-3">
+                <!-- Content -->
+                <p class="mb-0 text-center text-sm-start">Showing 1 to 8 of 20 entries</p>
+                <!-- Pagination -->
+                <nav class="d-flex justify-content-center mb-0" aria-label="navigation">
+                  <ul class="pagination pagination-sm pagination-primary-soft d-inline-block d-md-flex rounded mb-0">
+                    <li class="page-item mb-0"><a class="page-link" href="#" tabindex="-1"><i class="fas fa-angle-left"></i></a></li>
+                    <li class="page-item mb-0 active"><a class="page-link" href="#">1</a></li>
+                    <li class="page-item mb-0 "><a class="page-link" href="#">2</a></li>
+                    <li class="page-item mb-0"><a class="page-link" href="#">3</a></li>
+                    <li class="page-item mb-0"><a class="page-link" href="#"><i class="fas fa-angle-right"></i></a></li>
+                  </ul>
+                </nav>
+              </div>
+            </div>
+            <!-- Card body START -->
+          </div>
+        </div>
+      </div>
+      <!-- Course List table END -->
+    </div>
+    <!-- ======================= Main content END -->
+
+    <!-- =======================  Main content START -->
+    <div class="col mt-5 mb-5">
+
+      <div class="card border bg-transparent rounded-3">
+        <!-- Card header START -->
+          <div class="card-header bg-transparent border-bottom">
+            <h3 class="mb-0">My Earning</h3>
+          </div>
+        <!-- Card header END -->
+
+        <!-- Earning boxes START -->
+        <div class="row g-4 mt-2 ml-2 mr-2">
+          <!-- Earning item -->
+          <div class="col-sm-6 col-lg-4 ml-2">
+            <div class="text-center p-4 bg-light rounded-3">
+              <h6 class="text-body">Sales this month</h6>
+              <h2 class="mb-0 fs-1"><%= @user_coures.where(created_at: Time.current.beginning_of_month..Time.current.end_of_month).sum(:payment_amount) %></h2>
+            </div>
+          </div>
+
+          <!-- Earning item -->
+          <div class="col-sm-6 col-lg-4">
+            <div class="text-center p-4 bg-light rounded-3">
+              <h6 class="text-body">Last Month
+                <a tabindex="0" class="h6 mb-0" role="button" data-bs-toggle="popover" data-bs-trigger="focus" data-bs-placement="top" data-bs-content="After US royalty withholding tax">
+                  <i class="bi bi-info-circle-fill small"></i>
+                </a>
+              </h6>
+              <h2 class="mb-0 fs-1"><%= @user_coures.where(created_at: (Time.current.last_month.beginning_of_month..Time.current.last_month.end_of_month)).sum(:payment_amount) %></h2>
+            </div>
+          </div>
+
+          <!-- Earning item -->
+          <div class="col-sm-6 col-lg-4">
+            <div class="text-center p-4 bg-light rounded-3">
+              <h6 class="text-body">Lifetime Earnings</h6>
+              <h2 class="mb-0 fs-1"><%= @user_coures.sum(:payment_amount) %></h2>
+            </div>
+          </div>
+        </div>
+        <!-- Earning boxes END -->
+
+        <!-- Chart START -->
+        <div class="card card-body bg-transparent rounded-top border overflow-hidden p-0 mt-5">
+          <div class="row g-4 p-4">
+
+          <% data = @user_coures.group_by_month(:created_at, format: "%b %d").sum("CAST(payment_amount AS UNSIGNED)") %>
+          <div id="ChartPayoutEarning">
+            <%= column_chart data, stacked: true ,xtitle: "Date/Month", ytitle: "Earnings" %>
+          </div>
+          
+        </div>
+        <!-- Chart END -->
+
+        <!-- Earning chart START -->
+        <div class="card bg-transparent border rounded-3 mt-5">
+          <!-- Card title -->
+          <div class="card-header bg-transparent">
+            <h5 class="mb-0">Top five earning sources</h5>
+          </div>
+          <!-- Card body -->
+          <div class="card-body">
+            <div class="row g-4 g-md-5 align-items-center">
+              <!-- Chart -->
+              <% data = @user_coures.includes(:course).group(:course_id).count %>
+              <% chart_data = data.map { |id, count| [Course.find(id).title, count] }.to_h %>
+
+              <% color_scheme = ['#28a745', '#ffc107', '#dc3545', '#0d6efd', '#6c757d'] %>
+
+              <div class="row">
+                <!-- Chart -->
+                <div class="col-md-6 mt-5">
+                  <%= pie_chart chart_data, donut: true, width: "500", height: "500", id: "ChartPageViews", colors: color_scheme %>
+                </div>
+
+                <!-- Content -->
+                <div class="col-md-6 mt-5">
+                  <ul class="list-group list-group-borderless mb-3">
+                    <li class="list-group-item"><h6 class="mb-0">Course Name</h6></li>
+                    <% chart_data.keys.each_with_index do |title, index| %>
+                      <li class="list-group-item">
+                        <i class="fas fa-circle me-2" style="color: <%= color_scheme[index % color_scheme.length] %>"></i>
+                        <%= title %>
+                      </li>
+                    <% end %>
+                  </ul>
+                </div>
+            </div>
+          </div>
+        </div>
+        <!-- Earning chart END -->
+      </div>
+    </div>
+    <!-- ======================= Main content END -->
+
+    <!-- ======================= payout content START -->
+    <div class="col mt-5 mb-5 d-none">
+
+      <!-- Payout box START -->
+      <div class="row g-4 mb-4">
+        <!-- Box item -->
+        <div class="col-sm-6 col-md-4">
+          <div class="border p-3 rounded-3 h-100">
+            <div class="d-flex mb-1 justify-content-between align-items-center">
+              <h6 class="mb-0">Last month payout</h6>
+              <span class="badge bg-success bg-opacity-10 text-success ms-2 mb-0">Paid</span>
+            </div>
+            <h2 class="mb-2 mt-2">$12,825</h2>
+            <a href="#">View transaction</a>
+          </div>
+        </div>
+
+        <!-- Box item -->
+        <div class="col-sm-6 col-md-4">
+          <div class="border p-3 rounded-3 h-100">
+            <h6 class="mb-0">This month earning</h6>
+            <h2 class="mb-2 mt-2">$15,356</h2>
+            <p class="mb-0">Expected payout on 05/01/2023</p>
+          </div>
+        </div>
+
+        <!-- Box item -->
+        <div class="col-sm-6 col-md-4">
+          <div class="bg-primary bg-opacity-10 h-100 p-3 rounded-3">
+            <h6 class="mb-0">Balance</h6>
+            <h2 class="mb-2 mt-2">$8,485</h2>
+            <a href="#" class="btn btn-sm btn-primary mb-0">Withdraw Earning</a>
+          </div>
+        </div>
+      </div>
+      <!-- Payout box END -->
+
+      <div class="card bg-transparent border rounded-3">
+        <!-- Card header START -->
+        <div class="card-header bg-transparent border-bottom">
+          <h3 class="mb-0">Payouts</h3>
+        </div>
+        <!-- Card header END -->
+
+        <!-- Card body START -->
+        <div class="card-body">
+
+          <!-- Title and select START -->
+          <div class="row g-3 align-items-center justify-content-between mb-4">
+            <!-- Content -->
+            <div class="col-md-8">
+              <form class="rounded position-relative">
+                <input class="form-control pe-5 bg-transparent" type="search" placeholder="Search" aria-label="Search">
+                <button class="bg-transparent p-2 position-absolute top-50 end-0 translate-middle-y border-0 text-primary-hover text-reset" type="submit">
+              <i class="fas fa-search fs-6 "></i>
+            </button>
+              </form>
+            </div>
+
+            <!-- Select option -->
+            <div class="col-md-3">
+              <!-- Short by filter -->
+              <form>
+                <select class="form-select js-choice border-0 z-index-9 bg-transparent" aria-label=".form-select-sm">
+                  <option value="">Sort by</option>
+                  <option>Free</option>
+                  <option>Newest</option>
+                  <option>Oldest</option>
+                </select>
+              </form>
+            </div>
+          </div>
+          <!-- Title and select END -->
+
+          <!-- Payout list table START -->
+          <div class="table-responsive border-0">
+            <table class="table table-dark-gray align-middle p-4 mb-0 table-hover">
+              <!-- Table head -->
+              <thead>
+                <tr>
+                  <th scope="col" class="border-0 rounded-start">Payout</th>
+                  <th scope="col" class="border-0">Amount</th>
+                  <th scope="col" class="border-0">Status</th>
+                  <th scope="col" class="border-0 rounded-end">Date</th>
+                </tr>
+              </thead>
+              <!-- Table body START -->
+              <tbody>
+                <!-- Table item -->
+                <tr>
+                  <!-- Table data -->
+                  <td>
+                    <h6 class="mt-2 mt-lg-0 mb-0"><a href="#">Successful payout #102356</a></h6>
+                  </td>
+
+                  <!-- Table data -->
+                  <td>$3,999
+                    <!-- Drop down with id -->
+                    <a href="#" class="h6 mb-0" role="button" id="dropdownShare" data-bs-toggle="dropdown" aria-expanded="false">
+                      <i class="bi bi-info-circle-fill"></i>
+                    </a>
+                    <ul class="dropdown-menu dropdown-w-sm dropdown-menu-end min-w-auto shadow rounded" aria-labelledby="dropdownShare">
+                      <li>
+                        <div class="d-flex justify-content-between">
+                          <span class="small">Commission</span>
+                          <span class="h6 mb-0 small">$86</span>
+                        </div>
+                        <hr class="my-1">
+                      </li>
+                      <!-- Divider -->
+
+                      <li>
+                        <div class="d-flex justify-content-between">
+                          <span class="me-4 small">Us royalty withholding</span>
+                          <span class="text-danger small">-$0.00</span>
+                        </div>
+                        <hr class="my-1">
+                      </li>
+                      
+                      <li>
+                        <div class="d-flex justify-content-between">
+                          <span class="small">Earning</span>
+                          <span class="h6 mb-0 small">$86</span>
+                        </div>
+                      </li>
+                    </ul>
+                  </td>
+
+                  <!-- Table data -->
+                  <td class="text-center text-sm-start">
+                    <span class="badge bg-success bg-opacity-10 text-success">Paid</span>
+                  </td>
+
+                  <!-- Table data -->
+                  <td>18/1/2023</td>
+                </tr>
+
+                <!-- Table item -->
+                <tr>
+                  <!-- Table data -->
+                  <td>
+                    <!-- Title -->
+                    <h6 class="mt-2 mt-lg-0 mb-0"><a href="#">Successful payout #102589</a></h6>
+                  </td>
+
+                  <!-- Table data -->
+                  <td>$4,875
+                    <!-- Drop down with id -->
+                    <a href="#" class="h6 mb-0" role="button" id="dropdownShare1" data-bs-toggle="dropdown" aria-expanded="false">
+                      <i class="bi bi-info-circle-fill"></i>
+                    </a>
+                    <ul class="dropdown-menu dropdown-w-sm dropdown-menu-end min-w-auto shadow rounded" aria-labelledby="dropdownShare1">
+                      <li>
+                        <div class="d-flex justify-content-between">
+                          <span class="small">Commission</span>
+                          <span class="h6 mb-0 small">$86</span>
+                        </div>
+                        <hr class="my-1">
+                      </li>
+                      <!-- Divider -->
+
+                      <li>
+                        <div class="d-flex justify-content-between">
+                          <span class="me-4 small">Us royalty withholding</span>
+                          <span class="text-danger small">-$0.00</span>
+                        </div>
+                        <hr class="my-1">
+                      </li>
+                      
+                      <li>
+                        <div class="d-flex justify-content-between">
+                          <span class="small">Earning</span>
+                          <span class="h6 mb-0 small">$86</span>
+                        </div>
+                      </li>
+                    </ul>
+                  </td>
+
+                  <!-- Table data -->
+                  <td class="text-center text-sm-start">
+                    <span class="badge bg-success bg-opacity-10 text-success">Paid</span>
+                  </td>
+
+                  <!-- Table data -->
+                  <td>12/1/2023</td>
+                </tr>
+
+                <!-- Table item -->
+                <tr>
+                  <!-- Table data -->
+                  <td>
+                    <h6 class="mt-2 mt-lg-0 mb-0"><a href="#">Successful payout #108645</a></h6>
+                  </td>
+
+                  <!-- Table data -->
+                  <td>$1,800
+                    <!-- Drop down with id -->
+                    <a href="#" class="h6 mb-0" role="button" id="dropdownShare2" data-bs-toggle="dropdown" aria-expanded="false">
+                      <i class="bi bi-info-circle-fill"></i>
+                    </a>
+                    <ul class="dropdown-menu dropdown-w-sm dropdown-menu-end min-w-auto shadow rounded" aria-labelledby="dropdownShare2">
+                      <li>
+                        <div class="d-flex justify-content-between">
+                          <span class="small">Commission</span>
+                          <span class="h6 mb-0 small">$86</span>
+                        </div>
+                        <hr class="my-1">
+                      </li>
+                      <!-- Divider -->
+
+                      <li>
+                        <div class="d-flex justify-content-between">
+                          <span class="me-4 small">Us royalty withholding</span>
+                          <span class="text-danger small">-$0.00</span>
+                        </div>
+                        <hr class="my-1">
+                      </li>
+                      
+                      <li>
+                        <div class="d-flex justify-content-between">
+                          <span class="small">Earning</span>
+                          <span class="h6 mb-0 small">$86</span>
+                        </div>
+                      </li>
+                    </ul>
+                  </td>
+
+                  <!-- Table data -->
+                  <td class="text-center text-sm-start">
+                    <span class="badge bg-danger bg-opacity-10 text-danger">Cancelled </span>
+                  </td>
+
+                  <!-- Table data -->
+                  <td>22/1/2023</td>
+                </tr>
+
+                <!-- Table item -->
+                <tr>
+                  <!-- Table data -->
+                  <td>
+                    <h6 class="mt-2 mt-lg-0 mb-0"><a href="#">Successful payout #108645</a></h6>
+                  </td>
+
+                  <!-- Table data -->
+                  <td>$6,800
+                    <!-- Drop down with id -->
+                    <a href="#" class="h6 mb-0" role="button" id="dropdownShare3" data-bs-toggle="dropdown" aria-expanded="false">
+                      <i class="bi bi-info-circle-fill"></i>
+                    </a>
+                    <ul class="dropdown-menu dropdown-w-sm dropdown-menu-end min-w-auto shadow rounded" aria-labelledby="dropdownShare3">
+                      <li>
+                        <div class="d-flex justify-content-between">
+                          <span class="small">Commission</span>
+                          <span class="h6 mb-0 small">$86</span>
+                        </div>
+                        <hr class="my-1">
+                      </li>
+                      <!-- Divider -->
+
+                      <li>
+                        <div class="d-flex justify-content-between">
+                          <span class="me-4 small">Us royalty withholding</span>
+                          <span class="text-danger small">-$0.00</span>
+                        </div>
+                        <hr class="my-1">
+                      </li>
+                      
+                      <li>
+                        <div class="d-flex justify-content-between">
+                          <span class="small">Earning</span>
+                          <span class="h6 mb-0 small">$86</span>
+                        </div>
+                      </li>
+                    </ul>
+                  </td>
+
+                  <!-- Table data -->
+                  <td class="text-center text-sm-start">
+                    <span class="badge bg-success bg-opacity-10 text-success">Paid</span>
+                  </td>
+
+                  <!-- Table data -->
+                  <td>28/1/2023</td>
+                </tr>
+
+                <!-- Table item -->
+                <tr>
+                  <!-- Table data -->
+                  <td>
+                    <!-- Title -->
+                    <h6 class="mt-2 mt-lg-0 mb-0"><a href="#">Successful payout #108645</a></h6>
+                  </td>
+
+                  <!-- Table data -->
+                  <td>$3,576
+                    <!-- Drop down with id -->
+                    <a href="#" class="h6 mb-0" role="button" id="dropdownShare4" data-bs-toggle="dropdown" aria-expanded="false">
+                      <i class="bi bi-info-circle-fill"></i>
+                    </a>
+                    <ul class="dropdown-menu dropdown-w-sm dropdown-menu-end min-w-auto shadow rounded" aria-labelledby="dropdownShare4">
+                      <li>
+                        <div class="d-flex justify-content-between">
+                          <span class="small">Commission</span>
+                          <span class="h6 mb-0 small">$86</span>
+                        </div>
+                        <hr class="my-1">
+                      </li>
+                      <!-- Divider -->
+
+                      <li>
+                        <div class="d-flex justify-content-between">
+                          <span class="me-4 small">Us royalty withholding</span>
+                          <span class="text-danger small">-$0.00</span>
+                        </div>
+                        <hr class="my-1">
+                      </li>
+                      
+                      <li>
+                        <div class="d-flex justify-content-between">
+                          <span class="small">Earning</span>
+                          <span class="h6 mb-0 small">$86</span>
+                        </div>
+                      </li>
+                    </ul>
+                  </td>
+
+                  <!-- Table data -->
+                  <td class="text-center text-sm-start">
+                    <span class="badge bg-orange bg-opacity-10 text-orange">Pending</span>
+                  </td>
+
+                  <!-- Table data -->
+                  <td>12/1/2023</td>
+                </tr>
+              </tbody>
+              <!-- Table body END -->
+            </table>
+          </div>
+          <!-- Payout list table END -->
+
+          <!-- Pagination START -->
+          <div class="d-sm-flex justify-content-sm-between align-items-sm-center mt-4 mt-sm-3">
+            <!-- Content -->
+            <p class="mb-0 text-center text-sm-start">Showing 1 to 8 of 20 entries</p>
+            <!-- Pagination -->
+            <nav class="d-flex justify-content-center mb-0" aria-label="navigation">
+              <ul class="pagination pagination-sm pagination-primary-soft d-inline-block d-md-flex rounded mb-0">
+                <li class="page-item mb-0"><a class="page-link" href="#" tabindex="-1"><i class="fas fa-angle-left"></i></a></li>
+                <li class="page-item mb-0"><a class="page-link" href="#">1</a></li>
+                <li class="page-item mb-0 active"><a class="page-link" href="#">2</a></li>
+                <li class="page-item mb-0"><a class="page-link" href="#">3</a></li>
+                <li class="page-item mb-0"><a class="page-link" href="#"><i class="fas fa-angle-right"></i></a></li>
+              </ul>
+            </nav>
+          </div>
+          <!-- Pagination END -->
+        </div>
+        <!-- Card body START -->
+      </div>
+      <!-- Payout END -->
+    </div>
+		<!-- ======================= payout content END -->
+
+    <!-- ======================= student content START -->
+    <div class="col mt-5 mb-5 d-none">
+      <!-- Card START -->
+      <div class="card border bg-transparent rounded-3">
+        <!-- Card header START -->
+        <div class="card-header bg-transparent border-bottom">
+          <h3 class="mb-0">My Students List</h3>
+        </div>
+        <!-- Card header END -->
+
+        <!-- Card body START -->
+        <div class="card-body">
+
+          <!-- Search and select START -->
+          <div class="row g-3 align-items-center justify-content-between mb-4">
+            <!-- Search -->
+            <div class="col-md-8">
+              <form class="rounded position-relative">
+                <input class="form-control pe-5 bg-transparent" type="search" placeholder="Search" aria-label="Search">
+                <button class="bg-transparent p-2 position-absolute top-50 end-0 translate-middle-y border-0 text-primary-hover text-reset" type="submit">
+              <i class="fas fa-search fs-6 "></i>
+            </button>
+              </form>
+            </div>
+
+            <!-- Select option -->
+            <div class="col-md-3">
+              <!-- Short by filter -->
+              <form>
+                <select class="form-select js-choice border-0 z-index-9 bg-transparent" aria-label=".form-select-sm">
+                  <option value="">Sort by</option>
+                  <option>Free</option>
+                  <option>Newest</option>
+                  <option>Oldest</option>
+                </select>
+              </form>
+            </div>
+          </div>
+          <!-- Search and select END -->
+
+          <!-- Student list table START -->
+          <div class="table-responsive border-0">
+            <table class="table table-dark-gray align-middle p-4 mb-0 table-hover">
+              <!-- Table head -->
+              <thead>
+                <tr>
+                  <th scope="col" class="border-0 rounded-start">Student name</th>
+                  <th scope="col" class="border-0">Progress</th>
+                  <th scope="col" class="border-0">Courses</th>
+                  <th scope="col" class="border-0">Enrolled date</th>
+                  <th scope="col" class="border-0 rounded-end">Action</th>
+                </tr>
+              </thead>
+
+              <!-- Table body START -->
+              <tbody>
+                <!-- Table item -->
+                <tr>
+                  <!-- Table data -->
+                  <td>
+                    <div class="d-flex align-items-center position-relative">
+                      <!-- Image -->
+                      <div class="avatar avatar-md mb-2 mb-md-0">
+                        <img src="assets/images/avatar/01.jpg" class="rounded" alt="">
+                      </div>
+                      <div class="mb-0 ms-2">
+                        <!-- Title -->
+                        <h6 class="mb-0"><a href="#" class="stretched-link">Lori Stevens</a></h6>
+                        <!-- Address -->
+                        <span class="text-body small"><i class="fas fa-fw fa-map-marker-alt me-1 mt-1"></i>Mumbai</span>
+                      </div>
+                    </div>
+                  </td>
+
+                  <!-- Table data -->
+                  <td class="text-center text-sm-start">
+                    <div class=" overflow-hidden">
+                      <h6 class="mb-0">85%</h6>
+                      <div class="progress progress-sm bg-primary bg-opacity-10">
+                        <div class="progress-bar bg-primary aos" role="progressbar" data-aos="slide-right" data-aos-delay="200" data-aos-duration="1000" data-aos-easing="ease-in-out" style="width: 85%" aria-valuenow="85" aria-valuemin="0" aria-valuemax="100">
+                        </div>
+                      </div>
+                    </div>
+                  </td>
+
+                  <!-- Table data -->
+                  <td>10</td>
+
+                  <!-- Table data -->
+                  <td>4/1/2023</td>
+
+                  <!-- Table data -->
+                  <td>
+                    <a href="#" class="btn btn-success-soft btn-round me-1 mb-0" data-bs-toggle="tooltip" data-bs-placement="top" title="Message"><i class="far fa-envelope"></i></a>
+                    <button class="btn btn-danger-soft btn-round mb-0" data-bs-toggle="tooltip" data-bs-placement="top" title="Block"><i class="fas fa-ban"></i></button>
+                  </td>
+                </tr>
+
+              </tbody>
+              <!-- Table body END -->
+            </table>
+          </div>
+          <!-- Student list table END -->
+
+          <!-- Pagination START -->
+          <div class="d-sm-flex justify-content-sm-between align-items-sm-center mt-4 mt-sm-3">
+            <!-- Content -->
+            <p class="mb-0 text-center text-sm-start">Showing 1 to 8 of 20 entries</p>
+            <!-- Pagination -->
+            <nav class="d-flex justify-content-center mb-0" aria-label="navigation">
+              <ul class="pagination pagination-sm pagination-primary-soft d-inline-block d-md-flex rounded mb-0">
+                <li class="page-item mb-0"><a class="page-link" href="#" tabindex="-1"><i class="fas fa-angle-left"></i></a></li>
+                <li class="page-item mb-0"><a class="page-link" href="#">1</a></li>
+                <li class="page-item mb-0 active"><a class="page-link" href="#">2</a></li>
+                <li class="page-item mb-0"><a class="page-link" href="#">3</a></li>
+                <li class="page-item mb-0"><a class="page-link" href="#"><i class="fas fa-angle-right"></i></a></li>
+              </ul>
+            </nav>
+          </div>
+          <!-- Pagination END -->
+        </div>
+        <!-- Card body START -->
+      </div>
+      <!-- Card END -->
+    </div>
+    <!-- ======================= student content END -->
+
+    <!-- ======================= Order List content START -->
+    <div class="col mt-5 mb-5">
+
+      <!-- Card START -->
+      <div class="card border bg-transparent rounded-3">
+        <!-- Card header START -->
+        <div class="card-header bg-transparent border-bottom">
+          <h3 class="mb-0">Order List</h3>
+        </div>
+        <!-- Card header END -->
+
+        <!-- Card body START -->
+        <div class="card-body">
+
+          <!-- Search and select START -->
+          <div class="row g-3 align-items-center justify-content-between mb-4">
+            <!-- Search -->
+            <div class="col-md-8 d-none">
+              <form class="rounded position-relative">
+                <input class="form-control pe-5 bg-transparent" type="search" placeholder="Search" aria-label="Search">
+                <button class="bg-transparent p-2 position-absolute top-50 end-0 translate-middle-y border-0 text-primary-hover text-reset" type="submit">
+              <i class="fas fa-search fs-6 "></i>
+            </button>
+              </form>
+            </div>
+
+            <!-- Select option -->
+            <div class="col-md-3">
+              <!-- Short by filter -->
+              <form>
+                <select class="form-select js-choice border-0 z-index-9 bg-transparent" aria-label=".form-select-sm">
+                  <option value="">Sort by</option>
+                  <option>Free</option>
+                  <option>Newest</option>
+                  <option>Oldest</option>
+                </select>
+              </form>
+            </div>
+          </div>
+          <!-- Search and select END -->
+
+          <!-- Order list table START -->
+          <div class="table-responsive border-0">
+            <!-- Table START -->
+            <table class="table table-dark-gray align-middle p-4 mb-0 table-hover">
+              <!-- Table head -->
+              <thead>
+                <tr>
+                  <th scope="col" class="border-0 rounded-start">Course name</th>
+                  <th scope="col" class="border-0">Order ID</th>
+                  <th scope="col" class="border-0">Date</th>
+                  <th scope="col" class="border-0">Amount</th>
+                  <th scope="col" class="border-0 rounded-end">Payment</th>
+                </tr>
+              </thead>
+
+              <!-- Table body START -->
+              <tbody>
+                <!-- Table item -->
+                <% @user_coures.each do |user_coure| %>
+                <tr>
+                  <% details = (user_coure.try(:payment_details)) %>
+                  <!-- Table data -->
+                  <td>
+                    <h6 class="table-responsive-title mt-2 mt-lg-0 mb-0"><a href="#"><%= user_coure.try(:course).title %></a></h6>
+                  </td>
+
+                  <!-- Table data -->
+                  <td class="text-center text-sm-start text-primary-hover">
+                    <a href="#" class="text-body"><u><%= (details["id"].presence || ["N/A"]) %></u></a>
+                  </td>
+
+                  <!-- Table data -->
+                  <td><%= user_coure.try(:updated_at).strftime('%-d %B %Y') %></td>
+
+                  <!-- Table data -->
+                  <td><%= user_coure.try(:payment_amount) %> </td>
+
+                  <!-- Table data -->
+                  <td><%= (details["payment_method_types"].presence || ["N/A"]).join(", ") %></td>
+                </tr>
+                <% end %>
+              </tbody>
+              <!-- Table body END -->
+            </table>
+            <!-- Table END -->
+          </div>
+          <!-- Order list table END -->
+
+          <!-- Pagination START -->
+          <div class="d-sm-flex justify-content-sm-between align-items-sm-center mt-4 mt-sm-3">
+            <!-- Content -->
+            <p class="mb-0 text-center text-sm-start">Showing 1 to 8 of 20 entries</p>
+            <!-- Pagination -->
+            <nav class="d-flex justify-content-center mb-0" aria-label="navigation">
+              <ul class="pagination pagination-sm pagination-primary-soft d-inline-block d-md-flex rounded mb-0">
+                <li class="page-item mb-0"><a class="page-link" href="#" tabindex="-1"><i class="fas fa-angle-left"></i></a></li>
+                <li class="page-item mb-0"><a class="page-link" href="#">1</a></li>
+                <li class="page-item mb-0 active"><a class="page-link" href="#">2</a></li>
+                <li class="page-item mb-0"><a class="page-link" href="#">3</a></li>
+                <li class="page-item mb-0"><a class="page-link" href="#"><i class="fas fa-angle-right"></i></a></li>
+              </ul>
+            </nav>
+          </div>
+          <!-- Pagination END -->
+        </div>
+        <!-- Card body START -->
+      </div>
+        <!--Card END  -->
+    </div>
+		<!-- ======================= Order List content END -->
+	</div>
+</section>
+<!-- ======================= Page content END -->
+<% end %>
+
+<%
+ @users =  User.where(current_event_id: current_user.current_event_id, role_id: 2)
+%>
+<%  if current_user.admin? ||  current_user.superadmin? %>
+
+
+<div class="container">
+  <table class="table table-success table-striped-columns">
     <thead>
       <tr>
-        <th class="shrink model-name">
-          <%= t "admin.table_headers.model_name" %>
-        </th>
-        <th class="shrink last-created">
-          <%= t "admin.table_headers.last_created" %>
-        </th>
-        <th class="records">
-          <%= t "admin.table_headers.records" %>
-        </th>
-        <th class="shrink controls"></th>
+        <th scope="col">#</th>
+        <th scope="col">full name</th>
+        <th scope="col">Email</th>
+        <th scope="col">Status</th>
+        <th scope="col">payment</th>
+        <th scope="col">Handle</th>
       </tr>
     </thead>
     <tbody class="table-group-divider">
-      <% @abstract_models.each do |abstract_model| %>
-        <% if authorized? :index, abstract_model %>
-          <% index_path = index_path(model_name: abstract_model.to_param) %>
-          <% row_class = "#{cycle("odd", "even")}#{" link" if index_path} #{abstract_model.param_key}_links" %>
-          <tr class="<%= row_class %>" data-link="<%= index_path %>">
-            <% last_created = @most_recent_created[abstract_model.model.name] %>
-            <% active = last_created.try(:today?) %>
-            <td>
-              <span class="show">
-                <%= link_to abstract_model.config.label_plural, index_path %>
-              </span>
-            </td>
-            <td>
-              <% if last_created %>
-                <%= t "admin.misc.time_ago", time: time_ago_in_words(last_created), default: "#{time_ago_in_words(last_created)} #{t("admin.misc.ago")}" %>
-              <% end %>
-            </td>
-            <td>
-              <% count = @count[abstract_model.model.name] %>
-              <% percent = count > 0 ? (@max <= 1 ? count : ((Math.log(count+1) * 100.0) / Math.log(@max+1)).to_i) : -1 %>
-              <div class="<%= active ? 'active progress-bar-striped ' : '' %>progress" style="margin-bottom:0px">
-                <div class="bg-<%= get_indicator(percent) %> progress-bar animate-width-to" data-animate-length="<%= ([1.0, percent].max.to_i * 20) %>" data-animate-width-to="<%= [2.0, percent].max.to_i %>%" style="width:2%">
-                  <%= @count[abstract_model.model.name] %>
-                </div>
-              </div>
-            </td>
-            <td class="links">
-              <ul class="nav d-inline list-inline">
-                <%= menu_for :collection, abstract_model, nil, true %>
-              </ul>
-            </td>
-          </tr>
-        <% end %>
-      <% end %>
+    <% @users.each do |user| %>
+      <tr>
+        <td><%= user.id %></td>
+        <td><%= user.name %></td>
+        <td><%= user.email %></td>
+        <td><%= user.banned? ? "Banned" : "Active" %></td>
+        <td><%= user.f13 %></td>
+        <td>  <a href="/users/<%= user.id %>/approve" class="btn btn-sm btn-success"> Handle </a></td> 
+      </tr>
+    <% end %>
     </tbody>
   </table>
-<% end %>
-<% if @history && authorized?(:history_index) %>
-  <div class="block" id="block-tables">
-    <div class="content">
-      <h2>
-        <%= t("admin.actions.history_index.menu") %>
-      </h2>
-      <%= render partial: 'rails_admin/main/dashboard_history' %>
-    </div>
-  </div>
-<% end %>
+<div>
+<%  end %>

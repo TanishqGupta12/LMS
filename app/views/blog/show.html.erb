@@ -1,0 +1,112 @@
+<style>
+.scrollable-comments {
+    max-height: 400px;
+    overflow-y: auto;
+    padding-right: 10px;
+}
+
+.scrollable-comments::-webkit-scrollbar {
+    width: 8px;
+}
+
+.scrollable-comments::-webkit-scrollbar-thumb {
+    background-color: #aaa;
+    border-radius: 4px;
+}
+
+.scrollable-comments::-webkit-scrollbar-track {
+    background: #f1f1f1;
+}
+
+.media {
+    display: flex;
+    align-items: flex-start;
+}
+
+.media img {
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    margin-right: 10px;
+}
+
+.media-body {
+    background: #f8f9fa;
+    padding: 10px;
+    border-radius: 10px;
+}
+
+h6 {
+    font-size: 16px;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+small i {
+    font-size: 12px;
+    color: gray;
+}
+
+
+.form-control {
+    border-radius: 10px;
+    resize: none;
+}
+
+.btn-primary {
+    border: none;
+    border-radius: 5px;
+}
+
+.input-group_reply {
+    margin-top: -25px;
+}
+
+</style>
+        <!-- Detail Start -->
+    <div class="container-fluid py-5">
+        <div class="container py-5">
+            <div class="row">
+                <div class="col-lg-8">
+                    <div class="mb-5">
+                        <%= @blog.try(:content).to_s.gsub(/\s*border="1"/, "").html_safe  %>
+                    </div>
+                </div>
+
+                <%= render partial: "side_menu", locals: { categorys: @categorys  , blogs_recenlty: @blogs_recenlty} %>
+  
+            </div>
+            <!-- Comment List -->
+            <div class="mb-5 scrollable-comments">
+                <h3 class="text-uppercase mb-4" style="letter-spacing: 5px;"><%= @blog.comments.size %>Comments</h3>
+
+                <div class="d-block m-5">
+                    <div class="input-group input-group_reply">
+                        <%= form_with model: Comment.new, url: event_blog_comments_path(params[:event_id], @blog), local: true, class: "w-100" do |f| %>
+                            <div class="form-floating w-100">
+                                <%= f.text_area :content, placeholder: "Write a comment...", class: "form-control", rows: 3 %>
+                            </div>
+                            <%= f.hidden_field :blog_id, value: @blog.id %>
+
+                            <%= f.submit "Comment", class: "btn btn-primary ms-2 mt-2" %>
+                        <% end %>
+                    </div>
+                </div>
+
+                <%= render @blog.comments.where(parent_id: nil), partial: "comments/comment" %>
+
+            </div>
+        </div>
+    </div>
+    <!-- Detail End -->
+
+<script>
+
+    document.addEventListener("DOMContentLoaded", function () {
+        var commentSection = document.querySelector(".scrollable-comments");
+        if (commentSection) {
+            commentSection.scrollTop = commentSection.scrollHeight;
+        }
+    });
+
+</script>

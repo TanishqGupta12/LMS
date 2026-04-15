@@ -1,0 +1,146 @@
+class UsersController < ApplicationController
+  before_action :authenticate_user!, except: [:stripe]
+
+  def stripe
+
+    Stripe.api_key = @event.try(:secret_key)
+
+    @user = User.find(params[:id])
+    session = Stripe::Checkout::Session.create(
+      payment_method_types: ['card'],
+      customer_email: @user.try(:email),
+      client_reference_id: @user.try(:authentication_token),
+      line_items: [{
+        price_data: {
+          currency: "USD",
+          product_data: {
+            name: "Teacher Registration",
+          },
+          unit_amount: 500 * 100 ,
+        },
+        quantity: 1,
+      }],
+      mode: 'payment',
+      success_url: success_home_url(params[:id]),
+      cancel_url: cancel_home_url(params[:id])
+    )
+    @user.f14 = session
+    @user.save!
+    redirect_to session.url, allow_other_host: true
+  end
+
+  def index
+    
+  end
+
+  # sign_up
+  def new
+  
+  end
+
+  def create
+    
+  end
+
+  def show
+    @user = User.find_by(id: params[:id])
+    @user_courses = UserCourse.where(user_id: @user.id)
+  end
+  
+  def edit
+    @user = User.find_by(id: params[:id])
+  end
+
+  def update
+    @user = User.find_by(id: params[:id])
+  end
+
+  def destroy
+    @user = User.find_by(id: params[:id] , current_event_id: params[:current_event_id])
+
+    if @user.nil?
+      flash[:alert] = "User not found"
+      redirect_to request.referer || root_path
+      return
+    end
+
+    begin
+      @user.destroy!
+      flash[:alert] = "User deleted successfully"
+      redirect_to login_url(event_id: session[:event_id]) and return
+    rescue ActiveRecord::RecordNotDestroyed => e
+      flash[:alert] = "Failed to delete user: #{e.message}"
+      redirect_to request.referer || root_path
+    end
+
+  end
+
+  def user_payment_info
+    @event = load_events
+    @user = User.find_by(id: params[:id])
+    @user_courses = UserCourse.where(user_id: @user.id)
+  end
+
+  def update_email
+
+    if params[:id].nil?
+      flash[:alert] = "Failed to update user email"
+      redirect_to request.referer || root_path
+    end
+    user = User.find(params[:id])
+    if user.update(email: params[:email])
+      flash[:notice] = "Email updated successfully. Please sign in again."
+      sign_out(user)
+      redirect_to after_sign_out_path_for(user)
+    else
+      flash[:alert] = "Failed to update email"
+      redirect_to request.referer || root_path
+    end
+
+  end
+  def wishlist
+    @event = @event
+    @user = User.find_by(id: params[:id])
+    @favorited_course = @user.favorited_by_type('Course')
+    # debugger
+  end
+
+  def user_notes
+    @user = User.find_by(id: params[:id])
+    @user_notes = UserNote.where(user_id: params[:id])
+  end
+  def course_resume
+    @event = @event
+    @user = User.find_by(id: params[:id])
+
+    # debugger
+  end
+
+  def note_detail
+    @event = @event
+    # @notes = UserNote.find_by(user_id: params[:id] ,course_id: params[:course] , timestamp:params[:timestamp])
+
+    @notes = UserNote.find_by(id: params[:notesId] )
+    if @notes.present?
+      # render partial: "user_notes/notes", locals: { notes: @notes, event: @event }
+
+      respond_to do |format|
+        format.js { 
+          render json: { notes: @notes.as_json.merge({ lesson_title: @notes.lesson_title ,course_title: @notes.course_title  })}
+        }
+      end
+    else
+      flash[:alert] = "No notes found for this lesson."
+      # redirect_to   # Redirect to a fallback path if no notes are found
+    end
+   
+  end
+
+  def approve
+    @user = User.find(params[:id])
+    @user.banned = !@user.banned
+    @user.save!    
+    flash[:success] = @user.banned ? "User has been approved successfully." : "User approval has been revoked."
+    redirect_to request.referer
+  end
+end

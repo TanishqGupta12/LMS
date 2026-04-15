@@ -1,6 +1,18 @@
 class ApplicationController < ActionController::Base
+
   layout :layout_by_resource
   before_action :load_events # Ensures @event is always set
+  before_action :reload_rails_panel
+  # after_action :reload_rails_panel
+  before_action :configure_permitted_parameters, if: :devise_controller?
+
+  def configure_permitted_parameters
+    added_attrs = [:first_name, :last_name, :dob, :mobile]
+    devise_parameter_sanitizer.permit(:sign_up, keys: added_attrs)
+    devise_parameter_sanitizer.permit(:account_update, keys: added_attrs)
+  end
+
+
 
   def layout_by_resource
     if devise_controller?
@@ -10,16 +22,94 @@ class ApplicationController < ActionController::Base
     end
   end
 
-  def load_events
-    @event = Event.all.first
+  def get_host
+    request.remote_ip # Alternative: request.host
   end
 
+  def load_events
+    # @event = Event.all.first
+    
+    @event = Event.find_by(location: get_host)
+    
+    if !@event.present?
+      render json: { message: "Found not" }, status: :not_found and return
+    end
+    session[:event_id] =  @event.try(:id)
+
+    return @event
+  end
+
+  def after_sign_out_path_for(resource)
+     "/"
+  end
 
   def after_sign_in_path_for(resource)
     if resource.superadmin? || resource.admin? || resource.teacher?
       rails_admin_path # Uses RailsAdmin dashboard path
     else
       root_path # Uses the application's root path
+    end
+  end
+
+  def reload_rails_panel
+    event_id = session[:event_id] # Store session value in a variable before config
+    event = Event.find(event_id)
+    RailsAdmin::Config.reset_model(User)
+    RailsAdmin.config do |config| 
+      config.main_app_name = Proc.new {
+        [event.name, "Panel (#{event.time_zone})"]
+      }
+      config.model 'User' do
+        list do 
+          field :image
+          field :first_name
+          field :last_name
+          field :email
+          field :password
+          field :current_event_id, :enum do
+            enum do
+              Event.pluck(:id)
+            end
+          end
+          field :role
+        end
+        edit do
+          field :image
+          field :email
+          field :password
+          field :current_event_id, :enum do
+            enum do
+              Event.pluck(:id)
+            end
+          end
+  
+          # Use the local variable instead of session[:event_id]
+          FormSectionField.list_of_fields(event_id).each do |lf|
+            if lf.data_field.present?
+              field lf.data_field.to_sym do 
+                label lf.caption.try(:html_safe).to_s
+                if lf.field_type == 'date'
+                  html_attributes do
+                    { type: "datetime-local" }
+                  end   
+                elsif lf.field_type == 'time'
+                  { type: "time" }
+                elsif lf.field_type == 'select' || lf.field_type == 'checkbox' || lf.field_type == 'radio'
+                  { type: lf.field_type }
+                else
+                  html_attributes do
+                    { type: "text" }
+                  end   
+                end     
+                help lf.field_hint.try(:html_safe).to_s
+              end
+            end
+          end
+  
+          field :role
+          field :courses
+        end
+      end
     end
   end
 

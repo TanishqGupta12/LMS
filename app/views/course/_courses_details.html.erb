@@ -1,0 +1,715 @@
+<section class="pt-10 pt-xl-5">
+	<div class="container" data-sticky-container>
+		<div class="row g-4">
+			<!-- Main content START -->
+			<div class="col-xl-8">
+
+				<div class="row g-4">
+					<!-- Title START -->
+					<div class="col-12">
+						<!-- Title -->
+						<h2><%= @courses.try(:title) %></h2>
+					</div>
+					<!-- Title END -->
+
+					<!-- Image and video -->
+					<div class="video-player-url">
+						<div class="col-12 position-relative">
+							<div class="video-player rounded-3">
+								<% if @lesson.try(:media).present? %>
+								<video data-lesson-id="<%= @lesson.try(:id) %>" data-start-time="<%= CGI.escapeHTML(params[:time].to_s) %>" id='video_<%= @lesson.try(:id) %>' controls width="600" height="450" autoplay controlsList="nodownload"   oncontextmenu="return false;" crossorigin="anonymous" playsinline poster="<%= url_for(@lesson.try(:thumbail).variant(resize_to_fill: [600, 450])) %>">
+									
+									<% if @courses.user_courses.find_by(user_id: current_user.id)%>
+  										<source src="<%= url_for(@lesson.media) %>" type="video/mp4" size="720">
+									<% else %>
+									<% end %>
+
+									<!-- Caption files -->
+									<% if @lesson.caption%>
+										<track kind="captions" label="English" srclang="en" src="<%= ( @lesson.caption) %>" default>
+									<% else %>
+									<% end %>
+								</video>
+								<% else %>
+									
+								<% if @lesson.try(:video_url) &&  @courses.user_courses.find_by(user_id: current_user.id)%>
+									<iframe width="560" height="315" src="<%= @lesson.try(:video_url) %>" 
+											title="YouTube video player" frameborder="0" 
+											allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+											allowfullscreen>
+									</iframe>
+								<% else %>
+								<video controls crossorigin="anonymous" playsinline poster="<%= url_for(@lesson.try(:thumbail)) %>">
+								</video>
+								<% end %>
+
+									
+								<% end  %>
+							</div>
+						</div>
+					</div>
+
+					<!-- Course detail START -->
+					<div class="col-12">
+
+                        <!-- Content -->
+						<% @average_rating = @courses.reviews.average(:rating)&.round(1) || 0 %>
+						<ul class="list-inline mb-0">
+							<li class="list-inline-item fw-light h6 me-3 mb-1 mb-sm-0"><i class="fas fa-star me-2"></i><%= @average_rating %> / 5</li>
+							<li class="list-inline-item fw-light h6 me-3 mb-1 mb-sm-0"><i class="fas fa-user-graduate me-2"></i>12k Enrolled</li>
+							<% if @courses.try(:level).present? %>
+								<li class="list-inline-item fw-light h6 me-3 mb-1 mb-sm-0"><i class="fas fa-signal me-2"></i><%= @courses.try(:level)%></li>
+							<% end %>
+							<% if @courses.try(:updated_at).present? %>
+								<li class="list-inline-item fw-light h6 me-3 mb-1 mb-sm-0"><i class="bi bi-patch-exclamation-fill me-2"></i>Last updated <%= @courses.try(:updated_at).strftime("%b %d %Y") %></li>
+							<% end %>
+							<% if @courses.try(:language).present? %>
+								<li class="list-inline-item fw-light h6"><i class="fas fa-globe me-2"></i><%= @courses.try(:language) %></li>
+							<% end %>
+						</ul>
+
+						<!-- Tabs START -->
+						<ul class="nav nav-pills nav-pills-bg-soft px-3" id="course-pills-tab" role="tablist">
+							<!-- Tab item -->
+							<li class="nav-item me-2 me-sm-4" role="presentation">
+								<a class="nav-link mb-0 active" id="course-pills-tab-1" data-toggle="pill"href="#course-pills-1"  role="tab" aria-controls="course-pills-1" aria-selected="true">Overview</a>
+							</li>
+
+																			<!-- Tab item -->
+							<li class="nav-item me-2 me-sm-4" role="presentation">
+								<a class="nav-link mb-0" id="course-pills-tab-2" data-toggle="pill" href="#course-pills-2"  role="tab" aria-controls="course-pills-2" aria-selected="false">Curriculum</a>
+							</li>
+
+							<!-- Tab item -->
+							<li class="nav-item me-2 me-sm-4" role="presentation">
+								<a class="nav-link mb-0" id="course-pills-tab-3" data-toggle="pill" href="#course-pills-3"  role="tab" aria-controls="course-pills-3" aria-selected="false">Reviews</a>
+							</li>
+							<!-- Tab item -->
+							<li class="nav-item me-2 me-sm-4" role="presentation">
+								<a class="nav-link mb-0" id="course-pills-tab-4" data-toggle="pill" href="#course-pills-4"  role="tab" aria-controls="course-pills-4" aria-selected="false">FAQs </a>
+							</li>
+							<!-- Tab item -->
+							<li class="nav-item me-2 me-sm-4" role="presentation">
+								<a class="nav-link mb-0" id="course-pills-tab-5" data-toggle="pill" href="#course-pills-5"  role="tab" aria-controls="course-pills-5" aria-selected="false">Comment</a>
+							</li>
+
+							<li class="nav-item me-2 me-sm-4" role="presentation">
+								<a class="nav-link mb-0" id="course-pills-tab-6" data-toggle="pill" href="#course-pills-6"  role="tab" aria-controls="course-pills-5" aria-selected="false">My Notes</a>
+							</li>
+						</ul>
+						<!-- Tabs END -->
+
+						<!-- Tab contents START -->
+                        
+						<div class="tab-content pt-4 px-3" id="course-pills-tabContent">
+							<!-- Content START -->
+							<div class="tab-pane fade show active" id="course-pills-1" role="tabpanel" aria-labelledby="course-pills-tab-1">
+
+								<!-- Course detail START -->
+
+								<h5 class="mb-3">Course Description</h5>
+								<h5 class="mb-3"><%= @courses.try(:overview).to_s.gsub(/\s*border="1"/, "").html_safe %></h5>
+								<!-- Course detail END -->
+
+							</div>
+							<!-- Content END -->
+
+							<!-- Content START -->
+							<div class="tab-pane fade" id="course-pills-2" role="tabpanel" aria-labelledby="course-pills-tab-2">
+
+								<!-- Course detail START -->
+
+								<!-- Responsive offcanvas body START -->
+								<div class="offcanvas-lg offcanvas-end" tabindex="-1" id="offcanvasSidebar" aria-labelledby="offcanvasSidebarLabel">
+							
+									<div class="offcanvas-body p-3 p-lg-0">
+										<div class="col-12">
+
+											<!-- Accordion START -->
+											<div class="accordion accordion-icon accordion-bg-light" id="accordionExample2">
+												<div class="review-scroll-container" style="max-height: 400px; overflow-y: auto;">
+													<%  @courses.try(:quiz_topics).order(:sequence).each do |quiz_topic| %>
+													<div class="accordion-item mb-3">
+														<h6 class="accordion-header font-base" id="heading-1">
+															<a class="accordion-button fw-bold rounded collapsed d-block" href="#collapse-1" data-toggle="collapse" data-target="#collapse-1" aria-expanded="true" aria-controls="collapse-1">
+																<span class="mb-0"><%= quiz_topic.try(:title) %></span> 
+																<span class="small d-block mt-1">(<%= quiz_topic.try(:lessons).size()  %> Lectures)</span> 
+															</a>
+														</h6>
+														<div id="collapse-1" class="accordion-collapse collapse show" aria-labelledby="heading-1" data-parent="#accordionExample2">
+															<div class="accordion-body mt-3">
+																<div class="vstack gap-3">
+
+																	<!-- Progress bar -->
+																	<div class="overflow-hidden">
+																		<div class="d-flex justify-content-between">
+
+																		</div>
+
+																	</div>
+																	<% quiz_topic.try(:lessons).present?  && quiz_topic.try(:lessons).where(is_published: true).order(:sequence).each do |lesson| %>
+																	<!-- Course lecture -->
+																	<% if lesson.try(:practise_quiz) ==  true%>
+																		<div class="d-flex justify-content-between align-items-center">
+																		<div class="position-relative d-flex align-items-center">
+																			<a href="<%= quiz_index_path(quiz_topic: quiz_topic.id  ,lesson: lesson.try(:id) )%>" class="btn-sm mb-0 stretched-link position-static">
+																				<i class="fa-solid fa-question fa-bounce me-0"></i>
+																			</a>
+																			<span class="d-inline-block text-truncate ms-2 mb-0 h6 fw-light w-200px"><%= lesson.try(:title) %></span>
+																		</div>
+																	</div>
+																	<% else%>
+
+																	<div class="d-flex justify-content-between align-items-center">
+
+																		<div class="position-relative d-flex align-items-center"  data-plye-target="lesson" data-action="click->plye#video_player" data-lesson-id="<%= lesson.id %>">
+																			
+																			<% if lesson.try(:id) == @lesson.try(:id) %>
+
+																				<p href="#" class="btn btn-success btn-round btn-sm mb-0 stretched-link position-static">
+																					<i class="fas fa-play me-0"></i>
+																				</p>
+																			<% else %>
+
+																				<p class="btn btn-danger-soft btn-round btn-sm mb-0 stretched-link position-static">
+																					<i class="fas fa-play me-0"></i>
+																				</p>
+																			<% end %>
+																			<span class="d-inline-block text-truncate ms-2 mb-0 h6 fw-light"><%= lesson.try(:title) %></span>
+																		</div>
+																		<p class="mb-0 text-truncate"><%= lesson.try(:duration) %></p>
+																	</div>
+																	<% end %>
+																	<% end %>
+
+								
+
+																</div>
+															</div>
+														</div>
+													</div>
+													<%  end  %>
+												</div>
+											</div>
+											<!-- Accordion END -->
+										</div>
+									</div>
+								</div>
+								<!-- Responsive offcanvas body END -->
+
+								<!-- Course detail END -->
+
+							</div>
+							<!-- Content END -->
+
+							<!-- Content START -->
+							<div class="tab-pane fade" id="course-pills-3" role="tabpanel" aria-labelledby="course-pills-tab-3">
+								<!-- Review START -->
+								<div class="row mb-4">
+									<h5 class="mb-4">Our Student Reviews</h5>
+
+									<!-- Rating info -->
+									<div class="col-md-4 mb-3 mb-md-0">
+										<div class="text-center">
+											<!-- Info -->
+											
+											<h2 class="mb-0"> <%= @average_rating %> /5</h2>
+											<!-- Star -->
+											<% rating = @average_rating.to_i %>
+											<ul class="list-inline mb-0">
+											<% 5.times do |i| %>
+												<li class="list-inline-item me-0">
+												<% if i < rating %>
+													<i class="fas fa-star text-warning"></i>
+												<% else %>
+													<i class="far fa-star text-warning"></i>
+												<% end %>
+												</li>
+											<% end %>
+											</ul>
+										
+										</div>
+									</div>
+
+								</div>
+								<!-- Review END -->
+
+								<!-- Student review START -->
+								<div class="row">
+									<!-- Review item START -->
+									<div class="review-scroll-container" style="max-height: 400px; overflow-y: auto; width: 100%;">
+									<%@courses.try(:reviews).present? && @courses.try(:reviews).each do |review|%>
+										<div class="d-md-flex my-4">
+											<!-- Avatar -->
+											<div class="avatar avatar-xl me-4 flex-shrink-0">
+												<img class="avatar-img rounded-circle" src="<%= url_for(review.user.avatar)%>" alt="avatar">
+											</div>
+											<!-- Text -->
+											<div class="ml-5">
+												<div class="d-sm-flex mt-1 mt-md-0 align-items-center">
+													<h5 class="me-3 mb-0"><%= (review.user.name)%></h5>
+													<!-- Review star -->
+													<ul class="list-inline mb-0">
+														<% rating = review.rating.to_i %>
+														<% 5.times do |i| %>
+															<li class="list-inline-item me-0">
+															<% if i < rating %>
+																<i class="fas fa-star text-warning"></i>
+															<% else %>
+																<i class="far fa-star text-warning"></i>
+															<% end %>
+															</li>
+														<% end %>
+													</ul>
+												</div>
+												<!-- Info -->
+												<p class="small mb-2"><%= (review.created_at).strftime("%d %b %Y at %I:%M%p")%></p>
+												<p class="mb-2"><%= (review.comment)%> </p>
+											</div>
+										</div>
+									<% end %>
+									</div>
+									<!-- Divider -->
+									<hr>
+								</div>
+								<!-- Student review END -->
+
+								<!-- Leave Review START -->
+								<div class="mt-2">
+									<h5 class="mb-4">Leave a Review</h5>
+									<form data-controller="review" data-action="submit->review#submit" class="row g-3">
+
+									<!-- Rating -->
+										<div class="col-12 mb-5">
+											<select id="inputState2" name="rate"
+													class="form-select border border-primary rounded shadow-sm js-choice"
+													style="width: 100%; padding: 15px; background-color: white; color: #ff6600;"
+													data-review-target="rate">
+											<option value="5" selected>★★★★★ (5/5)</option>
+											<option value="4">★★★★☆ (4/5)</option>
+											<option value="3">★★★☆☆ (3/5)</option>
+											<option value="2">★★☆☆☆ (2/5)</option>
+											<option value="1">★☆☆☆☆ (1/5)</option>
+											</select>
+										</div>
+										<!-- Message -->
+										<div class="col-12 mb-3">
+											<textarea class="form-control-input border"
+													name="review"
+													id="exampleFormControlTextarea1"
+													placeholder="Your review"
+													rows="3"
+													data-review-target="review"></textarea>
+										</div>
+
+										<!-- Hidden Fields + Button -->
+										<div class="col-12">
+											<input type="hidden" name="user" value="<%= current_user.try(:id) %>" data-review-target="user">
+											<input type="hidden" name="course" value="<%= @courses.try(:id) %>" data-review-target="course">
+											<button type="submit" class="btn btn-primary mb-0">Post Review</button>
+										</div>
+									</form>
+								</div>
+								<!-- Leave Review END -->
+
+							</div>
+							<!-- Content END -->
+
+							<!-- Content START -->
+							<div class="tab-pane fade" id="course-pills-4" role="tabpanel" aria-labelledby="course-pills-tab-4">
+								<!-- Title -->
+								<h5 class="mb-3">Frequently Asked Questions</h5>
+								<div class="review-scroll-container" style="max-height: 400px; overflow-y: auto;">
+									<!-- FAQ item -->
+									<% @courses.try(:faqs).present? && @courses.try(:faqs).each do |faq|%>
+									<div class="mt-4">
+										<h6><%= faq.try(:question) %> </h6>
+										<p class="mb-0"><%= faq.try(:answer) %></p>
+									</div>
+									<% end %>
+								</div>
+							</div>
+							<!-- Content END -->
+
+							<!-- Content START -->
+							<div class="tab-pane fade" id="course-pills-5" role="tabpanel" aria-labelledby="course-pills-tab-5">
+								<!-- Review START -->
+								<div class="row mb-4">
+									<div class="col-12">
+										<h5 class="mb-4">Ask Your Question</h5>
+
+										<!-- Comment box -->
+										<div class="d-flex mb-4">
+											<!-- Avatar -->
+											<div class="avatar avatar-sm flex-shrink-0 me-2">
+												<a href="#"> <img class="avatar-img rounded-circle" src="http://127.0.0.1:3000/user.png" alt=""> </a>
+											</div>
+												<div class="d-block mt-5">
+													<div class="input-group input-group_reply">
+												<%= form_with model: Comment.new, url: event_course_comments_path(params[:event_id], @courses), local: true, class: "w-100 d-flex mb-5" do |f| %>
+													<%= f.text_area :content, placeholder: "Add a comment...", class: "one form-control-input bg-light-panel", rows: 1 ,id: "autoheighttextarea" %>
+													<%= f.hidden_field :course_id, value: @courses.id %>
+													<button class="btn btn-primary ms-2 mb-0" type="submit">Post</button>
+												<% end %>
+														<%= render @courses.comments.where(parent_id: nil), partial: "comments/comment" %>
+													</div>
+												</div>
+										</div>
+									</div>
+
+								</div>
+							</div>
+							<!-- Content END -->
+
+							<!-- Content START -->
+							<div class="tab-pane fade" id="course-pills-6">
+							 <div class="section-main pt-0" data-controller="user-note"> <!-- Stimulus controller START -->
+								<div class="container">
+									<%# <div class="row"> %>
+										<div class="col">
+										<div class="card"> <!-- Notes Card START -->
+
+											<div class="card-body">
+											<div class="table-responsive">
+												<table class="table table-dark-gray">
+												<thead> <!-- Table Header -->
+													<tr>
+													<th>Course Title</th>
+													<th>Lectures</th>
+													<th>Timestamp</th>
+													<th>Action</th>
+													</tr>
+												</thead>
+												<tbody>
+													<% @user_notes.each do |user_course| %> <!-- Loop START -->
+													<tr>
+														<td><h6><%= user_course.course.title %></h6></td>
+														<td><%= user_course.try(:lesson).try(:title) %></td>
+														<td><%= user_course.timestamp %></td>
+														<td>
+															<a href="/<%= @event.try(:id) %>/course/<%= user_course.course_id %>?time=<%= CGI.escape(user_course.timestamp.to_s) %>" class="btn btn-sm btn-primary-soft me-1 mb-1 mb-md-0">
+															<i class="bi bi-play-circle me-1"></i>Video
+															</a>
+
+															<a href="#"
+																data-action="user-note#submit"
+																data-notes-id="<%= user_course.try(:id) %>"
+																data-user-id="<%= params[:id] %>"
+																data-lesson-id="<%= user_course.course_id %>"
+																data-timestamp="<%= user_course.timestamp %>"
+																class="btn btn-sm btn-primary-soft me-1 mb-1 mb-md-0">
+																<i class="bi bi-info-circle me-1"></i>Show
+															</a>
+
+															<%= button_to user_note_path(lesson: user_course.try(:lesson).try(:id)), method: :delete, class: "btn btn-sm btn-primary-soft me-1 mb-1 mb-md-0" do %>
+															<i class="fa fa-solid fa-trash me-1"></i>Delete
+															<% end %>
+														</td>
+													</tr>
+													<% end %> <!-- Loop END -->
+												</tbody>
+												</table>
+											</div>
+											</div>
+										</div> <!-- Notes Card END -->
+										</div>
+
+										<!-- Stimulus output container -->
+										<div class="user_notes mt-4" data-user-note-target="container"></div>
+									<%# </div> %>
+								</div>
+							  </div> <!-- Stimulus controller END -->
+							</div>
+
+							<!-- Content END -->
+						</div>
+						<!-- Tab contents END -->
+					</div>
+					<!-- Course detail END -->
+
+				</div>
+
+			</div>
+			<!-- Main content END -->
+
+			<!-- Right sidebar START -->
+			<div class="col-xl-4">
+				<div data-sticky data-margin-top="80" data-sticky-for="768">
+					<div class="row g-4">
+						<div class="col-md-6 col-xl-12">
+							<!-- Course info START -->
+							<div class="card card-body border p-4">
+								<!-- Price and share button -->
+								<div class="d-flex justify-content-round align-items-center">
+									<!-- Price -->
+									<% if @courses.try(:is_paid).present? %>
+										<h3 class="fw-bold mb-0 me-2">Price: <%= @courses.try(:ticket).try(:price_cents) %></h3>
+										<small><%= @courses.try(:ticket).try(:currency).titleize %> </small>
+									<% end %>
+									<!-- favorite_button -->
+									<small class="m-0 ml-2">
+										<div class="favorite-link_<%= @courses.try(:id) %>">
+											<%= render partial: "course/favorite_button", locals: { course: @courses, event: @event }%>
+										</div>
+									</small>
+								</div>
+									
+								<!-- Buttons -->
+								<div class="mt-3 d-grid">
+									<a href="#" class="btn btn-outline-primary mb-2">Add to cart</a>
+									<% if @courses.try(:is_paid).present? %>
+									
+										<% if @courses.try(:user_courses).find_by(user_id: current_user.try(:id) ,is_payment: true ).present? %>
+											<button type="button" class="btn btn-success mb-2">Enrolled</button>
+										<% else %>
+											<button type="button" class="btn btn-success mb-2"data-toggle="modal" data-target="#PaidModel">Buy now</button>
+										<% end %>
+										<!-- Button trigger modal -->
+										<button type="button" class="btn btn-primary" id="openNotesModal" data-toggle="modal" data-target="#notesModel" data-backdrop="false" data-keyboard="false">
+											Add Notes
+										</button>
+									<% else %>
+										<button type="button" class="btn btn-success mb-2"data-toggle="modal" data-target="#PaidModel"> Enroll</button>
+										<!-- Button trigger modal -->
+										<button type="button" class="btn btn-primary" id="openNotesModal" data-toggle="modal" data-target="#notesModel" data-backdrop="false" data-keyboard="false">
+											Add Notes
+										</button>
+									<% end %>
+								</div>
+								<!-- Divider -->
+								<hr>
+
+								<!-- Title -->
+								<h5 class="mb-3">This course includes</h5>
+								<ul class="list-group list-group-borderless border-0">
+									<% if @quiz_topic_size.present?   %>
+									<li class="list-group-item px-0 d-flex justify-content-between">
+										<span class="h6 fw-light mb-0"><i class="fas fa-fw fa-book-open text-primary"></i>Lectures</span>
+										<span><%= @quiz_topic_size %></span>
+									</li>
+									<% end %>
+									<% if @courses.try(:duration).present?  %>
+									<li class="list-group-item px-0 d-flex justify-content-between">
+										<span class="h6 fw-light mb-0"><i class="fas fa-fw fa-clock text-primary"></i>Duration</span>
+										<span> <%=  @courses.try(:duration) %></span>
+									</li>
+									<% end %>
+									<% if @courses.try(:level).present? %>
+									<li class="list-group-item px-0 d-flex justify-content-between">
+										<span class="h6 fw-light mb-0"><i class="fas fa-fw fa-signal text-primary"></i>Skills</span>
+										<span><%= @courses.try(:level) %></span>
+									</li>
+									<% end %>
+									<% if @courses.try(:language).present? %>
+									<li class="list-group-item px-0 d-flex justify-content-between">
+										<span class="h6 fw-light mb-0"><i class="fas fa-fw fa-globe text-primary"></i>Language</span>
+										<span><%= @courses.try(:language) %></span>
+									</li>
+									<% end %>
+									<% if @courses.try(:valid_from).present? %>
+									<li class="list-group-item px-0 d-flex justify-content-between">
+										<span class="h6 fw-light mb-0"><i class="fas fa-fw fa-user-clock text-primary"></i>Deadline</span>
+										<span><%= @courses.try(:valid_from).strftime("%b %d %Y") %></span> 
+									</li>
+									<% end %>
+									<li class="list-group-item px-0 d-flex justify-content-between">
+										<span class="h6 fw-light mb-0"><i class="fas fa-fw fa-medal text-primary"></i>Certificate</span>
+										<span><%= @courses.try(:has_download_certificate) == true ? "Yes" : "No" %></span>
+									</li>
+								</ul>
+								<!-- Divider -->
+								<hr>
+
+								<!-- Instructor info -->
+								<div class="d-sm-flex align-items-center">
+									<!-- Avatar image -->
+									<div class="avatar avatar-xl">
+										<img class="avatar-img rounded-circle" src="<%= url_for( @courses.try(:teacher).try(:image).present? ?  @courses.try(:teacher).try(:image) : "http://127.0.0.1:3000/user.png" )  %>" alt="avatar">
+									</div>
+									<div class="ms-sm-3 mt-2 mt-sm-0">
+										<h5 class="mb-0"><a href="<%= event_teacher_path(@courses.try(:teacher).current_event_id , @courses.try(:teacher).id)%>"><%= @courses.try(:teacher).try(:name) %></a></h5>
+										<p class="mb-0 small"><%= @courses.try(:teacher).try(:position) %></p>
+									</div>
+								</div>
+
+								<!-- Rating and follow -->
+								<div class="d-sm-flex justify-content-sm-between align-items-center mt-0 mt-sm-2">
+									<!-- Rating star -->
+									<% rating = @average_rating.to_i %>
+									<ul class="list-inline mb-0">
+										<% 5.times do |i| %>
+											<li class="list-inline-item me-0 small">
+											<% if i < rating %>
+												<i class="fas fa-star text-warning"></i>
+											<% else %>
+												<i class="far fa-star text-warning"></i>
+											<% end %>
+											</li>
+										<% end %>
+										<li class="list-inline-item ms-2 h6 fw-light mb-0"><%= @average_rating%> /5</li>
+									</ul>
+
+									<!-- button -->
+									<%# <button class="btn btn-sm btn-primary mb-0 mt-2 mt-sm-0">Follow</button> %>
+								</div>
+							</div>
+							<!-- Course info END -->
+						</div>
+
+						<!-- Tags START -->
+						<div class="col-md-6 col-xl-12 mt-3">
+							<div class="card card-body border p-4">
+								<h4 class="mb-3">Popular Tags</h4>
+								<ul class="list-inline mb-0">
+									<%  @courses.try(:tags).to_s.split(',').each do |tag|%>
+									<li class="list-inline-item"> <a class="btn btn-line btn-outline-light-list btn-sm" href="#"><%= tag %></a> </li>
+									<% end %>
+								</ul>
+							</div>	
+						</div>
+						<!-- Tags END -->
+					</div>
+				</div>	
+			</div>
+			<!-- Right sidebar END -->
+
+		</div><!-- Row END -->
+	</div>
+</section>
+
+
+<!-- Modal -->
+<div class="modal modal-right" id="notesModel" tabindex="-1" role="dialog" style="pointer-events: none;">
+  <div class="modal-dialog" role="document" style="pointer-events: auto;">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title"><%= @courses.try(:title) %></h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <form class="form-user-notes" action="<%= user_notes_path %>" method="POST">
+        <div class="modal-body">
+          <input type="hidden" name="user_id" value="<%= current_user.try(:id) %>">
+          <input type="hidden" name="event_id" value="<%= current_user.try(:current_event_id) %>">
+          <input type="hidden" name="course_id" value="<%= @courses.try(:id) %>">
+		  <input type="hidden" name="lesson_id" value="<%= @lesson.try(:id) %>">
+
+		<div class="form-group">
+            <label for="videoTimestamp" class="col-form-label">videoTimestamp:</label>
+            <input type="text" class="form-control" name="timestamp" id="Timestamp">
+        </div>
+          
+          <div class="form-group">
+            <label for="subject" class="col-form-label">Subject:</label>
+            <input type="text" class="form-control" name="subject" id="subject">
+          </div>
+          <div class="form-group">
+            <label for="description" class="col-form-label">Content:</label>
+            <textarea class="form-control" name="description" id="description"></textarea>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          <input type="submit" value="Save changes" class="btn btn-primary">
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="PaidModel" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content" data-controller="stripe">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLongTitle">Payment Section</h5>
+      </div>
+      <div class="modal-body">
+		<form data-action="submit->stripe#amount">
+			<% if @courses.try(:is_paid) %>
+				<p>Apply Discount</p>
+				<p>Discount Amount: <span data-stripe-target="discount_amount"></span></p>
+				<p>Total Amount: <span data-stripe-target="total_amount"></span></p>
+				<p class="fw-bold mb-2 me-2">Price: <%= @courses.try(:ticket).try(:price_cents) %></p>
+				<input type="text" class="form-control" name="Discount" data-stripe-target="Discount">
+				<button type="submit" class="btn btn-primary m-2">Apply</button>
+			<% else %>
+			<p class="fw-bold mb-2 me-2">Free</p>
+			<% end %>
+			<input type="hidden" class="form-control" name="ticket" data-stripe-target="ticket" value=" <%= @courses.try(:ticket).try(:id) %>">
+			<input type="hidden" class="form-control" name="course" data-stripe-target="course" value=" <%= @courses.try(:id) %>">
+			<input type="hidden" class="form-control" name="user" data-stripe-target="user" value=" <%= current_user.try(:id) %>">
+			<input type="hidden" class="form-control" name="teacher" data-stripe-target="teacher" value=" <%= @courses.try(:teacher).try(:id) %>">
+		</form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+		<% if @courses.try(:is_paid) %>
+			<button type="button" class="btn btn-primary" data-action="click->stripe#payment">Payment</button>
+		<% else %>
+			<button type="button" class="btn btn-primary" data-action="click->stripe#free_payment">Payment now</button>
+		<% end %>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+    // var triggerTabList = [].slice.call(document.querySelectorAll('#course-pills-tab a'))
+        // triggerTabList.forEach(function (triggerEl) {
+        // var tabTrigger = new bootstrap.Tab(triggerEl)
+
+        // triggerEl.addEventListener('click', function (event) {
+            // event.preventDefault()
+            // tabTrigger.show()
+        // })
+    // })
+
+</script>
+
+<script>
+  function formatTime(seconds) {
+    const mins = Math.floor(seconds / 60);
+    const secs = Math.floor(seconds % 60).toString().padStart(2, '0');
+    return `${mins}:${secs}`;
+  }
+
+  function parseTime(timeStr) {
+    if (!timeStr) return 0;
+    if (timeStr.includes(':')) {
+      const [mins, secs] = timeStr.split(':').map(Number);
+      return mins * 60 + secs;
+    }
+    return parseFloat(timeStr);
+  }
+
+  $(document).ready(function () {
+    const video = document.getElementById('video_<%= @lesson.try(:id) %>');
+    const $openNotesBtn = $('#openNotesModal');
+
+    if (video && $openNotesBtn.length) {
+      $openNotesBtn.on('click', function () {
+        const currentSeconds = video.currentTime;
+        const formattedTime = formatTime(currentSeconds);
+
+        // Display mm:ss in the input
+        const $display = $('#Timestamp');
+        if ($display.length) {
+          $display.val(formattedTime);
+        }
+
+        // Save raw time (seconds) in localStorage
+        localStorage.setItem('videoTimestamp_<%= @lesson.try(:id) %>', currentSeconds);
+      });
+    }
+
+    const rawTime = "<%= params[:time].to_s %>";
+    const savedTime = parseTime(rawTime);
+
+    if (video && savedTime > 0) {
+      video.addEventListener('loadedmetadata', () => {
+        video.currentTime = savedTime;
+      });
+    }
+  });
+</script>

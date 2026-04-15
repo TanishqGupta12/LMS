@@ -1,0 +1,199 @@
+ <style>
+        .link-hover {
+            color: #44425a;
+            text-decoration: none; /* Optional: removes underline */
+        }
+        
+        .link-hover:hover {
+            color: #ff6347; /* Change to your desired hover color */
+            text-decoration: underline; /* Optional: adds underline on hover */
+        }
+
+    .dropdown {
+        display: none;
+    }
+
+    .nav-link:hover .dropdown {
+        z-index: 10;
+        display: block;
+        background: #ffffff;
+        position: absolute;
+        width: 20rem;
+        margin-left: -0%;
+        /* margin-left: 1cm; */
+        margin-top: 0.2cm;
+        box-shadow: 10px 10px 20px rgba(255, 94, 0, 0.95);
+
+        /* border-left: #f60 solid 2px;
+        border-left: #44425a solid 2px; 
+        border-right: #44425a solid 2px; */
+    }
+
+    .dropdown ul {
+        margin: 0;
+        padding: 0;
+    }
+
+    .dropdown ul li {
+        display: block;
+        margin: 0.5%;
+        padding-left: 0.5%;
+        padding-right: 0.5%;
+        border-bottom: #44425a 1px solid;
+    }
+
+    .dropdown ul li a {
+        display: block;
+        color: #44425a;
+        margin: 0;
+        padding: 9px 12px; 
+        margin-left: 10%;
+        font-size: 20px;
+        line-height: 25px;
+        text-decoration: none;
+        transition: all 0.3s ease;
+        -webkit-transition: all 0.3s ease;
+        -o-transition: all 0.3s ease;
+    }
+
+    .dropdown ul li:hover a {
+        display: block;
+        color: rgb(236, 232, 229);
+        background-color:#f60;
+        margin: 0;
+        padding: 0;
+    }
+    .dropdown2 {
+        display: none;
+    }
+
+    .dropdown ul li:hover .dropdown2{
+        position: absolute;
+        margin-left: 5cm;
+        margin-top: -.7cm;
+        display: block;
+        width: 50%;
+
+    }
+    .dropdown ul li:hover .nav-item .dropdown2 ul li a{
+        margin: 0;
+        display: block;
+        padding: 2%;
+        margin-left: -.2cm;
+        background-color:rgb(246, 243, 242);
+        color: #44425a;
+        width: 16rem;
+
+    }
+    .dropdown ul li:hover .nav-item .dropdown2 ul li:hover a{
+        color: rgb(246, 243, 242);
+        background-color:#f60;
+        transition: all 0.3s ease;
+        -webkit-transition: all 0.3s ease;
+        -o-transition: all 0.3s ease;
+    
+    }
+    </style>
+    <div class="container-fluid d-none d-lg-block">
+        <div class="row align-items-center py-4 px-xl-5">
+            <div class="col-lg-3">
+                <a href="" class="text-decoration-none">
+                    <h1 class="m-0"><span class="text-primary"><%= event.try(:name)[0] %></span><%= event&.name&.slice(1..) %></h1>
+                </a>
+            </div>
+            <div class="col-lg-3 text-right">
+                <div class="d-inline-flex align-items-center">
+                    <i class="fas fa-2x fa-map-marker-alt text-primary mr-3"></i>
+                    <div class="text-left">
+                        <h6 class="font-weight-semi-bold mb-1">Our Office</h6>
+                        <small><%= event.try(:address) %></small>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3 text-right">
+                <div class="d-inline-flex align-items-center">
+                    <i class="fas fa-2x fa-envelope text-primary mr-3"></i>
+                    <div class="text-left">
+                        <h6 class="font-weight-semi-bold mb-1">Email Us</h6>
+                        <small><%= event.try(:email) %></small>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3 text-right">
+                <div class="d-inline-flex align-items-center">
+                    <i class="fas fa-2x fa-phone text-primary mr-3"></i>
+                    <div class="text-left">
+                        <h6 class="font-weight-semi-bold mb-1">Call Us</h6>
+                        <small><%= event.try(:phone) %></small>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Topbar End -->
+
+
+    <!-- Navbar Start -->
+    <div class="container">
+        <div class="row border-top px-xl-5">
+            <%# <div class="col-lg-3 d-none d-lg-block">
+
+            </div> %>
+            <div class="col-lg">
+                <nav class="navbar navbar-expand-lg bg-light navbar-light py-3 py-lg-0 px-0">
+                    <a href="" class="text-decoration-none d-block d-lg-none">
+                    </a>
+                    <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbarCollapse">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                    <div class="collapse navbar-collapse justify-content-between" id="navbarCollapse">
+                        <div class="navbar-nav py-0">
+                            <a href="/" class="nav-item nav-link text-decoration-none">Home</a>
+                            <a href="<%= event_blog_index_path(event.try(:id))%>" class="nav-item nav-link text-decoration-none">Blog</a>
+                            <a href="<%= event_teacher_index_path(event.try(:id))%>" class="nav-item nav-link text-decoration-none">Teachers</a>
+                            <div class="nav-item nav-link ">
+                                <%= link_to "Courses", event_course_index_path(event.try(:id)), aria: { label: "View Teachers" }, class: "link-hover text-decoration-none" %>
+                                <div class="dropdown">
+                                    <ul>
+                                        <% event.try(:categories).present? &&  event.try(:categories).each do |category| %>
+                                        <li class="row">
+                                            <div class="nav-item">
+                                            <%= link_to category.title, event_course_index_path(event.try(:id) ,category:category.title), aria: { label: "Category Link" } %>
+
+                                            <div class="dropdown2">
+                                                <ul>
+                                                    <% category.try(:courses).present? &&  category.try(:courses).each do |course| %>
+                                                    <li>
+                                                        <%= link_to course.title, event_course_index_path(event.try(:id) ,category:category.title ,course:course.title), data: { category_course_id: course.id } %>
+                                                    </li>
+                                                    <% end %>
+                                                </ul>
+                                            </div>
+                                            </div>
+                                        </li>
+                                        <% end %>
+
+                                    </ul>
+                                </div>
+                            </div>
+                            <% if user_signed_in? %>
+                                <%= link_to "Profile", user_path(current_user.try(:id)), method: :delete, class: "nav-item nav-link text-decoration-none" %>
+                                <%= link_to search_path(), class: "nav-item nav-link text-decoration-none" do %>
+                                    <i class="fas fa-search"></i>
+                                <% end %>
+                            <% end %> 
+                        </div>
+
+                        <div>
+                        <% if user_signed_in? %>
+
+                        <%= link_to "Sign out", destroy_user_session_path(), method: :delete, class: "btn btn-primary py-2 px-4  text-decoration-none" %>
+                        <% else %>
+                        <%= link_to "Sign in", new_user_session_path(event_id: event.try(:id) ), class: "btn btn-primary py-2 px-4 text-decoration-none" %>
+                        <% end %> 
+                         </div >
+                    </div>
+                </nav>
+            </div>
+        </div>
+    </div>
